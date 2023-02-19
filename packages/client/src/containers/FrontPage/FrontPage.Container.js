@@ -32,7 +32,18 @@ export const FrontPage = () => {
         </div>
       </div>
       <main>
-        <div className="hero">Find best prompts</div>
+        <div className="main-container">
+          <div className="hero">
+            <h1>Find best prompts</h1>
+            <form>
+              <label>
+                <input type="text" placeholder="Search" />
+              </label>
+              <br />
+              <input type="submit" value="Find prompts!" />
+            </form>
+          </div>
+        </div>
       </main>
 
       <div className="footer">
