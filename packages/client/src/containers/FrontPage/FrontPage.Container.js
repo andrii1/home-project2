@@ -1,21 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { apiURL } from '../../apiURL';
 import './FrontPage.Style.css';
 import { Button } from '../../components/Button/Button.component';
 
 export const FrontPage = () => {
-  const [exampleResources, setExampleResources] = useState([]);
-  useEffect(() => {
-    async function fetchExampleResources() {
-      const response = await fetch(`${apiURL()}/exampleResources`);
-      const examples = await response.json();
-      setExampleResources(examples);
-    }
-
-    fetchExampleResources();
-  }, []);
-
   return (
     <div className="main-container">
       <div className="navigation">
