@@ -27,6 +27,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 1rem 4rem;
+  align-items: center;
 }
 
 .menu ul {
@@ -40,6 +41,10 @@ body {
   list-style-type: none;
   margin-right: 1rem;
 }
+
+.menu ul > li:nth-child(2) {
+  margin-right: 0rem;
+}
 .footer {
   display: flex;
   justify-content: space-between;
@@ -47,9 +52,8 @@ body {
 }
 
 main {
-  width: 70rem;
+  width: 74rem;
   margin: 0 auto;
-  background-color: red;
 }
 
 .hero {
@@ -58,4 +62,23 @@ main {
   background-color: #e3d5ca;
   border-radius: 8px;
   padding: 2rem 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-cards {
+  margin: 3rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  justify-content: end;
+  align-content: end;
+}
+
+.card-category {
+  background-color: #e3d5ca;
+  border-radius: 8px;
+  padding: 1rem 1rem;
 }
