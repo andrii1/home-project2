@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { FrontPage } from './containers/FrontPage/FrontPage.Container';
+import { Prompts } from './containers/Prompts/Prompts.Container';
+import { Signup } from './containers/Signup/Signup.Container';
+import { Login } from './containers/Login/Login.Container';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
 
 function App() {
@@ -10,6 +13,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<FrontPage />} />
+          <Route path="/prompts" element={<Prompts />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

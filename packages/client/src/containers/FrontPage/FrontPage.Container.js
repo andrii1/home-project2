@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 import './FrontPage.Style.css';
 import { Button } from '../../components/Button/Button.component';
@@ -17,14 +18,31 @@ export const FrontPage = () => {
   return (
     <div className="main-container">
       <div className="navigation">
-        <div className="logo">Home</div>
         <div className="menu">
           <ul>
             <li>
-              <span>Log in</span>
+              <NavLink to="/" className="nav-link">
+                Home
+              </NavLink>
             </li>
             <li>
-              <Button primary label="Sign up" />
+              <NavLink to="/prompts" className="nav-link">
+                Prompts
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="nav-buttons">
+          <ul>
+            <li>
+              <NavLink to="/login" className="login">
+                Log in
+              </NavLink>
+            </li>
+            <li>
+              <Link to="/signup" className="signup">
+                <Button primary label="Sign up" />
+              </Link>
             </li>
           </ul>
         </div>

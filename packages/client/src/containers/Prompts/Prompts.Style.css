@@ -1,0 +1,116 @@
+.hero-header {
+  margin-top: 0rem;
+}
+
+.container-prompts {
+  display: flex;
+  gap: 2rem;
+}
+
+.prompts-filter {
+  flex: 0 0 25%;
+  border: 1px solid red;
+}
+
+.prompts-table {
+  flex: 0 0 70%;
+  border: 1px solid blue;
+}
+
+.prompts-header {
+  font-weight: 600;
+  background-color: #e3d5ca;
+  border: 1px dashed #946b54;
+  font-size: 0.8rem;
+}
+
+.prompts-body {
+  background-color: #edede9;
+  color: #7b7b7b;
+  font-size: 0.7rem;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.row > * {
+  padding: 1rem 0.4rem;
+  text-align: left;
+}
+
+.col-1 {
+  flex: 0 0 30%;
+  border: 1px solid red;
+}
+.col-2 {
+  flex: 0 0 20%;
+  border: 1px solid red;
+}
+.col-3 {
+  flex: 0 0 10%;
+  border: 1px solid red;
+}
+.col-4 {
+  flex: 0 0 10%;
+  border: 1px solid red;
+}
+.col-5 {
+  flex: 0 0 10%;
+  border: 1px solid red;
+}
+.col-6 {
+  flex: 0 0 10%;
+  border: 1px solid red;
+}
+.col-7 {
+  flex: 0 0 10%;
+  border: 1px solid red;
+}
+
+.tab-filter {
+  background-color: #e3d5ca;
+  border-radius: 8px;
+  padding: 0.8rem 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.checkboxes {
+  text-align: left;
+}
+
+/* Table with divs */
+
+#resp-table {
+  width: 100%;
+  display: table;
+}
+
+#resp-table-header {
+  display: table-header-group;
+  background-color: gray;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.table-header-cell {
+  display: table-cell;
+  padding: 10px;
+  text-align: justify;
+  border-bottom: 1px solid black;
+}
+
+#resp-table-body {
+  display: table-row-group;
+}
+
+.resp-table-row {
+  display: table-row;
+}
+
+.table-body-cell {
+  display: table-cell;
+}
