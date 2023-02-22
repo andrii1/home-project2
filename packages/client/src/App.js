@@ -5,12 +5,15 @@ import { FrontPage } from './containers/FrontPage/FrontPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
 import { Signup } from './containers/Signup/Signup.Container';
 import { Login } from './containers/Login/Login.Container';
+import { Navigation } from './components/Navigation/Navigation.component';
+import { Footer } from './components/Footer/Footer.component';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
 
 function App() {
   return (
     <div className="app">
       <Router>
+        <Navigation />
         <Routes>
           <Route path="/" element={<FrontPage />} />
           <Route path="/prompts" element={<Prompts />} />
@@ -18,6 +21,7 @@ function App() {
           <Route exact path="/signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );
