@@ -3,6 +3,7 @@ import React from 'react';
 import './Prompts.Style.css';
 
 import { Card } from '../../components/Card/Card.component';
+import { Pagination } from '../../components/Pagination/Pagination.component';
 
 const cards = [
   'GPT prompts',
@@ -78,6 +79,7 @@ export const Prompts = () => {
           </div>
         </div>
       </section>
+      <Pagination />
     </main>
   );
 };

@@ -5,6 +5,7 @@ import { FrontPage } from './containers/FrontPage/FrontPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
 import { Signup } from './containers/Signup/Signup.Container';
 import { Login } from './containers/Login/Login.Container';
+import { About } from './containers/About/About.container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<FrontPage />} />
           <Route path="/prompts" element={<Prompts />} />
+          <Route exact path="/about" element={<About />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />

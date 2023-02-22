@@ -8,7 +8,7 @@ export const Footer = () => {
       <div className="menu">
         <ul>
           <li>
-            <NavLink to="/" className="nav-link">
+            <NavLink to="/about" className="nav-link">
               About
             </NavLink>
           </li>
