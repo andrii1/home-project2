@@ -8,9 +8,11 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('exampleResources').insert([
         {
+          id: 1,
           title: 'abc',
         },
         {
+          id: 2,
           title: 'def',
         },
       ]);

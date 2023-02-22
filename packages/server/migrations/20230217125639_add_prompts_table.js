@@ -8,10 +8,8 @@ exports.up = function (knex) {
     table.string('title').notNullable();
     table.text('description').notNullable();
     table.decimal('rating').notNullable();
-    table.integer('user_id').unsigned();
-    table.foreign('user_id').references('id').inTable('users');
-    table.integer('category_id').unsigned();
-    table.foreign('category_id').references('id').inTable('categories');
+    table.integer('topic_id').unsigned();
+    table.foreign('topic_id').references('id').inTable('topics');
     table.datetime('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
   });
 };
