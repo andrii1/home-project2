@@ -23,7 +23,14 @@ const getPrompts = async () => {
 const getPromptsByCategory = async (category) => {
   try {
     const promptsByCategory = await knex('prompts')
+      .select(
+        'prompts.*',
+        'topics.title as topicTitle',
+        'topics.category_id as category_id',
+        'categories.title as categoryTitle',
+      )
       .join('topics', 'prompts.topic_id', '=', 'topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id')
       .where({
         'topics.category_id': category,
       });
@@ -35,8 +42,17 @@ const getPromptsByCategory = async (category) => {
 
 const getPromptsByTopic = async (topic) => {
   try {
-    const prompts = await knex('prompts').where({ topic_id: topic });
-    return prompts;
+    const promptsByTopic = await knex('prompts')
+      .select(
+        'prompts.*',
+        'topics.title as topicTitle',
+        'topics.category_id as category_id',
+        'categories.title as categoryTitle',
+      )
+      .join('topics', 'prompts.topic_id', '=', 'topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id')
+      .where({ topic_id: topic });
+    return promptsByTopic;
   } catch (error) {
     return error.message;
   }
