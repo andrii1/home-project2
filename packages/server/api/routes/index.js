@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 const exampleResources = require('./exampleResources.router');
+const prompts = require('./prompts.router');
+const categories = require('./categories.router');
+const topics = require('./topics.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -33,5 +36,8 @@ const swaggerDocument = swaggerJsDoc(swaggerOptions);
 router.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router.use('/exampleResources', exampleResources);
+router.use('/prompts', prompts);
+router.use('/categories', categories);
+router.use('/topics', topics);
 
 module.exports = router;
