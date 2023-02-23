@@ -8,8 +8,12 @@ exports.seed = async function (knex) {
   await knex('categories').truncate();
   await knex.raw('SET foreign_key_checks = 1');
   await knex('categories').insert([
-    { id: 1, title: 'Twitter' },
-    { id: 2, title: 'Email Marketing' },
+    { id: 1, title: 'Notion' },
+    { id: 2, title: 'Digital Products' },
     { id: 3, title: 'Affiliate Marketing' },
+    { id: 4, title: 'Email Marketing' },
+    { id: 5, title: 'Twitter' },
+    { id: 6, title: 'YouTube' },
+    { id: 7, title: 'Copywriting' },
   ]);
 };

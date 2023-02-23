@@ -30,6 +30,11 @@ router.get('/', (req, res, next) => {
       .getPromptsByTopic(req.query.topic)
       .then((result) => res.json(result))
       .catch(next);
+  } else if (req.query.category) {
+    promptsController
+      .getPromptsByCategory(req.query.category)
+      .then((result) => res.json(result))
+      .catch(next);
   } else {
     promptsController
       .getPrompts()
