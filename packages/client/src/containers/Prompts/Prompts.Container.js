@@ -10,13 +10,17 @@ export const Prompts = () => {
   const [prompts, setPrompts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
-  const [filteredTopics, setFilteredTopics] = useState('');
+
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [filteredTopics, setFilteredTopics] = useState([]);
+  const [searchedCategories, setSearchedCategories] = useState('');
+  const [searchedTopics, setSearchedTopics] = useState('');
   useEffect(() => {
     async function fetchPrompts() {
       const url = `${apiURL()}/prompts/`;
       const response = await fetch(url);
       const promptsResponse = await response.json();
+
       if (filteredCategories.length > 0 && filteredTopics.length > 0) {
         const filteredPrompts = promptsResponse.filter((item) =>
           filteredTopics.includes(item.topic_id),
@@ -39,12 +43,34 @@ export const Prompts = () => {
     async function fetchCategories() {
       const response = await fetch(`${apiURL()}/categories/`);
       const categoriesResponse = await response.json();
-      setCategories(categoriesResponse);
+      if (searchedCategories) {
+        const filteredCategoriesSearch = categoriesResponse.filter((item) =>
+          item.title.toLowerCase().includes(searchedCategories.toLowerCase()),
+        );
+        setCategories(filteredCategoriesSearch);
+      } else {
+        setCategories(categoriesResponse);
+      }
     }
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-      if (filteredCategories.length > 0) {
+      if (filteredCategories.length > 0 && searchedTopics.length > 0) {
+        const relatedPrompts = topicsResponse.filter((item) =>
+          filteredCategories.includes(item.category_id),
+        );
+        const filteredTopicsSearch = relatedPrompts.filter((item) =>
+          item.title.toLowerCase().includes(searchedTopics.toLowerCase()),
+        );
+        console.log('filteredTopicsSearch', filteredTopicsSearch);
+        setTopics(filteredTopicsSearch);
+      } else if (searchedTopics.length > 0) {
+        const filteredTopicsSearch = topicsResponse.filter((item) =>
+          item.title.toLowerCase().includes(searchedTopics.toLowerCase()),
+        );
+        console.log('filteredTopicsSearch', filteredTopicsSearch);
+        setTopics(filteredTopicsSearch);
+      } else if (filteredCategories.length > 0) {
         const relatedPrompts = topicsResponse.filter((item) =>
           filteredCategories.includes(item.category_id),
         );
@@ -56,7 +82,7 @@ export const Prompts = () => {
     fetchPrompts();
     fetchCategories();
     fetchTopics();
-  }, [filteredCategories, filteredTopics]);
+  }, [filteredCategories, filteredTopics, searchedCategories, searchedTopics]);
 
   const filterHandlerCategories = (event) => {
     if (event.target.checked) {
@@ -85,6 +111,15 @@ export const Prompts = () => {
       );
     }
   };
+
+  const handleSearchCategories = (event) => {
+    setSearchedCategories(event.target.value);
+    console.log(searchedCategories);
+  };
+  const handleSearchTopics = (event) => {
+    setSearchedTopics(event.target.value);
+    console.log(searchedTopics);
+  };
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
@@ -103,13 +138,13 @@ export const Prompts = () => {
         type="checkbox"
         value={category.id}
         onChange={filterHandlerCategories}
-      />
+      />{' '}
       {category.title}
     </li>
   ));
   const topicsList = topics.map((topic) => (
     <li key={topic.id}>
-      <input type="checkbox" value={topic.id} onChange={filterHandlerTopics} />
+      <input type="checkbox" value={topic.id} onChange={filterHandlerTopics} />{' '}
       {topic.title}
     </li>
   ));
@@ -121,12 +156,24 @@ export const Prompts = () => {
       <section className="container-prompts">
         <div className="prompts-filter">
           <div className="tab-filter">Categories</div>
+          <input
+            type="text"
+            placeholder="Search categories"
+            className="input-search-filter"
+            onChange={handleSearchCategories}
+          />
           <div className="checkboxes">
-            <ul>{categoriesList}</ul>
+            <ul className="checkboxes-list">{categoriesList}</ul>
           </div>
-          <div className="tab-filter">Topics</div>
+          <div className="tab-filter">Topics / Subcategories</div>
+          <input
+            type="text"
+            placeholder="Search topics"
+            className="input-search-filter"
+            onChange={handleSearchTopics}
+          />
           <div className="checkboxes">
-            <ul>{topicsList}</ul>
+            <ul className="checkboxes-list">{topicsList}</ul>
           </div>
         </div>
         <div className="prompts-table">

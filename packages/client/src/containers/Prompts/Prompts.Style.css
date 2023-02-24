@@ -94,6 +94,20 @@
   text-align: left;
 }
 
+.checkboxes-list {
+  margin-top: 0.7rem;
+  padding-inline-start: 0rem;
+}
+
 .checkboxes ul li {
   margin-bottom: 0.3rem;
+  margin-right: 1rem !important;
+  margin-left: 1rem !important;
+}
+
+.input-search-filter {
+  margin-top: 0.5rem;
+  border: 1px dashed #946b54 !important;
+  min-width: 18.3rem !important;
+  padding: 1rem 0.5rem !important;
 }
