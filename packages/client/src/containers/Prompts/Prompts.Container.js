@@ -17,14 +17,20 @@ export const Prompts = () => {
       const url = `${apiURL()}/prompts/`;
       const response = await fetch(url);
       const promptsResponse = await response.json();
-      console.log('pr', promptsResponse);
-
-      if (filteredCategories.length > 0) {
+      if (filteredCategories.length > 0 && filteredTopics.length > 0) {
+        const filteredPrompts = promptsResponse.filter((item) =>
+          filteredTopics.includes(item.topic_id),
+        );
+        setPrompts(filteredPrompts);
+      } else if (filteredCategories.length > 0) {
         const filteredPrompts = promptsResponse.filter((item) =>
           filteredCategories.includes(item.category_id),
         );
-        console.log('filterCategories', filteredCategories);
-        console.log('pr3', filteredPrompts);
+        setPrompts(filteredPrompts);
+      } else if (filteredTopics.length > 0) {
+        const filteredPrompts = promptsResponse.filter((item) =>
+          filteredTopics.includes(item.topic_id),
+        );
         setPrompts(filteredPrompts);
       } else {
         setPrompts(promptsResponse);
@@ -38,14 +44,21 @@ export const Prompts = () => {
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-      setTopics(topicsResponse);
+      if (filteredCategories.length > 0) {
+        const relatedPrompts = topicsResponse.filter((item) =>
+          filteredCategories.includes(item.category_id),
+        );
+        setTopics(relatedPrompts);
+      } else {
+        setTopics(topicsResponse);
+      }
     }
     fetchPrompts();
     fetchCategories();
     fetchTopics();
-  }, [filteredCategories]);
+  }, [filteredCategories, filteredTopics]);
 
-  const filterHandler = (event) => {
+  const filterHandlerCategories = (event) => {
     if (event.target.checked) {
       setFilteredCategories([
         ...filteredCategories,
@@ -59,7 +72,18 @@ export const Prompts = () => {
         ),
       );
     }
-    console.log(filteredCategories);
+  };
+
+  const filterHandlerTopics = (event) => {
+    if (event.target.checked) {
+      setFilteredTopics([...filteredTopics, parseInt(event.target.value, 10)]);
+    } else {
+      setFilteredTopics(
+        filteredTopics.filter(
+          (filterTopic) => filterTopic !== parseInt(event.target.value, 10),
+        ),
+      );
+    }
   };
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
@@ -75,13 +99,18 @@ export const Prompts = () => {
   ));
   const categoriesList = categories.map((category) => (
     <li key={category.id}>
-      <input type="checkbox" value={category.id} onChange={filterHandler} />
+      <input
+        type="checkbox"
+        value={category.id}
+        onChange={filterHandlerCategories}
+      />
       {category.title}
     </li>
   ));
   const topicsList = topics.map((topic) => (
     <li key={topic.id}>
-      <input type="checkbox" /> {topic.title}
+      <input type="checkbox" value={topic.id} onChange={filterHandlerTopics} />
+      {topic.title}
     </li>
   ));
 
