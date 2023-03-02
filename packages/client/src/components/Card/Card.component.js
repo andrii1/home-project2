@@ -7,7 +7,7 @@ import './Card.styles.css';
 
 export const Card = ({ title, url }) => {
   return (
-    <Link to="/prompts" state={{ linkTo: url }}>
+    <Link to="/prompts" state={{ frontPageCategory: url }}>
       <div className="card-category">
         <h2>{title}</h2>
         <Button label="Find prompts" />

@@ -8,18 +8,18 @@ import './Prompts.Style.css';
 import { Pagination } from '../../components/Pagination/Pagination.component';
 
 export const Prompts = () => {
+  //Clearing location state on page reload
+  window.history.replaceState({}, document.title);
   const location = useLocation();
-  const { searchHomeInput = '' } = location.state || {};
-  const { linkTo = '' } = location.state || {};
+  const { frontPageCategory = '' } = location.state || {};
   let initialStateCategories;
 
-  if (searchHomeInput) {
-    initialStateCategories = [searchHomeInput];
-  } else if (linkTo) {
-    initialStateCategories = [linkTo];
+  if (frontPageCategory) {
+    initialStateCategories = [frontPageCategory];
   } else {
     initialStateCategories = [];
   }
+  console.log('initialStateCategories', initialStateCategories);
   const [isLoading, setIsLoading] = useState(false);
   const [prompts, setPrompts] = useState([]);
   const [promptsCount, setPromptsCount] = useState(0);
@@ -30,7 +30,9 @@ export const Prompts = () => {
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
 
-  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState(
+    initialStateCategories,
+  );
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');

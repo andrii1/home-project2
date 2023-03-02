@@ -45,7 +45,7 @@ export const FrontPage = () => {
   };
 
   const dropdownList = categoriesHome.map((category) => (
-    <Link to="/prompts" state={{ searchHomeInput: category.id }}>
+    <Link to="/prompts" state={{ frontPageCategory: category.id }}>
       <li key={category.id}>{category.title}</li>
     </Link>
   ));
