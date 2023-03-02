@@ -1,0 +1,113 @@
+.hero-header {
+  margin-top: 0rem;
+}
+
+.container-prompts {
+  display: flex;
+  gap: 2rem;
+}
+
+.prompts-filter {
+  flex: 0 0 25%;
+}
+
+.prompts-table {
+  flex: 0 0 70%;
+}
+
+.prompts-header {
+  font-weight: 600;
+  background-color: #e3d5ca;
+  border: 1px dashed #946b54;
+  font-size: 0.8rem;
+  padding: 0rem 0.4rem;
+}
+
+.prompts-body {
+  background-color: #edede9;
+  color: #7b7b7b;
+  font-size: 0.7rem;
+  padding: 0rem 0.4rem;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+}
+
+.row > * {
+  text-align: left;
+}
+
+.prompts-header {
+  padding: 0.8rem 0.8rem;
+}
+.prompts-body {
+  padding: 0.6rem 0.8rem;
+}
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8 {
+  padding: 0rem 0.1rem;
+}
+
+.col-1 {
+  flex: 0 0 35%;
+}
+.col-2 {
+  flex: 0 0 10%;
+}
+.col-3 {
+  flex: 0 0 10%;
+}
+.col-4 {
+  flex: 0 0 10%;
+}
+.col-5 {
+  flex: 0 0 7.5%;
+}
+.col-6 {
+  flex: 0 0 10%;
+}
+.col-7 {
+  flex: 0 0 10%;
+}
+.col-8 {
+  flex: 0 0 7.5%;
+}
+
+.tab-filter {
+  background-color: #e3d5ca;
+  border-radius: 8px;
+  padding: 0.8rem 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.checkboxes {
+  text-align: left;
+}
+
+.checkboxes-list {
+  margin-top: 0.7rem;
+  padding-inline-start: 0rem;
+}
+
+.checkboxes ul li {
+  margin-bottom: 0.3rem;
+  margin-right: 1rem !important;
+  margin-left: 1rem !important;
+}
+
+.input-search-filter {
+  margin-top: 0.5rem;
+  border: 1px dashed #946b54 !important;
+  min-width: 18.3rem !important;
+  padding: 1rem 0.5rem !important;
+}

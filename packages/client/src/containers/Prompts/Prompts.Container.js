@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { TablePagination } from '@mui/material';
 
 import { apiURL } from '../../apiURL';
 import './Prompts.Style.css';
@@ -6,8 +8,25 @@ import './Prompts.Style.css';
 import { Pagination } from '../../components/Pagination/Pagination.component';
 
 export const Prompts = () => {
+  const location = useLocation();
+  const { searchHomeInput = '' } = location.state || {};
+  const { linkTo = '' } = location.state || {};
+  let initialStateCategories;
+
+  if (searchHomeInput) {
+    initialStateCategories = [searchHomeInput];
+  } else if (linkTo) {
+    initialStateCategories = [linkTo];
+  } else {
+    initialStateCategories = [];
+  }
   const [isLoading, setIsLoading] = useState(false);
   const [prompts, setPrompts] = useState([]);
+  const [promptsCount, setPromptsCount] = useState(0);
+  const [controller, setController] = useState({
+    page: 0,
+    rowsPerPage: 50,
+  });
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
 
@@ -16,30 +35,38 @@ export const Prompts = () => {
   const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');
   useEffect(() => {
+    let urlFilters = '';
+    if (filteredCategories.length > 0 && filteredTopics.length > 0) {
+      urlFilters = `?filteredTopics=${filteredTopics}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (filteredCategories.length > 0) {
+      urlFilters = `?filteredCategories=${filteredCategories}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (filteredTopics.length > 0) {
+      urlFilters = `?filteredTopics=${filteredTopics}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else {
+      urlFilters = `?page=${controller.page}&size=${controller.rowsPerPage}`;
+    }
     async function fetchPrompts() {
-      const url = `${apiURL()}/prompts/`;
+      const url = `${apiURL()}/prompts/${urlFilters}`;
       const response = await fetch(url);
       const promptsResponse = await response.json();
 
-      if (filteredCategories.length > 0 && filteredTopics.length > 0) {
-        const filteredPrompts = promptsResponse.filter((item) =>
-          filteredTopics.includes(item.topic_id),
-        );
-        setPrompts(filteredPrompts);
-      } else if (filteredCategories.length > 0) {
-        const filteredPrompts = promptsResponse.filter((item) =>
-          filteredCategories.includes(item.category_id),
-        );
-        setPrompts(filteredPrompts);
-      } else if (filteredTopics.length > 0) {
-        const filteredPrompts = promptsResponse.filter((item) =>
-          filteredTopics.includes(item.topic_id),
-        );
-        setPrompts(filteredPrompts);
-      } else {
-        setPrompts(promptsResponse);
-      }
+      setPromptsCount(promptsResponse.totalCount);
+      setPrompts(promptsResponse.data);
+      console.log('response', promptsResponse);
     }
+
+    /*
+    async function fetchPromptsPagination() {
+      const url = `${apiURL()}/prompts/?page=${controller.page}&size=${
+        controller.rowsPerPage
+      }`;
+      const response = await fetch(url);
+      const promptsResponse = await response.json();
+      console.log('response', promptsResponse.totalCount, promptsResponse.data);
+      setPromptsCount(promptsResponse.totalCount);
+      setPrompts(promptsResponse.data);
+    }
+*/
     async function fetchCategories() {
       const response = await fetch(`${apiURL()}/categories/`);
       const categoriesResponse = await response.json();
@@ -62,13 +89,11 @@ export const Prompts = () => {
         const filteredTopicsSearch = relatedPrompts.filter((item) =>
           item.title.toLowerCase().includes(searchedTopics.toLowerCase()),
         );
-        console.log('filteredTopicsSearch', filteredTopicsSearch);
         setTopics(filteredTopicsSearch);
       } else if (searchedTopics.length > 0) {
         const filteredTopicsSearch = topicsResponse.filter((item) =>
           item.title.toLowerCase().includes(searchedTopics.toLowerCase()),
         );
-        console.log('filteredTopicsSearch', filteredTopicsSearch);
         setTopics(filteredTopicsSearch);
       } else if (filteredCategories.length > 0) {
         const relatedPrompts = topicsResponse.filter((item) =>
@@ -82,7 +107,14 @@ export const Prompts = () => {
     fetchPrompts();
     fetchCategories();
     fetchTopics();
-  }, [filteredCategories, filteredTopics, searchedCategories, searchedTopics]);
+    /* fetchPromptsPagination(); */
+  }, [
+    filteredCategories,
+    filteredTopics,
+    searchedCategories,
+    searchedTopics,
+    controller,
+  ]);
 
   const filterHandlerCategories = (event) => {
     if (event.target.checked) {
@@ -114,16 +146,34 @@ export const Prompts = () => {
 
   const handleSearchCategories = (event) => {
     setSearchedCategories(event.target.value);
-    console.log(searchedCategories);
   };
   const handleSearchTopics = (event) => {
     setSearchedTopics(event.target.value);
-    console.log(searchedTopics);
+  };
+  const handlePageChange = (event, newPage) => {
+    setController({
+      ...controller,
+      page: newPage,
+    });
+    console.log('controller', controller);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setController({
+      ...controller,
+      rowsPerPage: parseInt(event.target.value, 10),
+      page: 0,
+    });
+    console.log('controller-rows', controller);
   };
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
-      <div className="col-1">{prompt.title}</div>
-      <div className="col-2">Text goes here</div>
+      <div className="col-1">
+        <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
+          {prompt.title}
+        </Link>
+      </div>
+      <div className="col-2">Desc</div>
       <div className="col-3">{prompt.categoryTitle}</div>
       <div className="col-4">{prompt.topicTitle}</div>
       <div className="col-5">Rating</div>
@@ -134,11 +184,21 @@ export const Prompts = () => {
   ));
   const categoriesList = categories.map((category) => (
     <li key={category.id}>
-      <input
-        type="checkbox"
-        value={category.id}
-        onChange={filterHandlerCategories}
-      />{' '}
+      {filteredCategories[0] === category.id ? (
+        <input
+          type="checkbox"
+          checked
+          value={category.id}
+          onChange={filterHandlerCategories}
+        />
+      ) : (
+        <input
+          type="checkbox"
+          unchecked
+          value={category.id}
+          onChange={filterHandlerCategories}
+        />
+      )}{' '}
       {category.title}
     </li>
   ));
@@ -190,7 +250,14 @@ export const Prompts = () => {
           {promptsList}
         </div>
       </section>
-      <Pagination />
+      <TablePagination
+        component="div"
+        onPageChange={handlePageChange}
+        page={controller.page}
+        count={promptsCount}
+        rowsPerPage={controller.rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </main>
   );
 };

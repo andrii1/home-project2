@@ -1,29 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-
 import './FrontPage.Style.css';
-import { Button } from '../../components/Button/Button.component';
+import { apiURL } from '../../apiURL';
 import { Card } from '../../components/Card/Card.component';
 
-const cards = [
-  'GPT prompts',
-  'Design prompts',
-  'Coding promtps',
-  'Marketing prompts',
-  'Visual prompts',
-  'Copywriting prompts',
-];
 export const FrontPage = () => {
-  const cardItems = cards.map((card) => <Card title={card} />);
+  const [searchTerms, setSearchTerms] = useState();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [categoriesHome, setCategoriesHome] = useState([]);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    async function fetchCategories() {
+      const response = await fetch(`${apiURL()}/categories/`);
+      const categoriesResponse = await response.json();
+      if (searchTerms) {
+        const filteredCategoriesSearch = categoriesResponse.filter((item) =>
+          item.title.toLowerCase().includes(searchTerms.toLowerCase()),
+        );
+        setCategoriesHome(filteredCategoriesSearch);
+      } else if (showDropdown === true) {
+        setCategoriesHome(categoriesResponse);
+      } else {
+        setCategoriesHome(categoriesResponse);
+      }
+    }
+    fetchCategories();
+  }, [searchTerms, showDropdown]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const response = await fetch(`${apiURL()}/categories/`);
+      const categoriesResponse = await response.json();
+      setCategories(categoriesResponse);
+    }
+    fetchCategories();
+  }, []);
+
+  const handleSearch = (event) => {
+    setSearchTerms(event.target.value);
+  };
+
+  const handleClick = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const dropdownList = categoriesHome.map((category) => (
+    <Link to="/prompts" state={{ searchHomeInput: category.id }}>
+      <li key={category.id}>{category.title}</li>
+    </Link>
+  ));
+  const cardItems = categories.map((category) => (
+    <Card title={category.title} url={category.id} />
+  ));
   return (
     <main>
       <div className="hero">
         <h1>Find best AI prompts</h1>
         <form>
           <label>
-            <input type="text" placeholder="Search" />
+            <input
+              type="text"
+              className="input-search-home"
+              onChange={handleSearch}
+              /* onFocus={handleClick} */
+              placeholder="Search"
+            />
           </label>
         </form>
+        {searchTerms ? (
+          <div className="dropdown-search">
+            <ul>{dropdownList}</ul>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <section className="container-cards">{cardItems}</section>
     </main>

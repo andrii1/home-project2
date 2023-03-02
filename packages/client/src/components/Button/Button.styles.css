@@ -16,6 +16,11 @@
   background-color: transparent;
   box-shadow: rgb(0 0 0 / 15%) 0 0 0 1px inset;
 }
+.storybook-button--lighterBg {
+  color: #fff;
+  background-color: #e3d5ca;
+  box-shadow: rgb(0 0 0 / 15%) 0 0 0 1px inset;
+}
 .storybook-button--small {
   font-size: 12px;
   padding: 10px 16px;

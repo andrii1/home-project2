@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Button } from '../Button/Button.component';
 
 import './Card.styles.css';
-import imgCard from '../../assets/images/img-card-placeholder.png';
 
-/**
- * Primary UI component for user interaction
- */
-export const Card = ({ title }) => {
+export const Card = ({ title, url }) => {
   return (
-    <a href="#">
+    <Link to="/prompts" state={{ linkTo: url }}>
       <div className="card-category">
         <h2>{title}</h2>
-        <img src={imgCard} alt="Placeholder" />
+        <Button label="Find prompts" />
       </div>
-    </a>
+    </Link>
   );
 };
 
 Card.propTypes = {
   title: PropTypes.string,
+  url: PropTypes.string,
 };
 
 Card.defaultProps = {
   title: null,
+  url: null,
 };

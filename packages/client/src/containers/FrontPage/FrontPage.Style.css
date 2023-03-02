@@ -68,8 +68,18 @@ main {
   align-content: end;
 }
 
-.card-category {
-  background-color: #e3d5ca;
-  border-radius: 8px;
-  padding: 1rem 1rem;
+.input-search-home {
+  min-width: 20rem !important;
+}
+.dropdown-search {
+  position: absolute;
+  top: 16.3rem;
+  background-color: #fff;
+  border: 1px dashed #946b54 !important;
+  border-radius: 5px;
+  min-width: 20rem;
+}
+
+.dropdown-search ul li {
+  margin-bottom: 1rem;
 }

@@ -5,7 +5,7 @@
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex.raw('SET foreign_key_checks = 0');
-  await knex('categories').truncate();
+  await knex('categories').del();
   await knex.raw('SET foreign_key_checks = 1');
   await knex('categories').insert([
     { id: 1, title: 'Notion' },

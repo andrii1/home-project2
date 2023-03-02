@@ -25,19 +25,21 @@ const promptsController = require('../controllers/prompts.controller');
  *        description: Unexpected error.
  */
 router.get('/', (req, res, next) => {
-  if (req.query.topic) {
+  if (req.query.filteredTopics) {
+    const array = req.query.filteredTopics.split(',');
     promptsController
-      .getPromptsByTopic(req.query.topic)
+      .getPromptsByTopics(array, req.query.page, req.query.size)
       .then((result) => res.json(result))
       .catch(next);
-  } else if (req.query.category) {
+  } else if (req.query.filteredCategories) {
+    const array = req.query.filteredCategories.split(',');
     promptsController
-      .getPromptsByCategory(req.query.category)
+      .getPromptsByCategories(array, req.query.page, req.query.size)
       .then((result) => res.json(result))
       .catch(next);
   } else {
     promptsController
-      .getPrompts()
+      .getPromptsPagination(req.query.page, req.query.size)
       .then((result) => res.json(result))
       .catch(next);
   }
@@ -67,5 +69,12 @@ router.get('/', (req, res, next) => {
  *      5XX:
  *        description: Unexpected error.
  */
+
+router.get('/:id', (req, res, next) => {
+  promptsController
+    .getPromptById(req.params.id)
+    .then((result) => res.json(result))
+    .catch(next);
+});
 
 module.exports = router;
