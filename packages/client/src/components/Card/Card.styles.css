@@ -2,5 +2,21 @@
   background-color: white;
   border: 1px solid #e3d5ca;
   border-radius: 8px;
-  padding: 1rem 1rem;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 9rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-category h2 {
+  flex: 0 0 50%;
+  margin: 0.2rem 0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-category button {
+  flex: 0 0 20%;
 }

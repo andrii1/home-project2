@@ -62,8 +62,8 @@ main {
 .container-cards {
   margin: 3rem 3rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
   justify-content: end;
   align-content: end;
 }
