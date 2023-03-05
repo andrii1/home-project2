@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('prompts', (table) => {
     table.increments();
-    table.string('title').notNullable();
+    table.text('title').notNullable();
     table.text('description').notNullable();
     table.decimal('rating').notNullable();
     table.integer('topic_id').unsigned();
