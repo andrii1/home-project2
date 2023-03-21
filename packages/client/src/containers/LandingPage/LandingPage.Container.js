@@ -11,7 +11,6 @@ export const LandingPage = () => {
       const examples = await response.json();
       setExampleResources(examples);
     }
-
     fetchExampleResources();
   }, []);
 
