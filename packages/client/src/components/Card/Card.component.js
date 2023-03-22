@@ -7,7 +7,7 @@ import './Card.styles.css';
 
 export const Card = ({ title, url }) => {
   return (
-    <Link to="/prompts" state={{ frontPageCategory: url }}>
+    <Link to="/prompts" state={{ frontPageItem: url }}>
       <div className="card-category">
         <h2>{title}</h2>
         <Button label="Find prompts" />
@@ -18,7 +18,7 @@ export const Card = ({ title, url }) => {
 
 Card.propTypes = {
   title: PropTypes.string,
-  url: PropTypes.string,
+  url: PropTypes.shape,
 };
 
 Card.defaultProps = {

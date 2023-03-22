@@ -11,10 +11,14 @@ export const FrontPage = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     async function fetchCategories() {
-      const response = await fetch(`${apiURL()}/categories/`);
-      const categoriesResponse = await response.json();
+      const responseCategories = await fetch(`${apiURL()}/categories/`);
+      const responseTopics = await fetch(`${apiURL()}/topics/`);
+      const categoriesResponse = await responseCategories.json();
+      const topicsResponse = await responseTopics.json();
+      const combinedArray = categoriesResponse.concat(topicsResponse);
+      console.log('combined', combinedArray);
       if (searchTerms) {
-        const filteredCategoriesSearch = categoriesResponse.filter((item) =>
+        const filteredCategoriesSearch = combinedArray.filter((item) =>
           item.title.toLowerCase().includes(searchTerms.toLowerCase()),
         );
         setCategoriesHome(filteredCategoriesSearch);
@@ -44,13 +48,13 @@ export const FrontPage = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const dropdownList = categoriesHome.map((category) => (
-    <Link to="/prompts" state={{ frontPageCategory: category.id }}>
-      <li key={category.id}>{category.title}</li>
+  const dropdownList = categoriesHome.map((item) => (
+    <Link to="/prompts" state={{ frontPageItem: item }}>
+      <li key={item.id}>{item.title}</li>
     </Link>
   ));
-  const cardItems = categories.map((category) => (
-    <Card title={category.title} url={category.id} />
+  const cardItems = categories.map((item) => (
+    <Card title={item.title} url={item} />
   ));
   return (
     <main>
