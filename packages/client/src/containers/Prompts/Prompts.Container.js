@@ -5,6 +5,8 @@ import { TablePagination } from '@mui/material';
 import { apiURL } from '../../apiURL';
 import './Prompts.Style.css';
 
+import { Pagination } from '../../components/Pagination/Pagination.component';
+
 export const Prompts = () => {
   //Clearing location state on page reload
   window.history.replaceState({}, document.title);
@@ -29,7 +31,6 @@ export const Prompts = () => {
   }
   console.log('initialStateCategories', initialStateCategories);
   const [isLoading, setIsLoading] = useState(false);
-  const [checkedTopics, setCheckedTopics] = useState([1]);
   const [prompts, setPrompts] = useState([]);
   const [promptsCount, setPromptsCount] = useState(0);
   const [controller, setController] = useState({
@@ -38,6 +39,7 @@ export const Prompts = () => {
   });
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
+
   const [filteredCategories, setFilteredCategories] = useState(
     initialStateCategories,
   );
@@ -59,8 +61,10 @@ export const Prompts = () => {
       const url = `${apiURL()}/prompts/${urlFilters}`;
       const response = await fetch(url);
       const promptsResponse = await response.json();
+
       setPromptsCount(promptsResponse.totalCount);
       setPrompts(promptsResponse.data);
+      console.log('Promptsresponse', promptsResponse);
     }
 
     /*
@@ -78,22 +82,7 @@ export const Prompts = () => {
     async function fetchCategories() {
       const response = await fetch(`${apiURL()}/categories/`);
       const categoriesResponse = await response.json();
-      /* if (filteredTopics.length > 0) {
-        const categoriesOfFilteredTopics = await findCategoryByTopicId(
-          filteredTopics,
-        );
-        console.log(
-          'filteredTopics',
-          filteredTopics,
-          categoriesResponse,
-          categoriesOfFilteredTopics,
-        );
-        const relatedCategories = categoriesResponse.filter((item) =>
-          categoriesOfFilteredTopics.includes(item.id),
-        );
-        console.log('relCats', relatedCategories);
-        setCategories(relatedCategories);
-      } */ if (searchedCategories) {
+      if (searchedCategories) {
         const filteredCategoriesSearch = categoriesResponse.filter((item) =>
           item.title.toLowerCase().includes(searchedCategories.toLowerCase()),
         );
@@ -105,7 +94,6 @@ export const Prompts = () => {
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-      let topicsAfterFiltering;
       if (filteredCategories.length > 0 && searchedTopics.length > 0) {
         const relatedPrompts = topicsResponse.filter((item) =>
           filteredCategories.includes(item.category_id),
@@ -113,87 +101,32 @@ export const Prompts = () => {
         const filteredTopicsSearch = relatedPrompts.filter((item) =>
           item.title.toLowerCase().includes(searchedTopics.toLowerCase()),
         );
-
-        topicsAfterFiltering = filteredTopicsSearch;
+        setTopics(filteredTopicsSearch);
       } else if (searchedTopics.length > 0) {
         const filteredTopicsSearch = topicsResponse.filter((item) =>
           item.title.toLowerCase().includes(searchedTopics.toLowerCase()),
         );
-        topicsAfterFiltering = filteredTopicsSearch;
+        setTopics(filteredTopicsSearch);
       } else if (filteredCategories.length > 0) {
         const relatedPrompts = topicsResponse.filter((item) =>
           filteredCategories.includes(item.category_id),
         );
-        topicsAfterFiltering = relatedPrompts;
+        setTopics(relatedPrompts);
       } else {
-        topicsAfterFiltering = topicsResponse;
+        setTopics(topicsResponse);
       }
-
-      const topicsWithChecked = topicsAfterFiltering.map((topic) => {
-        let result;
-        if (checkedTopics.includes(topic.id)) {
-          result = {
-            id: topic.id,
-            title: topic.title,
-            category_id: topic.category_id,
-            checked: true,
-          };
-          return result;
-        }
-        result = {
-          id: topic.id,
-          title: topic.title,
-          category_id: topic.category_id,
-          checked: false,
-        };
-        return result;
-      });
-
-      setTopics(topicsWithChecked);
     }
-
     fetchPrompts();
     fetchCategories();
     fetchTopics();
+    /* fetchPromptsPagination(); */
   }, [
     filteredCategories,
     filteredTopics,
     searchedCategories,
     searchedTopics,
     controller,
-    checkedTopics,
   ]);
-  console.log('topics', topics);
-  const testArray = [1, 2, 3];
-  const test = testArray.map((item) => {
-    if (item === 1) {
-      return { item: 1 };
-    } else {
-      return item;
-    }
-  });
-  console.log('test', test);
-
-  const testFunction = (a) => {
-    let b;
-    if (a > 3) {
-      b = 5;
-    } else {
-      b = 3;
-    }
-    console.log('b', b);
-  };
-  testFunction(2);
-  const findCategoryByTopicId = async (topicIds) => {
-    const response = await fetch(`${apiURL()}/topics/`);
-    const topicsResponse = await response.json();
-    const topicsItems = topicsResponse.filter((item) =>
-      topicIds.includes(item.id),
-    );
-    const topicsCategories = topicsItems.map((item) => item.category_id);
-    const uniqueTopicsCategories = [...new Set(topicsCategories)];
-    return uniqueTopicsCategories;
-  };
 
   const filterHandlerCategories = (event) => {
     if (event.target.checked) {
@@ -210,20 +143,14 @@ export const Prompts = () => {
       );
     }
   };
-  console.log('checkedTopics', checkedTopics);
+
   const filterHandlerTopics = (event) => {
     if (event.target.checked) {
       setFilteredTopics([...filteredTopics, parseInt(event.target.value, 10)]);
-      setCheckedTopics([...checkedTopics, parseInt(event.target.value, 10)]);
     } else {
       setFilteredTopics(
         filteredTopics.filter(
           (filterTopic) => filterTopic !== parseInt(event.target.value, 10),
-        ),
-      );
-      setCheckedTopics(
-        checkedTopics.filter(
-          (checkedTopic) => checkedTopic !== parseInt(event.target.value, 10),
         ),
       );
     }
@@ -240,6 +167,7 @@ export const Prompts = () => {
       ...controller,
       page: newPage,
     });
+    console.log('controller', controller);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -248,6 +176,7 @@ export const Prompts = () => {
       rowsPerPage: parseInt(event.target.value, 10),
       page: 0,
     });
+    console.log('controller-rows', controller);
   };
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
@@ -285,15 +214,23 @@ export const Prompts = () => {
       {category.title}
     </li>
   ));
-
   const topicsList = topics.map((topic) => (
     <li key={topic.id}>
-      <input
-        type="checkbox"
-        checked={topic.checked}
-        value={topic.id}
-        onChange={filterHandlerTopics}
-      />{' '}
+      {filteredTopics[0] === topic.id ? (
+        <input
+          type="checkbox"
+          checked
+          value={topic.id}
+          onChange={filterHandlerTopics}
+        />
+      ) : (
+        <input
+          type="checkbox"
+          unchecked
+          value={topic.id}
+          onChange={filterHandlerTopics}
+        />
+      )}{' '}
       {topic.title}
     </li>
   ));
