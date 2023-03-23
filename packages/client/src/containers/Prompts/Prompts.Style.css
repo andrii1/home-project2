@@ -82,6 +82,15 @@
   flex: 0 0 7.5%;
 }
 
+.sort-icon {
+  margin-left: 0.3rem;
+}
+
+.sort-div {
+  display: inline-block;
+  cursor: pointer;
+}
+
 .tab-filter {
   background-color: #e3d5ca;
   border-radius: 8px;
