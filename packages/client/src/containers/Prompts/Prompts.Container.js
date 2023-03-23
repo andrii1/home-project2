@@ -32,7 +32,11 @@ export const Prompts = () => {
   console.log('initialStateCategories', initialStateCategories);
   const [isLoading, setIsLoading] = useState(false);
   const [prompts, setPrompts] = useState([]);
-  const [orderBy, setOrderBy] = useState({});
+  const [orderBy, setOrderBy] = useState({
+    column: 'prompts.id',
+    direction: 'asc',
+    class: 'arrow-up',
+  });
   const [promptsCount, setPromptsCount] = useState(0);
   const [controller, setController] = useState({
     page: 0,
@@ -49,34 +53,16 @@ export const Prompts = () => {
   const [searchedTopics, setSearchedTopics] = useState('');
   useEffect(() => {
     let urlFilters = '';
-    if (
-      filteredCategories.length > 0 &&
-      filteredTopics.length > 0 &&
-      Object.keys(orderBy).length > 0
-    ) {
-      urlFilters = `?filteredTopics=${filteredTopics}&orderBy=${orderBy.column}&dir=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (
-      filteredCategories.length > 0 &&
-      Object.keys(orderBy).length > 0
-    ) {
-      urlFilters = `?filteredCategories=${filteredCategories}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredTopics.length > 0 && Object.keys(orderBy).length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredCategories.length > 0 && filteredTopics.length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    if (filteredCategories.length > 0 && filteredTopics.length > 0) {
+      urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (filteredCategories.length > 0) {
-      urlFilters = `?filteredCategories=${filteredCategories}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      urlFilters = `?filteredCategories=${filteredCategories}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (filteredTopics.length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (Object.keys(orderBy).length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else {
-      urlFilters = `?page=${controller.page}&size=${controller.rowsPerPage}`;
+      urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     }
-
-    if (Object.keys(orderBy).length > 0) {
-      urlFilters = `${urlFilters}&`;
-    }
+    console.log('urlFilters', urlFilters);
     async function fetchPrompts() {
       const url = `${apiURL()}/prompts/${urlFilters}`;
       const response = await fetch(url);
@@ -144,6 +130,7 @@ export const Prompts = () => {
     searchedCategories,
     searchedTopics,
     controller,
+    orderBy,
   ]);
 
   const filterHandlerCategories = (event) => {
@@ -196,19 +183,29 @@ export const Prompts = () => {
   };
 
   const sortHandler = (event) => {
-    const id = event.target.id;
-    console.log(id);
+    const { id } = event.target;
     let { direction = '' } = orderBy || {};
-    if (direction === '') {
-      direction = 'desc';
-    } else if (direction === 'desc') {
+    const { column = '' } = orderBy || {};
+    let sortClass;
+    if (id === column) {
+      if (direction === '') {
+        direction = 'asc';
+        sortClass = 'arrow-up';
+      } else if (direction === 'asc') {
+        direction = 'desc';
+        sortClass = 'arrow-down';
+      } else if (direction === 'desc') {
+        direction = 'asc';
+        sortClass = 'arrow-up';
+      }
+    } else {
       direction = 'asc';
-    } else if (direction === 'asc') {
-      direction = 'desc';
+      sortClass = 'arrow-up';
     }
-    setOrderBy({ column: id, direction });
+
+    setOrderBy({ column: id, direction, class: sortClass });
   };
-  console.log(orderBy);
+
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">
@@ -296,25 +293,47 @@ export const Prompts = () => {
         <div className="prompts-table">
           <div className="row prompts-header">
             <div className="col-1">
-              <div className="sort-div" id="prompts" onClick={sortHandler}>
-                Prompt &#8595;&#8593;
+              <div
+                className={`sort-div ${
+                  orderBy.column === 'prompts.title'
+                    ? orderBy.class
+                    : 'arrows-up-down'
+                }`}
+                id="prompts.title"
+                onClick={sortHandler}
+              >
+                Prompt
               </div>
             </div>
             <div className="col-2">Description</div>
             <div className="col-3">
-              <div className="sort-div" id="categories" onClick={sortHandler}>
-                Category &#8595;&#8593;
+              <div
+                className={`sort-div ${
+                  orderBy.column === 'categories.title'
+                    ? orderBy.class
+                    : 'arrows-up-down'
+                }`}
+                id="categories.title"
+                onClick={sortHandler}
+              >
+                Category
               </div>
             </div>
             <div className="col-4">
-              <div className="sort-div" id="topics" onClick={sortHandler}>
-                Topic &#8595;&#8593;
+              <div
+                className={`sort-div ${
+                  orderBy.column === 'topics.title'
+                    ? orderBy.class
+                    : 'arrows-up-down'
+                }`}
+                id="topics.title"
+                onClick={sortHandler}
+              >
+                Topic
               </div>
             </div>
             <div className="col-5">
-              <div className="sort-div" id="ratings" onClick={sortHandler}>
-                Rating &#8595;&#8593;
-              </div>
+              <div id="ratings">Rating</div>
             </div>
             <div className="col-6">Helpful?</div>
             <div className="col-7">Bookmark</div>

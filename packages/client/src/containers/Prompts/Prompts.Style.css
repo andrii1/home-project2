@@ -91,6 +91,27 @@
   cursor: pointer;
 }
 
+.arrows-up-down::before {
+  background-image: url('../../assets/images/arrowsupdown.png');
+  background-size: 13px 10px;
+  display: inline-block;
+  width: 13px;
+  height: 10px;
+  content: '';
+  background-repeat: no-repeat;
+  margin-right: 0.1rem;
+}
+
+.arrow-up::before {
+  content: '\2191';
+  margin-right: 0.1rem;
+}
+
+.arrow-down::before {
+  content: '\2193';
+  margin-right: 0.1rem;
+}
+
 .tab-filter {
   background-color: #e3d5ca;
   border-radius: 8px;
