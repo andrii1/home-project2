@@ -21,7 +21,7 @@ const getPrompts = async () => {
   }
 };
 
-const getPromptsPagination = async (page, size) => {
+const getPromptsPagination = async (column, direction, page, size) => {
   try {
     const getModel = () =>
       knex('prompts')
@@ -32,7 +32,8 @@ const getPromptsPagination = async (page, size) => {
           'categories.title as categoryTitle',
         )
         .join('topics', 'prompts.topic_id', '=', 'topics.id')
-        .join('categories', 'topics.category_id', '=', 'categories.id');
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .orderBy(column, direction);
     const totalCount = await getModel()
       .count('prompts.id', { as: 'rows' })
       .groupBy('prompts.id');
@@ -50,7 +51,7 @@ const getPromptsPagination = async (page, size) => {
   }
 };
 
-const getPromptsByCategories = async (categories, page, size) => {
+const getPromptsSearch = async (search, column, direction, page, size) => {
   try {
     const getModel = () =>
       knex('prompts')
@@ -62,7 +63,47 @@ const getPromptsByCategories = async (categories, page, size) => {
         )
         .join('topics', 'prompts.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
-        .whereIn('category_id', categories);
+        .orderBy(column, direction)
+        .where('prompts.title', 'like', `%${search}%`);
+    const totalCount = await getModel()
+      .count('prompts.id', { as: 'rows' })
+      .groupBy('prompts.id');
+    const data = await getModel()
+      .offset(page * size)
+      .limit(size)
+      .select();
+
+    return {
+      totalCount: totalCount.length,
+      data,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const getPromptsByCategoriesSearch = async (
+  search,
+  categories,
+  column,
+  direction,
+  page,
+  size,
+) => {
+  try {
+    const getModel = () =>
+      knex('prompts')
+        .select(
+          'prompts.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .whereIn('category_id', categories)
+        .where('prompts.title', 'like', `%${search}%`)
+        .orderBy(column, direction);
     const totalCount = await getModel()
       .count('prompts.id', { as: 'rows' })
       .groupBy('prompts.id');
@@ -79,7 +120,13 @@ const getPromptsByCategories = async (categories, page, size) => {
   }
 };
 
-const getPromptsByTopics = async (topics, page, size) => {
+const getPromptsByCategories = async (
+  categories,
+  column,
+  direction,
+  page,
+  size,
+) => {
   try {
     const getModel = () =>
       knex('prompts')
@@ -91,7 +138,76 @@ const getPromptsByTopics = async (topics, page, size) => {
         )
         .join('topics', 'prompts.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
-        .whereIn('topic_id', topics);
+        .whereIn('category_id', categories)
+        .orderBy(column, direction);
+    const totalCount = await getModel()
+      .count('prompts.id', { as: 'rows' })
+      .groupBy('prompts.id');
+    const data = await getModel()
+      .offset(page * size)
+      .limit(size)
+      .select();
+    return {
+      totalCount: totalCount.length,
+      data,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const getPromptsByTopicsSearch = async (
+  search,
+  topics,
+  column,
+  direction,
+  page,
+  size,
+) => {
+  try {
+    const getModel = () =>
+      knex('prompts')
+        .select(
+          'prompts.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .whereIn('topic_id', topics)
+        .where('prompts.title', 'like', `%${search}%`)
+        .orderBy(column, direction);
+    const totalCount = await getModel()
+      .count('prompts.id', { as: 'rows' })
+      .groupBy('prompts.id');
+    const data = await getModel()
+      .offset(page * size)
+      .limit(size)
+      .select();
+    return {
+      totalCount: totalCount.length,
+      data,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const getPromptsByTopics = async (topics, column, direction, page, size) => {
+  try {
+    const getModel = () =>
+      knex('prompts')
+        .select(
+          'prompts.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .whereIn('topic_id', topics)
+        .orderBy(column, direction);
     const totalCount = await getModel()
       .count('prompts.id', { as: 'rows' })
       .groupBy('prompts.id');
@@ -174,8 +290,11 @@ const getPromptById = async (id) => {
 module.exports = {
   getPrompts,
   getPromptsPagination,
+  getPromptsSearch,
   getPromptsByCategories,
+  getPromptsByCategoriesSearch,
   getPromptsByTopics,
+  getPromptsByTopicsSearch,
   getPromptsByCategory,
   getPromptsByTopic,
   getPromptById,

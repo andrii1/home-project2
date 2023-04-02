@@ -11,7 +11,7 @@
   flex: 0 0 25%;
 }
 
-.prompts-table {
+.prompts-container {
   flex: 0 0 70%;
 }
 
@@ -135,9 +135,31 @@
   margin-left: 1rem !important;
 }
 
-.input-search-filter {
+.prompts-search {
+  border: 1px solid red;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.input-search {
   margin-top: 0.5rem;
   border: 1px dashed #946b54 !important;
   min-width: 18.3rem !important;
-  padding: 1rem 0.5rem !important;
+  padding: 1rem 1.5rem 1rem 2rem !important;
+}
+
+.input-search-prompts {
+  border: 1px dashed #946b54 !important;
+  min-width: 20rem !important;
+  padding: 1rem 1.5rem 1rem 2rem !important;
+}
+
+.search-icon {
+  position: absolute;
+  padding: 0.7rem;
+}
+
+.search-icon-filter {
+  position: absolute;
+  padding: 1.2rem 0.7rem 1.2rem 0.7rem;
 }

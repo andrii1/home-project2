@@ -25,21 +25,75 @@ const promptsController = require('../controllers/prompts.controller');
  *        description: Unexpected error.
  */
 router.get('/', (req, res, next) => {
-  if (req.query.filteredTopics) {
+  if (req.query.filteredTopics && req.query.search) {
     const array = req.query.filteredTopics.split(',');
     promptsController
-      .getPromptsByTopics(array, req.query.page, req.query.size)
+      .getPromptsByTopicsSearch(
+        req.query.search,
+        array,
+        req.query.column,
+        req.query.direction,
+        req.query.page,
+        req.query.size,
+      )
+      .then((result) => res.json(result))
+      .catch(next);
+  } else if (req.query.filteredCategories && req.query.search) {
+    const array = req.query.filteredCategories.split(',');
+    promptsController
+      .getPromptsByCategoriesSearch(
+        req.query.search,
+        array,
+        req.query.column,
+        req.query.direction,
+        req.query.page,
+        req.query.size,
+      )
+      .then((result) => res.json(result))
+      .catch(next);
+  } else if (req.query.filteredTopics) {
+    const array = req.query.filteredTopics.split(',');
+    promptsController
+      .getPromptsByTopics(
+        array,
+        req.query.column,
+        req.query.direction,
+        req.query.page,
+        req.query.size,
+      )
       .then((result) => res.json(result))
       .catch(next);
   } else if (req.query.filteredCategories) {
     const array = req.query.filteredCategories.split(',');
     promptsController
-      .getPromptsByCategories(array, req.query.page, req.query.size)
+      .getPromptsByCategories(
+        array,
+        req.query.column,
+        req.query.direction,
+        req.query.page,
+        req.query.size,
+      )
+      .then((result) => res.json(result))
+      .catch(next);
+  } else if (req.query.search) {
+    promptsController
+      .getPromptsSearch(
+        req.query.search,
+        req.query.column,
+        req.query.direction,
+        req.query.page,
+        req.query.size,
+      )
       .then((result) => res.json(result))
       .catch(next);
   } else {
     promptsController
-      .getPromptsPagination(req.query.page, req.query.size)
+      .getPromptsPagination(
+        req.query.column,
+        req.query.direction,
+        req.query.page,
+        req.query.size,
+      )
       .then((result) => res.json(result))
       .catch(next);
   }

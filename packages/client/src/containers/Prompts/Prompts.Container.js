@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { TablePagination } from '@mui/material';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { apiURL } from '../../apiURL';
 import './Prompts.Style.css';
 
 export const Prompts = () => {
-  //Clearing location state on page reload
+  /* Clearing location state on page reload */
   window.history.replaceState({}, document.title);
   const location = useLocation();
   const { frontPageItem = '' } = location.state || {};
@@ -51,14 +52,27 @@ export const Prompts = () => {
   const [filteredTopics, setFilteredTopics] = useState(initialStateTopics);
   const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');
+  const [searchedPrompts, setSearchedPrompts] = useState('');
   useEffect(() => {
     let urlFilters = '';
-    if (filteredCategories.length > 0 && filteredTopics.length > 0) {
+    if (
+      filteredCategories.length > 0 &&
+      filteredTopics.length > 0 &&
+      searchedPrompts.length > 0
+    ) {
+      urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (filteredCategories.length > 0 && searchedPrompts.length > 0) {
+      urlFilters = `?filteredCategories=${filteredCategories}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
+      urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (filteredCategories.length > 0 && filteredTopics.length > 0) {
       urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (filteredCategories.length > 0) {
       urlFilters = `?filteredCategories=${filteredCategories}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (filteredTopics.length > 0) {
       urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (searchedPrompts.length > 0) {
+      urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else {
       urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     }
@@ -131,6 +145,7 @@ export const Prompts = () => {
     searchedTopics,
     controller,
     orderBy,
+    searchedPrompts,
   ]);
 
   const filterHandlerCategories = (event) => {
@@ -160,7 +175,9 @@ export const Prompts = () => {
       );
     }
   };
-
+  const handleSearchPrompts = (event) => {
+    setSearchedPrompts(event.target.value);
+  };
   const handleSearchCategories = (event) => {
     setSearchedCategories(event.target.value);
   };
@@ -270,76 +287,89 @@ export const Prompts = () => {
       <section className="container-prompts">
         <div className="prompts-filter">
           <div className="tab-filter">Categories</div>
+          <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
           <input
             type="text"
             placeholder="Search categories"
-            className="input-search-filter"
+            className="input-search"
             onChange={handleSearchCategories}
           />
           <div className="checkboxes">
             <ul className="checkboxes-list">{categoriesList}</ul>
           </div>
           <div className="tab-filter">Topics / Subcategories</div>
+          <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
           <input
             type="text"
             placeholder="Search topics"
-            className="input-search-filter"
+            className="input-search"
             onChange={handleSearchTopics}
           />
           <div className="checkboxes">
             <ul className="checkboxes-list">{topicsList}</ul>
           </div>
         </div>
-        <div className="prompts-table">
-          <div className="row prompts-header">
-            <div className="col-1">
-              <div
-                className={`sort-div ${
-                  orderBy.column === 'prompts.title'
-                    ? orderBy.class
-                    : 'arrows-up-down'
-                }`}
-                id="prompts.title"
-                onClick={sortHandler}
-              >
-                Prompt
-              </div>
-            </div>
-            <div className="col-2">Description</div>
-            <div className="col-3">
-              <div
-                className={`sort-div ${
-                  orderBy.column === 'categories.title'
-                    ? orderBy.class
-                    : 'arrows-up-down'
-                }`}
-                id="categories.title"
-                onClick={sortHandler}
-              >
-                Category
-              </div>
-            </div>
-            <div className="col-4">
-              <div
-                className={`sort-div ${
-                  orderBy.column === 'topics.title'
-                    ? orderBy.class
-                    : 'arrows-up-down'
-                }`}
-                id="topics.title"
-                onClick={sortHandler}
-              >
-                Topic
-              </div>
-            </div>
-            <div className="col-5">
-              <div id="ratings">Rating</div>
-            </div>
-            <div className="col-6">Helpful?</div>
-            <div className="col-7">Bookmark</div>
-            <div className="col-8">Share</div>
+        <div className="prompts-container">
+          <div className="prompts-search">
+            <FontAwesomeIcon className="search-icon" icon={faSearch} />
+            <input
+              type="text"
+              placeholder="Search prompts"
+              className="input-search-prompts"
+              onChange={handleSearchPrompts}
+            />
           </div>
-          {promptsList}
+          <div className="prompts-table">
+            <div className="row prompts-header">
+              <div className="col-1">
+                <div
+                  className={`sort-div ${
+                    orderBy.column === 'prompts.title'
+                      ? orderBy.class
+                      : 'arrows-up-down'
+                  }`}
+                  id="prompts.title"
+                  onClick={sortHandler}
+                >
+                  Prompt
+                </div>
+              </div>
+              <div className="col-2">Description</div>
+              <div className="col-3">
+                <div
+                  className={`sort-div ${
+                    orderBy.column === 'categories.title'
+                      ? orderBy.class
+                      : 'arrows-up-down'
+                  }`}
+                  id="categories.title"
+                  onClick={sortHandler}
+                >
+                  Category
+                </div>
+              </div>
+              <div className="col-4">
+                <div
+                  className={`sort-div ${
+                    orderBy.column === 'topics.title'
+                      ? orderBy.class
+                      : 'arrows-up-down'
+                  }`}
+                  id="topics.title"
+                  onClick={sortHandler}
+                >
+                  Topic
+                </div>
+              </div>
+              <div className="col-5">
+                <div id="ratings">Rating</div>
+              </div>
+              <div className="col-6">Helpful?</div>
+              <div className="col-7">Bookmark</div>
+              <div className="col-8">Share</div>
+            </div>
+            {promptsList}
+          </div>
         </div>
       </section>
       <TablePagination
