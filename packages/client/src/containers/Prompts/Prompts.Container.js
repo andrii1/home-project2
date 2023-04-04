@@ -6,6 +6,7 @@ import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { apiURL } from '../../apiURL';
+import { Checkbox } from '../../components/Checkbox/Checkbox.component';
 import './Prompts.Style.css';
 
 export const Prompts = () => {
@@ -140,6 +141,7 @@ export const Prompts = () => {
             categoryId: d.categoryId,
             categoryTitle: d.categoryTitle,
             checked: false,
+            indeterminate: false,
             topics: [value],
           }); // not found, so need to add data property
         } else {
@@ -175,6 +177,7 @@ export const Prompts = () => {
               categoryId: d.categoryId,
               categoryTitle: d.categoryTitle,
               checked: false,
+              indeterminate: false,
               topics: [value],
             }); // not found, so need to add data property
           } else {
@@ -191,6 +194,7 @@ export const Prompts = () => {
               categoryId: item.categoryId,
               categoryTitle: item.categoryTitle,
               checked: true,
+              indeterminate: false,
               topics: item.topics.map((topic) => {
                 return {
                   topicId: topic.topicId,
@@ -204,6 +208,7 @@ export const Prompts = () => {
             categoryId: item.categoryId,
             categoryTitle: item.categoryTitle,
             checked: false,
+            indeterminate: false,
             topics: item.topics.map((topic) => {
               return {
                 topicId: topic.topicId,
@@ -350,13 +355,13 @@ export const Prompts = () => {
   ));
   const categoriesList = topics.map((category) => (
     <li key={category.categoryId}>
-      <input
-        type="checkbox"
+      <Checkbox
         checked={category.checked}
         value={category.categoryId}
         onChange={filterHandlerCategories}
-      />{' '}
-      {category.categoryTitle}
+        label={category.categoryTitle}
+        indeterminate={category.indeterminate}
+      />
       <ul>
         {category.topics.map((topic) => (
           <li key={topic.topicId}>
