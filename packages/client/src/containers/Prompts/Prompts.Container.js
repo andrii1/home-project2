@@ -54,6 +54,8 @@ export const Prompts = () => {
   const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');
   const [searchedPrompts, setSearchedPrompts] = useState('');
+  const [allTopicsAndCategories, setAllTopicsAndCategories] = useState('');
+
   useEffect(() => {
     let urlFilters = '';
     if (
@@ -187,7 +189,7 @@ export const Prompts = () => {
           return acc;
         }, []);
         setTopics(filteredTopicsResult);
-      } else if (filteredCategories.length > 0) {
+      } /* else if (filteredCategories.length > 0) {
         const updatedCategories = result.map((item) => {
           if (filteredCategories.includes(item.categoryId)) {
             return {
@@ -220,7 +222,7 @@ export const Prompts = () => {
         });
         console.log('updatedCategories', updatedCategories);
         setTopics(updatedCategories);
-      } else {
+      } */ else {
         setTopics(result);
       }
 
@@ -261,12 +263,16 @@ export const Prompts = () => {
     searchedPrompts,
   ]);
 
-  const filterHandlerCategories = (event) => {
+  const filterHandlerCategories = async (event) => {
     if (event.target.checked) {
       setFilteredCategories([
         ...filteredCategories,
         parseInt(event.target.value, 10),
       ]);
+      const relatedTopics = await getTopicsByCategory(
+        parseInt(event.target.value, 10),
+      );
+      setFilteredTopics([...filteredTopics, relatedTopics]);
     } else {
       setFilteredCategories(
         filteredCategories.filter(
@@ -287,6 +293,15 @@ export const Prompts = () => {
         ),
       );
     }
+  };
+
+  const getTopicsByCategory = async (categoryId) => {
+    const response = await fetch(`${apiURL()}/topics/`);
+    const topicsResponse = await response.json();
+    const relatedTopics = topicsResponse
+      .filter((item) => item.categoryId === categoryId)
+      .map((item) => item.topicId);
+    return relatedTopics;
   };
   console.log('filteredTopics', filteredTopics);
   const handleSearchPrompts = (event) => {
