@@ -5,7 +5,19 @@ const knex = require('../../config/db');
 
 /* Get all topics */
 const getTopics = async () => {
-  return knex('topics');
+  try {
+    const topics = await knex('topics')
+      .select(
+        'topics.category_id as categoryId',
+        'categories.title as categoryTitle',
+        'topics.id as topicId',
+        'topics.title as topicTitle',
+      )
+      .join('categories', 'topics.category_id', '=', 'categories.id');
+    return topics;
+  } catch (error) {
+    return error.message;
+  }
 };
 
 // Get topics by Category

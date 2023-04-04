@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { FrontPage } from './containers/FrontPage/FrontPage.Container';
 import { LandingPage } from './containers/LandingPage/LandingPage.Container';
+import { TestPage } from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
 import { PromptView } from './containers/PromptView/PromptView.container';
 import { Signup } from './containers/Signup/Signup.Container';
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<FrontPage />} />
           <Route path="/landing" element={<LandingPage />} />
+          <Route path="/test" element={<TestPage />} />
           <Route path="/prompts" element={<Prompts />} />
           <Route exact path="/prompts/:id" element={<PromptView />} />
           <Route exact path="/about" element={<About />} />

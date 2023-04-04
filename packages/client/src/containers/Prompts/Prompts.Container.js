@@ -112,7 +112,115 @@ export const Prompts = () => {
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-      if (filteredCategories.length > 0 && searchedTopics.length > 0) {
+      console.log('topicsResponse', topicsResponse);
+      // eslint-disable-next-line prefer-arrow-callback
+      const arr = [
+        { name: 'qewregf dqewafs', value: 'qewregf dqewafs answer', count: 2 },
+        {
+          name: 'survey with select',
+          value: 'survey with select answer',
+          count: 2,
+        },
+        { name: 'werasd', value: 'Donald', count: 1 },
+        { name: 'werasd', value: 'Jim', count: 1 },
+      ];
+
+      const result = topicsResponse.reduce((acc, d) => {
+        const found = acc.find((a) => a.categoryId === d.categoryId);
+        /* const value = { name: d.name, val: d.value }; */
+        const value = {
+          topicId: d.topicId,
+          topicTitle: d.topicTitle,
+          categoryId: d.categoryId,
+          checked: false,
+        }; // the element in data property
+        if (!found) {
+          /* acc.push(...value); */
+          acc.push({
+            categoryId: d.categoryId,
+            categoryTitle: d.categoryTitle,
+            checked: false,
+            topics: [value],
+          }); // not found, so need to add data property
+        } else {
+          /* acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] }); */
+          found.topics.push(value); // if found, that means data property exists, so just push new element to found.data.
+        }
+        return acc;
+      }, []);
+      if (filteredTopics.length > 0) {
+        const filteredTopicsResult = topicsResponse.reduce((acc, d) => {
+          const found = acc.find((a) => a.categoryId === d.categoryId);
+          /* const value = { name: d.name, val: d.value }; */
+          let value;
+          if (filteredTopics.includes(d.topicId)) {
+            value = {
+              topicId: d.topicId,
+              topicTitle: d.topicTitle,
+              categoryId: d.categoryId,
+              checked: true,
+            };
+          } else {
+            value = {
+              topicId: d.topicId,
+              topicTitle: d.topicTitle,
+              categoryId: d.categoryId,
+              checked: false,
+            };
+          }
+          // the element in data property
+          if (!found) {
+            /* acc.push(...value); */
+            acc.push({
+              categoryId: d.categoryId,
+              categoryTitle: d.categoryTitle,
+              checked: false,
+              topics: [value],
+            }); // not found, so need to add data property
+          } else {
+            /* acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] }); */
+            found.topics.push(value); // if found, that means data property exists, so just push new element to found.data.
+          }
+          return acc;
+        }, []);
+        setTopics(filteredTopicsResult);
+      } else if (filteredCategories.length > 0) {
+        const updatedCategories = result.map((item) => {
+          if (filteredCategories.includes(item.categoryId)) {
+            return {
+              categoryId: item.categoryId,
+              categoryTitle: item.categoryTitle,
+              checked: true,
+              topics: item.topics.map((topic) => {
+                return {
+                  topicId: topic.topicId,
+                  topicTitle: topic.topicTitle,
+                  checked: true,
+                };
+              }),
+            };
+          }
+          return {
+            categoryId: item.categoryId,
+            categoryTitle: item.categoryTitle,
+            checked: false,
+            topics: item.topics.map((topic) => {
+              return {
+                topicId: topic.topicId,
+                topicTitle: topic.topicTitle,
+                checked: false,
+              };
+            }),
+          };
+        });
+        console.log('updatedCategories', updatedCategories);
+        setTopics(updatedCategories);
+      } else {
+        setTopics(result);
+      }
+
+      console.log('categoriesAndTopics', result);
+      /* if (filteredCategories.length > 0 && searchedTopics.length > 0) {
         const relatedPrompts = topicsResponse.filter((item) =>
           filteredCategories.includes(item.category_id),
         );
@@ -132,7 +240,7 @@ export const Prompts = () => {
         setTopics(relatedPrompts);
       } else {
         setTopics(topicsResponse);
-      }
+      } */
     }
     fetchPrompts();
     fetchCategories();
@@ -175,6 +283,7 @@ export const Prompts = () => {
       );
     }
   };
+  console.log('filteredTopics', filteredTopics);
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
   };
@@ -239,27 +348,31 @@ export const Prompts = () => {
       <div className="col-8">fb</div>
     </div>
   ));
-  const categoriesList = categories.map((category) => (
-    <li key={category.id}>
-      {filteredCategories[0] === category.id ? (
-        <input
-          type="checkbox"
-          checked
-          value={category.id}
-          onChange={filterHandlerCategories}
-        />
-      ) : (
-        <input
-          type="checkbox"
-          unchecked
-          value={category.id}
-          onChange={filterHandlerCategories}
-        />
-      )}{' '}
-      {category.title}
+  const categoriesList = topics.map((category) => (
+    <li key={category.categoryId}>
+      <input
+        type="checkbox"
+        checked={category.checked}
+        value={category.categoryId}
+        onChange={filterHandlerCategories}
+      />{' '}
+      {category.categoryTitle}
+      <ul>
+        {category.topics.map((topic) => (
+          <li key={topic.topicId}>
+            <input
+              type="checkbox"
+              checked={topic.checked}
+              value={topic.topicId}
+              onChange={filterHandlerTopics}
+            />{' '}
+            {topic.topicTitle}
+          </li>
+        ))}
+      </ul>
     </li>
   ));
-  const topicsList = topics.map((topic) => (
+  /* const topicsList = topics.map((topic) => (
     <li key={topic.id}>
       {filteredTopics[0] === topic.id ? (
         <input
@@ -278,7 +391,7 @@ export const Prompts = () => {
       )}{' '}
       {topic.title}
     </li>
-  ));
+  )); */
 
   return (
     <main>
@@ -306,7 +419,7 @@ export const Prompts = () => {
             onChange={handleSearchTopics}
           />
           <div className="checkboxes">
-            <ul className="checkboxes-list">{topicsList}</ul>
+            <ul className="checkboxes-list">{''}</ul>
           </div>
         </div>
         <div className="prompts-container">
