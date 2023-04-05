@@ -10,6 +10,7 @@ export const Checkbox = ({
   value,
   onChange,
   checked,
+  className,
   ...props
 }) => {
   const cRef = useRef();
@@ -26,6 +27,7 @@ export const Checkbox = ({
         checked={checked}
         onChange={onChange}
         ref={cRef}
+        className={className}
       />{' '}
       <span>{label}</span>
     </>

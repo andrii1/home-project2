@@ -46,7 +46,6 @@ export const Prompts = () => {
   const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');
   const [searchedPrompts, setSearchedPrompts] = useState('');
-  const [allTopicsAndCategories, setAllTopicsAndCategories] = useState('');
 
   useEffect(() => {
     let urlFilters = '';
@@ -110,7 +109,6 @@ export const Prompts = () => {
       } else {
         topicsAfterSearch = topicsResponse;
       }
-      console.log('topicsAfterSearch', topicsAfterSearch);
       const result = topicsAfterSearch.reduce((acc, d) => {
         const found = acc.find((a) => a.categoryId === d.categoryId);
         /* const value = { name: d.name, val: d.value }; */
@@ -391,6 +389,7 @@ export const Prompts = () => {
         onChange={filterHandlerCategories}
         label={category.categoryTitle}
         indeterminate={category.indeterminate}
+        className="category-list"
       />
       <ul>
         {category.topics.map((topic) => (
@@ -418,7 +417,7 @@ export const Prompts = () => {
           <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search categories or topics"
             className="input-search"
             onChange={handleSearchTopics}
           />

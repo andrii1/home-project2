@@ -81,17 +81,24 @@ main {
 }
 
 .input-search-home {
-  min-width: 20rem !important;
+  min-width: 28rem !important;
+  padding: 1rem 1.5rem 1rem 2.5rem !important;
 }
 .dropdown-search {
   position: absolute;
-  top: 16.3rem;
+  top: 17.1rem;
   background-color: #fff;
   border: 1px dashed #946b54 !important;
   border-radius: 5px;
-  min-width: 20rem;
+  min-width: 28rem;
+  max-width: 28rem;
 }
 
 .dropdown-search ul li {
   margin-bottom: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  padding: 0.7rem;
 }

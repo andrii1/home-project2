@@ -3,6 +3,8 @@ import { NavLink, Link } from 'react-router-dom';
 import './FrontPage.Style.css';
 import { apiURL } from '../../apiURL';
 import { Card } from '../../components/Card/Card.component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export const FrontPage = () => {
   const [searchTerms, setSearchTerms] = useState();
@@ -89,6 +91,7 @@ export const FrontPage = () => {
         <p className="subheading">3500+ prompts, 110 topics, 22 categories</p>
         <form>
           <label>
+            <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
               type="text"
               className="input-search-home"
