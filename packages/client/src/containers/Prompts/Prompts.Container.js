@@ -117,16 +117,6 @@ export const Prompts = () => {
       const topicsResponse = await response.json();
       console.log('topicsResponse', topicsResponse);
       // eslint-disable-next-line prefer-arrow-callback
-      const arr = [
-        { name: 'qewregf dqewafs', value: 'qewregf dqewafs answer', count: 2 },
-        {
-          name: 'survey with select',
-          value: 'survey with select answer',
-          count: 2,
-        },
-        { name: 'werasd', value: 'Donald', count: 1 },
-        { name: 'werasd', value: 'Jim', count: 1 },
-      ];
 
       const result = topicsResponse.reduce((acc, d) => {
         const found = acc.find((a) => a.categoryId === d.categoryId);
@@ -152,7 +142,12 @@ export const Prompts = () => {
         }
         return acc;
       }, []);
+      console.log('result', result);
       if (filteredTopics.length > 0) {
+        const relatedCategory = topicsResponse
+          .filter((item) => filteredTopics.includes(item.topicId))
+          .map((item) => item.categoryId);
+        console.log('relatedCategory', relatedCategory);
         const filteredTopicsResult = topicsResponse.reduce((acc, d) => {
           const found = acc.find((a) => a.categoryId === d.categoryId);
           /* const value = { name: d.name, val: d.value }; */
@@ -175,13 +170,41 @@ export const Prompts = () => {
           // the element in data property
           if (!found) {
             /* acc.push(...value); */
-            acc.push({
-              categoryId: d.categoryId,
-              categoryTitle: d.categoryTitle,
-              checked: false,
-              indeterminate: false,
-              topics: [value],
-            }); // not found, so need to add data property
+            const relatedTopics = topicsResponse
+              .filter((item) => item.categoryId === d.categoryId)
+              .map((item) => item.topicId);
+            const allFounded = relatedTopics.every((ai) =>
+              filteredTopics.includes(ai),
+            );
+            const someFounded = relatedTopics.some((ai) =>
+              filteredTopics.includes(ai),
+            );
+            console.log('allFounded', allFounded);
+            if (allFounded) {
+              acc.push({
+                categoryId: d.categoryId,
+                categoryTitle: d.categoryTitle,
+                checked: true,
+                indeterminate: false,
+                topics: [value],
+              }); // not found, so need to add data property
+            } else if (someFounded) {
+              acc.push({
+                categoryId: d.categoryId,
+                categoryTitle: d.categoryTitle,
+                checked: false,
+                indeterminate: true,
+                topics: [value],
+              }); // not found, so need to add data property
+            } else {
+              acc.push({
+                categoryId: d.categoryId,
+                categoryTitle: d.categoryTitle,
+                checked: false,
+                indeterminate: false,
+                topics: [value],
+              }); // not found, so need to add data property
+            }
           } else {
             /* acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] }); */
             found.topics.push(value); // if found, that means data property exists, so just push new element to found.data.
@@ -189,7 +212,8 @@ export const Prompts = () => {
           return acc;
         }, []);
         setTopics(filteredTopicsResult);
-      } /* else if (filteredCategories.length > 0) {
+        console.log('filteredTopicsResult', filteredTopicsResult);
+      } else if (filteredCategories.length > 0) {
         const updatedCategories = result.map((item) => {
           if (filteredCategories.includes(item.categoryId)) {
             return {
@@ -222,7 +246,7 @@ export const Prompts = () => {
         });
         console.log('updatedCategories', updatedCategories);
         setTopics(updatedCategories);
-      } */ else {
+      } else {
         setTopics(result);
       }
 
@@ -265,23 +289,20 @@ export const Prompts = () => {
 
   const filterHandlerCategories = async (event) => {
     if (event.target.checked) {
-      setFilteredCategories([
-        ...filteredCategories,
-        parseInt(event.target.value, 10),
-      ]);
       const relatedTopics = await getTopicsByCategory(
         parseInt(event.target.value, 10),
       );
-      setFilteredTopics([...filteredTopics, relatedTopics]);
+      setFilteredTopics([...filteredTopics.concat(relatedTopics)]);
     } else {
-      setFilteredCategories(
-        filteredCategories.filter(
-          (filterCategory) =>
-            filterCategory !== parseInt(event.target.value, 10),
-        ),
+      const relatedTopics = await getTopicsByCategory(
+        parseInt(event.target.value, 10),
+      );
+      setFilteredTopics(
+        filteredTopics.filter((el) => !relatedTopics.includes(el)),
       );
     }
   };
+  console.log('filteredTopics1', filteredTopics);
 
   const filterHandlerTopics = (event) => {
     if (event.target.checked) {
@@ -392,26 +413,6 @@ export const Prompts = () => {
       </ul>
     </li>
   ));
-  /* const topicsList = topics.map((topic) => (
-    <li key={topic.id}>
-      {filteredTopics[0] === topic.id ? (
-        <input
-          type="checkbox"
-          checked
-          value={topic.id}
-          onChange={filterHandlerTopics}
-        />
-      ) : (
-        <input
-          type="checkbox"
-          unchecked
-          value={topic.id}
-          onChange={filterHandlerTopics}
-        />
-      )}{' '}
-      {topic.title}
-    </li>
-  )); */
 
   return (
     <main>
@@ -419,27 +420,16 @@ export const Prompts = () => {
 
       <section className="container-prompts">
         <div className="prompts-filter">
-          <div className="tab-filter">Categories</div>
+          <div className="tab-filter">Categories and Topics</div>
           <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
           <input
             type="text"
-            placeholder="Search categories"
+            placeholder="Search"
             className="input-search"
             onChange={handleSearchCategories}
           />
           <div className="checkboxes">
             <ul className="checkboxes-list">{categoriesList}</ul>
-          </div>
-          <div className="tab-filter">Topics / Subcategories</div>
-          <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
-          <input
-            type="text"
-            placeholder="Search topics"
-            className="input-search"
-            onChange={handleSearchTopics}
-          />
-          <div className="checkboxes">
-            <ul className="checkboxes-list">{''}</ul>
           </div>
         </div>
         <div className="prompts-container">
