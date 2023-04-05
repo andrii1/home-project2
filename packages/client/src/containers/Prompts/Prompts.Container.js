@@ -88,18 +88,6 @@ export const Prompts = () => {
       setPrompts(promptsResponse.data);
     }
 
-    /*
-    async function fetchPromptsPagination() {
-      const url = `${apiURL()}/prompts/?page=${controller.page}&size=${
-        controller.rowsPerPage
-      }`;
-      const response = await fetch(url);
-      const promptsResponse = await response.json();
-      console.log('response', promptsResponse.totalCount, promptsResponse.data);
-      setPromptsCount(promptsResponse.totalCount);
-      setPrompts(promptsResponse.data);
-    }
-*/
     async function fetchCategories() {
       const response = await fetch(`${apiURL()}/categories/`);
       const categoriesResponse = await response.json();
@@ -117,8 +105,23 @@ export const Prompts = () => {
       const topicsResponse = await response.json();
       console.log('topicsResponse', topicsResponse);
       // eslint-disable-next-line prefer-arrow-callback
-
-      const result = topicsResponse.reduce((acc, d) => {
+      let topicsAfterSearch;
+      if (searchedTopics) {
+        const filteredTopicsSearch = topicsResponse.filter(
+          (item) =>
+            item.topicTitle
+              .toLowerCase()
+              .includes(searchedTopics.toLowerCase()) ||
+            item.categoryTitle
+              .toLowerCase()
+              .includes(searchedTopics.toLowerCase()),
+        );
+        topicsAfterSearch = filteredTopicsSearch;
+      } else {
+        topicsAfterSearch = topicsResponse;
+      }
+      console.log('topicsAfterSearch', topicsAfterSearch);
+      const result = topicsAfterSearch.reduce((acc, d) => {
         const found = acc.find((a) => a.categoryId === d.categoryId);
         /* const value = { name: d.name, val: d.value }; */
         const value = {
@@ -334,6 +337,7 @@ export const Prompts = () => {
   const handleSearchTopics = (event) => {
     setSearchedTopics(event.target.value);
   };
+  console.log('searchedTopics', searchedTopics);
   const handlePageChange = (event, newPage) => {
     setController({
       ...controller,
@@ -426,7 +430,7 @@ export const Prompts = () => {
             type="text"
             placeholder="Search"
             className="input-search"
-            onChange={handleSearchCategories}
+            onChange={handleSearchTopics}
           />
           <div className="checkboxes">
             <ul className="checkboxes-list">{categoriesList}</ul>
