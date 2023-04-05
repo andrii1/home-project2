@@ -55,17 +55,27 @@ export const FrontPage = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const dropdownList = resultsHome.map((result) =>
-    Object.keys.length > 2 ? (
-      <Link to="/prompts" state={{ frontPageItem: result.id }}>
-        <li key={result.id}>{result.title}</li>
-      </Link>
-    ) : (
-      <Link to="/prompts" state={{ frontPageItem: result.id }}>
-        <li key={result.id}>{result.title}</li>
-      </Link>
-    ),
-  );
+  const dropdownList = resultsHome.map((result) => {
+    let finalResult;
+    if (Object.keys(result).length > 2) {
+      finalResult = (
+        <Link to="/prompts" state={{ frontPageItem: [result.id] }}>
+          <li key={result.id}>{result.title}</li>
+        </Link>
+      );
+    } else {
+      const relatedTopics = topics
+        .filter((topic) => topic.categoryId === result.id)
+        .map((item) => item.id);
+
+      finalResult = (
+        <Link to="/prompts" state={{ frontPageItem: relatedTopics }}>
+          <li key={result.id}>{result.title}</li>
+        </Link>
+      );
+    }
+    return finalResult;
+  });
   const cardItems = categories.map((category) => {
     const relatedTopics = topics
       .filter((topic) => topic.categoryId === category.id)
