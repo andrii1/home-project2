@@ -7,8 +7,9 @@ import { Card } from '../../components/Card/Card.component';
 export const FrontPage = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [categoriesHome, setCategoriesHome] = useState([]);
+  const [resultsHome, setResultsHome] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [topics, setTopics] = useState([]);
   useEffect(() => {
     async function fetchCategories() {
       const responseCategories = await fetch(`${apiURL()}/categories/`);
@@ -18,14 +19,14 @@ export const FrontPage = () => {
       const combinedArray = categoriesResponse.concat(topicsResponse);
       console.log('combined', combinedArray);
       if (searchTerms) {
-        const filteredCategoriesSearch = combinedArray.filter((item) =>
+        const filteredSearch = combinedArray.filter((item) =>
           item.title.toLowerCase().includes(searchTerms.toLowerCase()),
         );
-        setCategoriesHome(filteredCategoriesSearch);
+        setResultsHome(filteredSearch);
       } else if (showDropdown === true) {
-        setCategoriesHome(categoriesResponse);
+        setResultsHome(categoriesResponse);
       } else {
-        setCategoriesHome(categoriesResponse);
+        setResultsHome(categoriesResponse);
       }
     }
     fetchCategories();
@@ -37,7 +38,13 @@ export const FrontPage = () => {
       const categoriesResponse = await response.json();
       setCategories(categoriesResponse);
     }
+    async function fetchTopics() {
+      const response = await fetch(`${apiURL()}/topics/`);
+      const topicsResponse = await response.json();
+      setTopics(topicsResponse);
+    }
     fetchCategories();
+    fetchTopics();
   }, []);
 
   const handleSearch = (event) => {
@@ -48,14 +55,23 @@ export const FrontPage = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const dropdownList = categoriesHome.map((item) => (
-    <Link to="/prompts" state={{ frontPageItem: item }}>
-      <li key={item.id}>{item.title}</li>
-    </Link>
-  ));
-  const cardItems = categories.map((item) => (
-    <Card title={item.title} url={item} />
-  ));
+  const dropdownList = resultsHome.map((result) =>
+    Object.keys.length > 2 ? (
+      <Link to="/prompts" state={{ frontPageItem: result.id }}>
+        <li key={result.id}>{result.title}</li>
+      </Link>
+    ) : (
+      <Link to="/prompts" state={{ frontPageItem: result.id }}>
+        <li key={result.id}>{result.title}</li>
+      </Link>
+    ),
+  );
+  const cardItems = categories.map((category) => {
+    const relatedTopics = topics
+      .filter((topic) => topic.categoryId === category.id)
+      .map((item) => item.id);
+    return <Card title={category.title} url={relatedTopics} />;
+  });
   return (
     <main>
       <div className="hero">

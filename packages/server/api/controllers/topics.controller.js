@@ -8,10 +8,10 @@ const getTopics = async () => {
   try {
     const topics = await knex('topics')
       .select(
+        'topics.id as id',
+        'topics.title as title',
         'topics.category_id as categoryId',
         'categories.title as categoryTitle',
-        'topics.id as topicId',
-        'topics.title as topicTitle',
       )
       .join('categories', 'topics.category_id', '=', 'categories.id');
     return topics;

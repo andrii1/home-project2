@@ -14,24 +14,18 @@ export const Prompts = () => {
   window.history.replaceState({}, document.title);
   const location = useLocation();
   const { frontPageItem = '' } = location.state || {};
-  let initialStateCategories;
   let initialStateTopics;
   console.log(
     'frontPageItem',
     frontPageItem,
     Object.keys(frontPageItem).length,
   );
-  if (frontPageItem && Object.keys(frontPageItem).length > 2) {
-    initialStateTopics = [frontPageItem.id];
-    initialStateCategories = [];
-  } else if (frontPageItem && Object.keys(frontPageItem).length <= 2) {
-    initialStateCategories = [frontPageItem.id];
-    initialStateTopics = [];
+  if (frontPageItem) {
+    initialStateTopics = frontPageItem;
   } else {
-    initialStateCategories = [];
     initialStateTopics = [];
   }
-  console.log('initialStateCategories', initialStateCategories);
+
   const [isLoading, setIsLoading] = useState(false);
   const [prompts, setPrompts] = useState([]);
   const [orderBy, setOrderBy] = useState({
@@ -47,9 +41,7 @@ export const Prompts = () => {
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
 
-  const [filteredCategories, setFilteredCategories] = useState(
-    initialStateCategories,
-  );
+  const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState(initialStateTopics);
   const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');
@@ -109,9 +101,7 @@ export const Prompts = () => {
       if (searchedTopics) {
         const filteredTopicsSearch = topicsResponse.filter(
           (item) =>
-            item.topicTitle
-              .toLowerCase()
-              .includes(searchedTopics.toLowerCase()) ||
+            item.title.toLowerCase().includes(searchedTopics.toLowerCase()) ||
             item.categoryTitle
               .toLowerCase()
               .includes(searchedTopics.toLowerCase()),
@@ -125,8 +115,8 @@ export const Prompts = () => {
         const found = acc.find((a) => a.categoryId === d.categoryId);
         /* const value = { name: d.name, val: d.value }; */
         const value = {
-          topicId: d.topicId,
-          topicTitle: d.topicTitle,
+          id: d.id,
+          title: d.title,
           categoryId: d.categoryId,
           checked: false,
         }; // the element in data property
@@ -148,24 +138,24 @@ export const Prompts = () => {
       console.log('result', result);
       if (filteredTopics.length > 0) {
         const relatedCategory = topicsResponse
-          .filter((item) => filteredTopics.includes(item.topicId))
+          .filter((item) => filteredTopics.includes(item.id))
           .map((item) => item.categoryId);
         console.log('relatedCategory', relatedCategory);
         const filteredTopicsResult = topicsResponse.reduce((acc, d) => {
           const found = acc.find((a) => a.categoryId === d.categoryId);
           /* const value = { name: d.name, val: d.value }; */
           let value;
-          if (filteredTopics.includes(d.topicId)) {
+          if (filteredTopics.includes(d.id)) {
             value = {
-              topicId: d.topicId,
-              topicTitle: d.topicTitle,
+              id: d.id,
+              title: d.title,
               categoryId: d.categoryId,
               checked: true,
             };
           } else {
             value = {
-              topicId: d.topicId,
-              topicTitle: d.topicTitle,
+              id: d.id,
+              title: d.title,
               categoryId: d.categoryId,
               checked: false,
             };
@@ -175,7 +165,7 @@ export const Prompts = () => {
             /* acc.push(...value); */
             const relatedTopics = topicsResponse
               .filter((item) => item.categoryId === d.categoryId)
-              .map((item) => item.topicId);
+              .map((item) => item.id);
             const allFounded = relatedTopics.every((ai) =>
               filteredTopics.includes(ai),
             );
@@ -226,8 +216,8 @@ export const Prompts = () => {
               indeterminate: false,
               topics: item.topics.map((topic) => {
                 return {
-                  topicId: topic.topicId,
-                  topicTitle: topic.topicTitle,
+                  id: topic.id,
+                  title: topic.title,
                   checked: true,
                 };
               }),
@@ -240,8 +230,8 @@ export const Prompts = () => {
             indeterminate: false,
             topics: item.topics.map((topic) => {
               return {
-                topicId: topic.topicId,
-                topicTitle: topic.topicTitle,
+                id: topic.id,
+                title: topic.title,
                 checked: false,
               };
             }),
@@ -324,7 +314,7 @@ export const Prompts = () => {
     const topicsResponse = await response.json();
     const relatedTopics = topicsResponse
       .filter((item) => item.categoryId === categoryId)
-      .map((item) => item.topicId);
+      .map((item) => item.id);
     return relatedTopics;
   };
   console.log('filteredTopics', filteredTopics);
@@ -404,14 +394,14 @@ export const Prompts = () => {
       />
       <ul>
         {category.topics.map((topic) => (
-          <li key={topic.topicId}>
+          <li key={topic.id}>
             <input
               type="checkbox"
               checked={topic.checked}
-              value={topic.topicId}
+              value={topic.id}
               onChange={filterHandlerTopics}
             />{' '}
-            {topic.topicTitle}
+            {topic.title}
           </li>
         ))}
       </ul>
