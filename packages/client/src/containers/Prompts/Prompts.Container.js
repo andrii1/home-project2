@@ -318,7 +318,6 @@ export const Prompts = () => {
       );
     }
   };
-  console.log('filteredTopics1', filteredTopics);
 
   const filterHandlerTopics = (event) => {
     if (event.target.checked) {
@@ -388,7 +387,6 @@ export const Prompts = () => {
   const toggleTopicsList = (id) => {
     if (!topicsListActive.includes(id)) {
       setTopicsListActive([...topicsListActive, parseInt(id, 10)]);
-      console.log('event', id);
     } else {
       setTopicsListActive(
         topicsListActive.filter(
@@ -397,8 +395,6 @@ export const Prompts = () => {
       );
     }
   };
-
-  console.log('topicshandle', topics);
 
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
@@ -425,6 +421,7 @@ export const Prompts = () => {
         label={category.categoryTitle}
         indeterminate={category.indeterminate}
         className="category-list"
+        active={category.active}
         toggleTopicsList={() => toggleTopicsList(category.categoryId)}
       />
       <ul

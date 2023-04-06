@@ -164,21 +164,8 @@
   padding: 1.2rem 0.7rem 1.2rem 0.7rem;
 }
 
-.category-list::after {
-  content: '\2304';
-  margin-right: 0.1rem;
-  position: absolute;
-  margin-top: -0.6rem;
-  font-size: 1.3rem;
-  margin-left: 15.5rem;
-}
-
 ul.topics-disabled {
   display: none;
-}
-
-li.category {
-  cursor: pointer;
 }
 
 ul.topics-list {

@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import './Checkbox.styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Primary UI component for user interaction
@@ -12,6 +15,7 @@ export const Checkbox = ({
   checked,
   className,
   toggleTopicsList,
+  active,
   ...props
 }) => {
   const cRef = useRef();
@@ -21,7 +25,7 @@ export const Checkbox = ({
   }, [cRef, indeterminate]);
 
   return (
-    <>
+    <div className="category-input">
       <input
         type="checkbox"
         value={value}
@@ -30,9 +34,13 @@ export const Checkbox = ({
         ref={cRef}
         className={className}
       />{' '}
-      <a>
-        <span onClick={toggleTopicsList}>{label}</span>
-      </a>
-    </>
+      <div className="label" onClick={toggleTopicsList}>
+        <span>{label}</span>
+        <FontAwesomeIcon
+          icon={faChevronDown}
+          className={`chevron ${active ? 'open' : ''}`}
+        />
+      </div>
+    </div>
   );
 };
