@@ -27,7 +27,7 @@ export const Prompts = () => {
   }
 
   const [isLoading, setIsLoading] = useState(false);
-  const [topicsListActive, setTopicsListActive] = useState(false);
+  const [topicsListActive, setTopicsListActive] = useState('');
   const [prompts, setPrompts] = useState([]);
   const [orderBy, setOrderBy] = useState({
     column: 'prompts.id',
@@ -110,7 +110,7 @@ export const Prompts = () => {
       } else {
         topicsAfterSearch = topicsResponse;
       }
-      const result = topicsAfterSearch.reduce((acc, d) => {
+      const result1 = topicsAfterSearch.reduce((acc, d) => {
         const found = acc.find((a) => a.categoryId === d.categoryId);
         /* const value = { name: d.name, val: d.value }; */
         const value = {
@@ -126,6 +126,7 @@ export const Prompts = () => {
             categoryTitle: d.categoryTitle,
             checked: false,
             indeterminate: false,
+            active: false,
             topics: [value],
           }); // not found, so need to add data property
         } else {
@@ -134,77 +135,93 @@ export const Prompts = () => {
         }
         return acc;
       }, []);
-      console.log('result', result);
-      if (filteredTopics.length > 0) {
-        const relatedCategory = topicsResponse
-          .filter((item) => filteredTopics.includes(item.id))
-          .map((item) => item.categoryId);
-        console.log('relatedCategory', relatedCategory);
-        const filteredTopicsResult = topicsResponse.reduce((acc, d) => {
-          const found = acc.find((a) => a.categoryId === d.categoryId);
-          /* const value = { name: d.name, val: d.value }; */
-          let value;
-          if (filteredTopics.includes(d.id)) {
-            value = {
-              id: d.id,
-              title: d.title,
-              categoryId: d.categoryId,
-              checked: true,
+
+      let result;
+      if (topicsListActive) {
+        const activeTopics = result1.map((category) => {
+          if (topicsListActive.includes(category.categoryId)) {
+            return {
+              categoryId: category.categoryId,
+              categoryTitle: category.categoryTitle,
+              checked: category.checked,
+              indeterminate: category.indeterminate,
+              active: !category.active,
+              topics: category.topics,
             };
-          } else {
-            value = {
-              id: d.id,
-              title: d.title,
-              categoryId: d.categoryId,
+          }
+          return {
+            categoryId: category.categoryId,
+            categoryTitle: category.categoryTitle,
+            checked: category.checked,
+            indeterminate: category.indeterminate,
+            active: category.active,
+            topics: category.topics,
+          };
+        });
+        result = activeTopics;
+      } else {
+        result = result1;
+      }
+      if (filteredTopics.length > 0) {
+        const filteredTopicsResult = result.map((category) => {
+          const topicsList = category.topics.map((topic) => {
+            if (filteredTopics.includes(topic.id)) {
+              return {
+                id: topic.id,
+                title: topic.title,
+                categoryId: topic.categoryId,
+                checked: true,
+              };
+            }
+            return {
+              id: topic.id,
+              title: topic.title,
+              categoryId: topic.categoryId,
               checked: false,
             };
+          });
+
+          const relatedTopics = topicsResponse
+            .filter((item) => item.categoryId === category.categoryId)
+            .map((item) => item.id);
+          const allFounded = relatedTopics.every((ai) =>
+            filteredTopics.includes(ai),
+          );
+          const someFounded = relatedTopics.some((ai) =>
+            filteredTopics.includes(ai),
+          );
+
+          if (allFounded) {
+            return {
+              categoryId: category.categoryId,
+              categoryTitle: category.categoryTitle,
+              checked: true,
+              indeterminate: false,
+              active: category.active,
+              topics: topicsList,
+            };
           }
-          // the element in data property
-          if (!found) {
-            /* acc.push(...value); */
-            const relatedTopics = topicsResponse
-              .filter((item) => item.categoryId === d.categoryId)
-              .map((item) => item.id);
-            const allFounded = relatedTopics.every((ai) =>
-              filteredTopics.includes(ai),
-            );
-            const someFounded = relatedTopics.some((ai) =>
-              filteredTopics.includes(ai),
-            );
-            console.log('allFounded', allFounded);
-            if (allFounded) {
-              acc.push({
-                categoryId: d.categoryId,
-                categoryTitle: d.categoryTitle,
-                checked: true,
-                indeterminate: false,
-                topics: [value],
-              }); // not found, so need to add data property
-            } else if (someFounded) {
-              acc.push({
-                categoryId: d.categoryId,
-                categoryTitle: d.categoryTitle,
-                checked: false,
-                indeterminate: true,
-                topics: [value],
-              }); // not found, so need to add data property
-            } else {
-              acc.push({
-                categoryId: d.categoryId,
-                categoryTitle: d.categoryTitle,
-                checked: false,
-                indeterminate: false,
-                topics: [value],
-              }); // not found, so need to add data property
-            }
-          } else {
-            /* acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] }); */
-            found.topics.push(value); // if found, that means data property exists, so just push new element to found.data.
+          if (someFounded) {
+            return {
+              categoryId: category.categoryId,
+              categoryTitle: category.categoryTitle,
+              checked: false,
+              indeterminate: true,
+              active: category.active,
+              topics: topicsList,
+            };
           }
-          return acc;
-        }, []);
+          return {
+            categoryId: category.categoryId,
+            categoryTitle: category.categoryTitle,
+            checked: false,
+            indeterminate: false,
+            active: category.active,
+            topics: topicsList,
+          };
+        });
+
         setTopics(filteredTopicsResult);
-        console.log('filteredTopicsResult', filteredTopicsResult);
       } else if (filteredCategories.length > 0) {
         const updatedCategories = result.map((item) => {
           if (filteredCategories.includes(item.categoryId)) {
@@ -213,6 +230,7 @@ export const Prompts = () => {
               categoryTitle: item.categoryTitle,
               checked: true,
               indeterminate: false,
+              active: item.active,
               topics: item.topics.map((topic) => {
                 return {
                   id: topic.id,
@@ -227,6 +245,7 @@ export const Prompts = () => {
             categoryTitle: item.categoryTitle,
             checked: false,
             indeterminate: false,
+            active: item.active,
             topics: item.topics.map((topic) => {
               return {
                 id: topic.id,
@@ -277,7 +296,12 @@ export const Prompts = () => {
     controller,
     orderBy,
     searchedPrompts,
+    topicsListActive,
   ]);
+
+  useEffect(() => {
+    //Runs only on the first render
+  }, []);
 
   const filterHandlerCategories = async (event) => {
     if (event.target.checked) {
@@ -318,9 +342,6 @@ export const Prompts = () => {
   };
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
-  };
-  const handleSearchCategories = (event) => {
-    setSearchedCategories(event.target.value);
   };
   const handleSearchTopics = (event) => {
     setSearchedTopics(event.target.value);
@@ -364,9 +385,20 @@ export const Prompts = () => {
     setOrderBy({ column: id, direction, class: sortClass });
   };
 
-  const toggleTopicsList = () => {
-    setTopicsListActive(!topicsListActive);
+  const toggleTopicsList = (id) => {
+    if (!topicsListActive.includes(id)) {
+      setTopicsListActive([...topicsListActive, parseInt(id, 10)]);
+      console.log('event', id);
+    } else {
+      setTopicsListActive(
+        topicsListActive.filter(
+          (activeTopic) => activeTopic !== parseInt(id, 10),
+        ),
+      );
+    }
   };
+
+  console.log('topicshandle', topics);
 
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
@@ -385,11 +417,7 @@ export const Prompts = () => {
     </div>
   ));
   const categoriesList = topics.map((category) => (
-    <li
-      key={category.categoryId}
-      className="category"
-      onClick={toggleTopicsList}
-    >
+    <li key={category.categoryId} className="category">
       <Checkbox
         checked={category.checked}
         value={category.categoryId}
@@ -397,10 +425,11 @@ export const Prompts = () => {
         label={category.categoryTitle}
         indeterminate={category.indeterminate}
         className="category-list"
+        toggleTopicsList={() => toggleTopicsList(category.categoryId)}
       />
       <ul
         className={`topics-list ${
-          topicsListActive ? 'topics-active' : 'topics-disabled'
+          category.active ? 'topics-active' : 'topics-disabled'
         }`}
       >
         {category.topics.map((topic) => (

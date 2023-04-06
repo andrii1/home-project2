@@ -11,6 +11,7 @@ export const Checkbox = ({
   onChange,
   checked,
   className,
+  toggleTopicsList,
   ...props
 }) => {
   const cRef = useRef();
@@ -29,7 +30,9 @@ export const Checkbox = ({
         ref={cRef}
         className={className}
       />{' '}
-      <span>{label}</span>
+      <a>
+        <span onClick={toggleTopicsList}>{label}</span>
+      </a>
     </>
   );
 };
