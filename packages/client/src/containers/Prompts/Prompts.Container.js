@@ -27,6 +27,7 @@ export const Prompts = () => {
   }
 
   const [isLoading, setIsLoading] = useState(false);
+  const [topicsListActive, setTopicsListActive] = useState(false);
   const [prompts, setPrompts] = useState([]);
   const [orderBy, setOrderBy] = useState({
     column: 'prompts.id',
@@ -315,7 +316,6 @@ export const Prompts = () => {
       .map((item) => item.id);
     return relatedTopics;
   };
-  console.log('filteredTopics', filteredTopics);
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
   };
@@ -325,7 +325,6 @@ export const Prompts = () => {
   const handleSearchTopics = (event) => {
     setSearchedTopics(event.target.value);
   };
-  console.log('searchedTopics', searchedTopics);
   const handlePageChange = (event, newPage) => {
     setController({
       ...controller,
@@ -365,6 +364,10 @@ export const Prompts = () => {
     setOrderBy({ column: id, direction, class: sortClass });
   };
 
+  const toggleTopicsList = () => {
+    setTopicsListActive(!topicsListActive);
+  };
+
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">
@@ -382,7 +385,11 @@ export const Prompts = () => {
     </div>
   ));
   const categoriesList = topics.map((category) => (
-    <li key={category.categoryId}>
+    <li
+      key={category.categoryId}
+      className="category"
+      onClick={toggleTopicsList}
+    >
       <Checkbox
         checked={category.checked}
         value={category.categoryId}
@@ -391,7 +398,11 @@ export const Prompts = () => {
         indeterminate={category.indeterminate}
         className="category-list"
       />
-      <ul>
+      <ul
+        className={`topics-list ${
+          topicsListActive ? 'topics-active' : 'topics-disabled'
+        }`}
+      >
         {category.topics.map((topic) => (
           <li key={topic.id}>
             <input
