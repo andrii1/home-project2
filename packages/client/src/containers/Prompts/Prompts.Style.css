@@ -52,19 +52,22 @@
 .col-4,
 .col-5,
 .col-6,
-.col-7,
-.col-8 {
+.col-7 {
   padding: 0rem 0.1rem;
+  border: 1px solid blue;
 }
 
 .col-1 {
-  flex: 0 0 35%;
+  flex: 0 0 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .col-2 {
-  flex: 0 0 10%;
+  flex: 0 0 12%;
 }
 .col-3 {
-  flex: 0 0 10%;
+  flex: 0 0 11%;
 }
 .col-4 {
   flex: 0 0 10%;
@@ -76,10 +79,7 @@
   flex: 0 0 10%;
 }
 .col-7 {
-  flex: 0 0 10%;
-}
-.col-8 {
-  flex: 0 0 7.5%;
+  flex: 0 0 7%;
 }
 
 .sort-icon {
@@ -89,27 +89,25 @@
 .sort-div {
   display: inline-block;
   cursor: pointer;
+  margin-left: -0.4rem;
 }
-
-.arrows-up-down::before {
-  background-image: url('../../assets/images/arrowsupdown.png');
-  background-size: 13px 10px;
+.icon-copy {
+  width: 0.8rem;
+  filter: hue-rotate(180deg);
+}
+.sort-icon {
+  margin-right: 0.2rem;
   display: inline-block;
-  width: 13px;
-  height: 10px;
-  content: '';
-  background-repeat: no-repeat;
-  margin-right: 0.1rem;
+  width: 0.6rem;
+}
+.arrow-down {
+  transform: rotate(180deg);
+  transition: transform 0.4s linear;
 }
 
-.arrow-up::before {
-  content: '\2191';
-  margin-right: 0.1rem;
-}
-
-.arrow-down::before {
-  content: '\2193';
-  margin-right: 0.1rem;
+.arrow-up {
+  transform: rotate(0deg);
+  transition: transform 0.4s linear;
 }
 
 .tab-filter {
@@ -130,7 +128,7 @@
 }
 
 .checkboxes ul li {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.4rem !important;
   margin-right: 1rem !important;
   margin-left: 1rem !important;
 }
@@ -170,4 +168,14 @@ ul.topics-disabled {
 
 ul.topics-list {
   cursor: auto;
+  margin: 0.5rem 0rem;
+  padding: 0rem;
+}
+
+.icons-prompts {
+  display: flex;
+  gap: 0.2rem;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.3rem;
 }

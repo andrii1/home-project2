@@ -1,5 +1,6 @@
 .category-input {
   display: flex;
+  gap: 0.2rem;
 }
 
 .category-input .label {

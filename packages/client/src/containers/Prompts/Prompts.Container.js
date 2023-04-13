@@ -4,7 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faArrowUp,
+  faArrowsUpDown,
+  faArrowUpRightFromSquare,
+} from '@fortawesome/free-solid-svg-icons';
+import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { apiURL } from '../../apiURL';
 import { Checkbox } from '../../components/Checkbox/Checkbox.component';
 import './Prompts.Style.css';
@@ -255,13 +261,10 @@ export const Prompts = () => {
             }),
           };
         });
-        console.log('updatedCategories', updatedCategories);
         setTopics(updatedCategories);
       } else {
         setTopics(result);
       }
-
-      console.log('categoriesAndTopics', result);
       /* if (filteredCategories.length > 0 && searchedTopics.length > 0) {
         const relatedPrompts = topicsResponse.filter((item) =>
           filteredCategories.includes(item.category_id),
@@ -299,9 +302,10 @@ export const Prompts = () => {
     topicsListActive,
   ]);
 
+  /*
   useEffect(() => {
     //Runs only on the first render
-  }, []);
+  }, []); */
 
   const filterHandlerCategories = async (event) => {
     if (event.target.checked) {
@@ -402,14 +406,18 @@ export const Prompts = () => {
         <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
           {prompt.title}
         </Link>
+        <div className="icons-prompts">
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          <img src={iconCopy} alt="copy" className="icon-copy" />
+        </div>
       </div>
-      <div className="col-2">Desc</div>
-      <div className="col-3">{prompt.categoryTitle}</div>
-      <div className="col-4">{prompt.topicTitle}</div>
-      <div className="col-5">Rating</div>
-      <div className="col-6">👍 / 👎</div>
-      <div className="col-7">❤️</div>
-      <div className="col-8">fb</div>
+
+      <div className="col-2">{prompt.categoryTitle}</div>
+      <div className="col-3">{prompt.topicTitle}</div>
+      {/*<div className="col-4">Rating</div>
+      <div className="col-5">👍 / 👎</div>*/}
+      <div className="col-6">❤️</div>
+      <div className="col-7">fb</div>
     </div>
   ));
   const categoriesList = topics.map((category) => (
@@ -476,50 +484,68 @@ export const Prompts = () => {
             <div className="row prompts-header">
               <div className="col-1">
                 <div
-                  className={`sort-div ${
-                    orderBy.column === 'prompts.title'
-                      ? orderBy.class
-                      : 'arrows-up-down'
-                  }`}
+                  className="sort-div"
                   id="prompts.title"
                   onClick={sortHandler}
                 >
+                  <FontAwesomeIcon
+                    className={`sort-icon ${
+                      orderBy.column === 'prompts.title' ? orderBy.class : ''
+                    }`}
+                    icon={
+                      orderBy.column === 'prompts.title'
+                        ? faArrowUp
+                        : faArrowsUpDown
+                    }
+                  />
                   Prompt
                 </div>
               </div>
-              <div className="col-2">Description</div>
-              <div className="col-3">
+
+              <div className="col-2">
                 <div
-                  className={`sort-div ${
-                    orderBy.column === 'categories.title'
-                      ? orderBy.class
-                      : 'arrows-up-down'
-                  }`}
+                  className="sort-div"
                   id="categories.title"
                   onClick={sortHandler}
                 >
+                  <FontAwesomeIcon
+                    className={`sort-icon ${
+                      orderBy.column === 'categories.title' ? orderBy.class : ''
+                    }`}
+                    icon={
+                      orderBy.column === 'categories.title'
+                        ? faArrowUp
+                        : faArrowsUpDown
+                    }
+                  />
                   Category
                 </div>
               </div>
-              <div className="col-4">
+              <div className="col-3">
                 <div
-                  className={`sort-div ${
-                    orderBy.column === 'topics.title'
-                      ? orderBy.class
-                      : 'arrows-up-down'
-                  }`}
+                  className="sort-div"
                   id="topics.title"
                   onClick={sortHandler}
                 >
+                  <FontAwesomeIcon
+                    className={`sort-icon ${
+                      orderBy.column === 'topics.title' ? orderBy.class : ''
+                    }`}
+                    icon={
+                      orderBy.column === 'topics.title'
+                        ? faArrowUp
+                        : faArrowsUpDown
+                    }
+                  />
                   Topic
                 </div>
               </div>
-              <div className="col-5">
+              {/*<div className="col-4">
                 <div id="ratings">Rating</div>
               </div>
-              <div className="col-6">Helpful?</div>
-              <div className="col-7">Bookmark</div>
-              <div className="col-8">Share</div>
+                  <div className="col-5">Helpful?</div>*/}
+              <div className="col-6">Bookmark</div>
+              <div className="col-7">Share</div>
             </div>
             {promptsList}
           </div>
