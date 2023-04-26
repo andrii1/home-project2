@@ -95,8 +95,7 @@
   margin-left: -0.4rem;
 }
 .icon-copy {
-  width: 0.8rem;
-  filter: hue-rotate(180deg);
+  width: 0.9rem;
 }
 .sort-icon {
   margin-right: 0.2rem;
@@ -195,6 +194,7 @@ ul.topics-list {
   border: none !important;
   cursor: pointer;
   padding: 0rem;
+  background: none;
 }
 
 .share-icon {

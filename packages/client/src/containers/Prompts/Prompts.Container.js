@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,6 +10,7 @@ import {
   faArrowUp,
   faArrowsUpDown,
   faArrowUpRightFromSquare,
+  faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebookF,
@@ -482,112 +484,119 @@ export const Prompts = () => {
   ));
 
   return (
-    <main>
-      <h1 className="hero-header">Prompts</h1>
+    <>
+      <Helmet>
+        <title>Prompt library</title>
+      </Helmet>
+      <main>
+        <h1 className="hero-header">Prompts</h1>
 
-      <section className="container-prompts">
-        <div className="prompts-filter">
-          <div className="tab-filter">Categories and Topics</div>
-          <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
-          <input
-            type="text"
-            placeholder="Search categories or topics"
-            className="input-search"
-            onChange={handleSearchTopics}
-          />
-          <div className="checkboxes">
-            <ul className="checkboxes-list">{categoriesList}</ul>
-          </div>
-        </div>
-        <div className="prompts-container">
-          <div className="prompts-search">
-            <FontAwesomeIcon className="search-icon" icon={faSearch} />
+        <section className="container-prompts">
+          <div className="prompts-filter">
+            <div className="tab-filter">Categories and Topics</div>
+            <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
             <input
               type="text"
-              placeholder="Search prompts"
-              className="input-search-prompts"
-              onChange={handleSearchPrompts}
+              placeholder="Search categories or topics"
+              className="input-search"
+              onChange={handleSearchTopics}
             />
+            <div className="checkboxes">
+              <ul className="checkboxes-list">{categoriesList}</ul>
+            </div>
           </div>
-          <div className="prompts-table">
-            <div className="row prompts-header">
-              <div className="col-1">
-                <div
-                  className="sort-div"
-                  id="prompts.title"
-                  onClick={sortHandler}
-                >
-                  <FontAwesomeIcon
-                    className={`sort-icon ${
-                      orderBy.column === 'prompts.title' ? orderBy.class : ''
-                    }`}
-                    icon={
-                      orderBy.column === 'prompts.title'
-                        ? faArrowUp
-                        : faArrowsUpDown
-                    }
-                  />
-                  Prompt
+          <div className="prompts-container">
+            <div className="prompts-search">
+              <FontAwesomeIcon className="search-icon" icon={faSearch} />
+              <input
+                type="text"
+                placeholder="Search prompts"
+                className="input-search-prompts"
+                onChange={handleSearchPrompts}
+              />
+            </div>
+            <div className="prompts-table">
+              <div className="row prompts-header">
+                <div className="col-1">
+                  <div
+                    className="sort-div"
+                    id="prompts.title"
+                    onClick={sortHandler}
+                  >
+                    <FontAwesomeIcon
+                      className={`sort-icon ${
+                        orderBy.column === 'prompts.title' ? orderBy.class : ''
+                      }`}
+                      icon={
+                        orderBy.column === 'prompts.title'
+                          ? faArrowUp
+                          : faArrowsUpDown
+                      }
+                    />
+                    Prompt
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-2">
-                <div
-                  className="sort-div"
-                  id="categories.title"
-                  onClick={sortHandler}
-                >
-                  <FontAwesomeIcon
-                    className={`sort-icon ${
-                      orderBy.column === 'categories.title' ? orderBy.class : ''
-                    }`}
-                    icon={
-                      orderBy.column === 'categories.title'
-                        ? faArrowUp
-                        : faArrowsUpDown
-                    }
-                  />
-                  Category
+                <div className="col-2">
+                  <div
+                    className="sort-div"
+                    id="categories.title"
+                    onClick={sortHandler}
+                  >
+                    <FontAwesomeIcon
+                      className={`sort-icon ${
+                        orderBy.column === 'categories.title'
+                          ? orderBy.class
+                          : ''
+                      }`}
+                      icon={
+                        orderBy.column === 'categories.title'
+                          ? faArrowUp
+                          : faArrowsUpDown
+                      }
+                    />
+                    Category
+                  </div>
                 </div>
-              </div>
-              <div className="col-3">
-                <div
-                  className="sort-div"
-                  id="topics.title"
-                  onClick={sortHandler}
-                >
-                  <FontAwesomeIcon
-                    className={`sort-icon ${
-                      orderBy.column === 'topics.title' ? orderBy.class : ''
-                    }`}
-                    icon={
-                      orderBy.column === 'topics.title'
-                        ? faArrowUp
-                        : faArrowsUpDown
-                    }
-                  />
-                  Topic
+                <div className="col-3">
+                  <div
+                    className="sort-div"
+                    id="topics.title"
+                    onClick={sortHandler}
+                  >
+                    <FontAwesomeIcon
+                      className={`sort-icon ${
+                        orderBy.column === 'topics.title' ? orderBy.class : ''
+                      }`}
+                      icon={
+                        orderBy.column === 'topics.title'
+                          ? faArrowUp
+                          : faArrowsUpDown
+                      }
+                    />
+                    Topic
+                  </div>
                 </div>
-              </div>
-              {/*<div className="col-4">
+                {/*<div className="col-4">
                 <div id="ratings">Rating</div>
               </div>
                   <div className="col-5">Helpful?</div>
               <div className="col-6">Bookmark</div>*/}
-              <div className="col-7">Share</div>
+                <div className="col-7">Share</div>
+              </div>
+              {promptsList}
             </div>
-            {promptsList}
           </div>
-        </div>
-      </section>
-      <TablePagination
-        component="div"
-        onPageChange={handlePageChange}
-        page={controller.page}
-        count={promptsCount}
-        rowsPerPage={controller.rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </main>
+        </section>
+        <TablePagination
+          component="div"
+          onPageChange={handlePageChange}
+          page={controller.page}
+          count={promptsCount}
+          rowsPerPage={controller.rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </main>
+    </>
   );
 };

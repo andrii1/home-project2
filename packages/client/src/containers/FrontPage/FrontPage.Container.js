@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import './FrontPage.Style.css';
 import { apiURL } from '../../apiURL';
 import { Card } from '../../components/Card/Card.component';
@@ -86,6 +87,11 @@ export const FrontPage = () => {
   });
   return (
     <main>
+      <Helmet>
+        <title>
+          Prompt library - 3500+ GPT prompts, 110 topics, 22 categories
+        </title>
+      </Helmet>
       <div className="hero">
         <h1>Find best GPT prompts</h1>
         <p className="subheading">3500+ prompts, 110 topics, 22 categories</p>
