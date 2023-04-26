@@ -415,8 +415,14 @@ export const Prompts = () => {
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
-      <div className="col-2">{prompt.categoryTitle}</div>
-      <div className="col-3">{prompt.topicTitle}</div>
+      <div className="col-2">
+        <span className="prompt-additional-text">Category:&nbsp;</span>
+        {prompt.categoryTitle}
+      </div>
+      <div className="col-3">
+        <span className="prompt-additional-text">Topic:&nbsp;</span>
+        {prompt.topicTitle}
+      </div>
       {/*<div className="col-4">Rating</div>
       <div className="col-5">👍 / 👎</div>
       <div className="col-6">❤️</div>*/}
@@ -434,17 +440,21 @@ export const Prompts = () => {
           <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
-          <FacebookShareButton url={'https://www.example.com'}>
+          <FacebookShareButton
+            url={`https://www.example.com/prompts/${prompt.id}`}
+          >
             <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
           </FacebookShareButton>
           <TwitterShareButton
-            url={'https://www.example.com'}
+            url={`https://www.example.com/prompts/${prompt.id}`}
             title={`Check out this GPT prompt: '${prompt.title}'`}
             hashtags={['prompts']}
           >
             <FontAwesomeIcon className="share-icon" icon={faTwitter} />
           </TwitterShareButton>
-          <LinkedinShareButton url={'https://www.example.com'}>
+          <LinkedinShareButton
+            url={`https://www.example.com/prompts/${prompt.id}`}
+          >
             <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
           </LinkedinShareButton>
         </div>
