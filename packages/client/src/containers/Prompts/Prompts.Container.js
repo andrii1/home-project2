@@ -10,6 +10,16 @@ import {
   faArrowsUpDown,
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFacebookF,
+  faTwitter,
+  faLinkedinIn,
+} from '@fortawesome/free-brands-svg-icons';
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+} from 'react-share';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { apiURL } from '../../apiURL';
 import { Checkbox } from '../../components/Checkbox/Checkbox.component';
@@ -402,12 +412,14 @@ export const Prompts = () => {
 
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
-      <div className="col-1">
-        {prompt.title}
+      <div className="col-1">{prompt.title}</div>
+      <div className="col-2">{prompt.categoryTitle}</div>
+      <div className="col-3">{prompt.topicTitle}</div>
+      {/*<div className="col-4">Rating</div>
+      <div className="col-5">👍 / 👎</div>
+      <div className="col-6">❤️</div>*/}
+      <div className="col-7">
         <div className="icons-prompts">
-          <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-          </Link>
           <button
             type="button"
             className="button-copy"
@@ -417,15 +429,24 @@ export const Prompts = () => {
           >
             <img src={iconCopy} alt="copy" className="icon-copy" />
           </button>
+          <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          </Link>
+          <FacebookShareButton url={'https://www.example.com'}>
+            <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
+          </FacebookShareButton>
+          <TwitterShareButton
+            url={'https://www.example.com'}
+            title={`Check out this GPT prompt: '${prompt.title}'`}
+            hashtags={['prompts']}
+          >
+            <FontAwesomeIcon className="share-icon" icon={faTwitter} />
+          </TwitterShareButton>
+          <LinkedinShareButton url={'https://www.example.com'}>
+            <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
+          </LinkedinShareButton>
         </div>
       </div>
-
-      <div className="col-2">{prompt.categoryTitle}</div>
-      <div className="col-3">{prompt.topicTitle}</div>
-      {/*<div className="col-4">Rating</div>
-      <div className="col-5">👍 / 👎</div>*/}
-      <div className="col-6">❤️</div>
-      <div className="col-7">fb</div>
     </div>
   ));
   const categoriesList = topics.map((category) => (
@@ -551,8 +572,8 @@ export const Prompts = () => {
               {/*<div className="col-4">
                 <div id="ratings">Rating</div>
               </div>
-                  <div className="col-5">Helpful?</div>*/}
-              <div className="col-6">Bookmark</div>
+                  <div className="col-5">Helpful?</div>
+              <div className="col-6">Bookmark</div>*/}
               <div className="col-7">Share</div>
             </div>
             {promptsList}

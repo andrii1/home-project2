@@ -61,7 +61,7 @@
 }
 
 .col-1 {
-  flex: 0 0 60%;
+  flex: 0 0 63%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,7 +82,7 @@
   flex: 0 0 10%;
 }
 .col-7 {
-  flex: 0 0 7%;
+  flex: 0 0 14%;
 }
 
 .sort-icon {
@@ -195,4 +195,8 @@ ul.topics-list {
   border: none !important;
   cursor: pointer;
   padding: 0rem;
+}
+
+.share-icon {
+  color: #000;
 }
