@@ -403,12 +403,20 @@ export const Prompts = () => {
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">
-        <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
-          {prompt.title}
-        </Link>
+        {prompt.title}
         <div className="icons-prompts">
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-          <img src={iconCopy} alt="copy" className="icon-copy" />
+          <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          </Link>
+          <button
+            type="button"
+            className="button-copy"
+            onClick={() => {
+              navigator.clipboard.writeText(prompt.title);
+            }}
+          >
+            <img src={iconCopy} alt="copy" className="icon-copy" />
+          </button>
         </div>
       </div>
 
