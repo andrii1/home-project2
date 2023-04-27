@@ -54,7 +54,7 @@ export const PromptView = () => {
 
         <section className="container-prompt">
           <div>
-            <p>{prompt.title}</p>
+            <p className="prompt-title-view">{prompt.title}</p>
             <h3>Category</h3>
             <p>{prompt.categoryTitle}</p>
             <h3>Topic</h3>

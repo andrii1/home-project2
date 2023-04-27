@@ -208,13 +208,13 @@ ul.topics-list {
   display: none;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 992px) {
   .container-prompts {
     flex-direction: column;
   }
   .navigation,
-  .menu ul,
-  .nav-buttons ul {
+  .navigation .menu ul,
+  .navigation .nav-buttons ul {
     flex-direction: column;
   }
 
