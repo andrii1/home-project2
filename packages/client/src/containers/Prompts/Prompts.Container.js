@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { ExportCsv } from '../../utils/ExportCsv';
+import './Prompts.Style.css';
 import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -53,6 +55,7 @@ export const Prompts = () => {
     class: 'arrow-up',
   });
   const [promptsCount, setPromptsCount] = useState(0);
+  const [promptsExport, setPromptsExport] = useState([]);
   const [controller, setController] = useState({
     page: 0,
     rowsPerPage: 50,
@@ -94,8 +97,10 @@ export const Prompts = () => {
       const url = `${apiURL()}/prompts/${urlFilters}`;
       const response = await fetch(url);
       const promptsResponse = await response.json();
+      console.log('promptsResponse', promptsResponse);
       setPromptsCount(promptsResponse.totalCount);
       setPrompts(promptsResponse.data);
+      setPromptsExport(promptsResponse.dataExport);
     }
 
     async function fetchCategories() {
@@ -313,7 +318,7 @@ export const Prompts = () => {
     searchedPrompts,
     topicsListActive,
   ]);
-
+  console.log('promptsExport', promptsExport);
   /*
   useEffect(() => {
     //Runs only on the first render
@@ -411,7 +416,7 @@ export const Prompts = () => {
       );
     }
   };
-
+  console.log('prompts', prompts);
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
@@ -493,6 +498,37 @@ export const Prompts = () => {
     </li>
   ));
 
+  const excelData = [
+    {
+      color: 'red',
+      value: '#f00',
+    },
+    {
+      color: 'green',
+      value: '#0f0',
+    },
+    {
+      color: 'blue',
+      value: '#00f',
+    },
+    {
+      color: 'cyan',
+      value: '#0ff',
+    },
+    {
+      color: 'magenta',
+      value: '#f0f',
+    },
+    {
+      color: 'yellow',
+      value: '#ff0',
+    },
+    {
+      color: 'black',
+      value: '#000',
+    },
+  ];
+
   return (
     <>
       <Helmet>
@@ -525,6 +561,7 @@ export const Prompts = () => {
                 onChange={handleSearchPrompts}
               />
             </div>
+            <ExportCsv excelData={excelData} fileName="Excel Export" />
             <div className="prompts-table">
               <div className="row prompts-header">
                 <div className="col-1">
