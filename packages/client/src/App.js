@@ -7,29 +7,34 @@ import { TestPage } from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
 import { PromptView } from './containers/PromptView/PromptView.container';
 import { Signup } from './containers/Signup/Signup.Container';
-import { Login } from './containers/Login/Login.Container';
+import Login from './containers/Login/Login.Container';
+import Reset from './containers/Reset/Reset.Container';
 import { About } from './containers/About/About.container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
+import { UserProvider } from './userContext';
 
 function App() {
   return (
     <div className="app">
       <Router>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<FrontPage />} />
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="/test" element={<TestPage />} />
-          <Route path="/prompts" element={<Prompts />} />
-          <Route exact path="/prompts/:id" element={<PromptView />} />
-          <Route exact path="/about" element={<About />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-        <Footer />
+        <UserProvider>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<FrontPage />} />
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/prompts" element={<Prompts />} />
+            <Route exact path="/prompts/:id" element={<PromptView />} />
+            <Route exact path="/about" element={<About />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/signup" element={<Signup />} />
+            <Route exact path="/reset" element={<Reset />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+          <Footer />
+        </UserProvider>
       </Router>
     </div>
   );

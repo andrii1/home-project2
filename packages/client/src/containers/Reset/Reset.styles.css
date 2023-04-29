@@ -1,24 +1,23 @@
-.register {
+.reset {
+  height: 100vh;
   width: 100vw;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.register__container {
+.reset__container {
   display: flex;
   flex-direction: column;
   text-align: center;
   background-color: #dcdcdc;
   padding: 30px;
-  margin-top: 8rem;
 }
-.register__textBox {
+.reset__textBox {
   padding: 10px;
   font-size: 18px;
   margin-bottom: 10px;
 }
-.register__btn {
+.reset__btn {
   padding: 10px;
   font-size: 18px;
   margin-bottom: 10px;
@@ -26,9 +25,6 @@
   color: white;
   background-color: black;
 }
-.register__google {
-  background-color: #4285f4;
-}
-/* .register div {
+.reset div {
   margin-top: 7px;
-} */
+}

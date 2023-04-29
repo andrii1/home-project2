@@ -32,7 +32,7 @@
 .row {
   display: flex;
   margin-bottom: 0.5rem;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 .row > * {
@@ -115,7 +115,7 @@
 .tab-filter {
   background-color: #e3d5ca;
   border: 1px solid #946b54;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 0.62rem 0.4rem;
   font-weight: 600;
   font-size: 0.9rem;

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ButtonMui from '@mui/material/Button';
@@ -15,7 +15,6 @@ import {
   faArrowUp,
   faArrowsUpDown,
   faArrowUpRightFromSquare,
-  faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebookF,
@@ -551,7 +550,7 @@ export const Prompts = () => {
                   onChange={handleSearchPrompts}
                 />
               </div>
-              {!exportButton ? (
+              {exportButton ? (
                 <CSVLink filename={'prompts.csv'} data={promptsExport}>
                   <ButtonMuiStyled
                     variant="outlined"
@@ -571,7 +570,8 @@ export const Prompts = () => {
               ) : (
                 <Tooltip
                   disableFocusListener
-                  title="Please sign-up to access this feature"
+                  title="Please create an account to access this feature"
+                  arrow
                 >
                   <span>
                     <ButtonMui
