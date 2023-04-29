@@ -41,10 +41,12 @@ const getPromptsPagination = async (column, direction, page, size) => {
       .offset(page * size)
       .limit(size)
       .select();
+    const dataExport = await getModel().select();
 
     return {
       totalCount: totalCount.length,
       data,
+      dataExport,
     };
   } catch (error) {
     return error.message;
@@ -72,10 +74,12 @@ const getPromptsSearch = async (search, column, direction, page, size) => {
       .offset(page * size)
       .limit(size)
       .select();
+    const dataExport = await getModel().select();
 
     return {
       totalCount: totalCount.length,
       data,
+      dataExport,
     };
   } catch (error) {
     return error.message;
@@ -111,9 +115,11 @@ const getPromptsByCategoriesSearch = async (
       .offset(page * size)
       .limit(size)
       .select();
+    const dataExport = await getModel().select();
     return {
       totalCount: totalCount.length,
       data,
+      dataExport,
     };
   } catch (error) {
     return error.message;
@@ -147,9 +153,11 @@ const getPromptsByCategories = async (
       .offset(page * size)
       .limit(size)
       .select();
+    const dataExport = await getModel().select();
     return {
       totalCount: totalCount.length,
       data,
+      dataExport,
     };
   } catch (error) {
     return error.message;
@@ -185,9 +193,11 @@ const getPromptsByTopicsSearch = async (
       .offset(page * size)
       .limit(size)
       .select();
+    const dataExport = await getModel().select();
     return {
       totalCount: totalCount.length,
       data,
+      dataExport,
     };
   } catch (error) {
     return error.message;
@@ -215,9 +225,11 @@ const getPromptsByTopics = async (topics, column, direction, page, size) => {
       .offset(page * size)
       .limit(size)
       .select();
+    const dataExport = await getModel().select();
     return {
       totalCount: totalCount.length,
       data,
+      dataExport,
     };
   } catch (error) {
     return error.message;

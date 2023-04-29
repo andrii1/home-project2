@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { ExportCsv } from '../../utils/ExportCsv';
-import './Prompts.Style.css';
+import { CSVLink, CSVDownload } from 'react-csv';
 import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -32,6 +31,7 @@ import './Prompts.Style.css';
 export const Prompts = () => {
   /* Clearing location state on page reload */
   window.history.replaceState({}, document.title);
+
   const location = useLocation();
   const { frontPageItem = '' } = location.state || {};
   let initialStateTopics;
@@ -92,15 +92,22 @@ export const Prompts = () => {
     } else {
       urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     }
-    console.log('urlFilters', urlFilters);
+
     async function fetchPrompts() {
       const url = `${apiURL()}/prompts/${urlFilters}`;
       const response = await fetch(url);
       const promptsResponse = await response.json();
-      console.log('promptsResponse', promptsResponse);
       setPromptsCount(promptsResponse.totalCount);
       setPrompts(promptsResponse.data);
-      setPromptsExport(promptsResponse.dataExport);
+      const promptsExportReady = promptsResponse.dataExport.map((prompt) => {
+        return {
+          id: prompt.id,
+          prompt: prompt.title,
+          category: prompt.categoryTitle,
+          topic: prompt.topicTitle,
+        };
+      });
+      setPromptsExport(promptsExportReady);
     }
 
     async function fetchCategories() {
@@ -118,7 +125,7 @@ export const Prompts = () => {
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-      console.log('topicsResponse', topicsResponse);
+
       // eslint-disable-next-line prefer-arrow-callback
       let topicsAfterSearch;
       if (searchedTopics) {
@@ -318,7 +325,7 @@ export const Prompts = () => {
     searchedPrompts,
     topicsListActive,
   ]);
-  console.log('promptsExport', promptsExport);
+
   /*
   useEffect(() => {
     //Runs only on the first render
@@ -498,37 +505,6 @@ export const Prompts = () => {
     </li>
   ));
 
-  const excelData = [
-    {
-      color: 'red',
-      value: '#f00',
-    },
-    {
-      color: 'green',
-      value: '#0f0',
-    },
-    {
-      color: 'blue',
-      value: '#00f',
-    },
-    {
-      color: 'cyan',
-      value: '#0ff',
-    },
-    {
-      color: 'magenta',
-      value: '#f0f',
-    },
-    {
-      color: 'yellow',
-      value: '#ff0',
-    },
-    {
-      color: 'black',
-      value: '#000',
-    },
-  ];
-
   return (
     <>
       <Helmet>
@@ -552,16 +528,24 @@ export const Prompts = () => {
             </div>
           </div>
           <div className="prompts-container">
-            <div className="prompts-search">
-              <FontAwesomeIcon className="search-icon" icon={faSearch} />
-              <input
-                type="text"
-                placeholder="Search prompts"
-                className="input-search-prompts"
-                onChange={handleSearchPrompts}
-              />
+            <div className="prompts-container-header">
+              <div className="prompts-search">
+                <FontAwesomeIcon className="search-icon" icon={faSearch} />
+                <input
+                  type="text"
+                  placeholder="Search prompts"
+                  className="input-search-prompts"
+                  onChange={handleSearchPrompts}
+                />
+              </div>
+              <CSVLink
+                filename={'prompts.csv'}
+                data={promptsExport}
+                className="storybook-button storybook-button--medium storybook-button--secondary"
+              >
+                Export
+              </CSVLink>
             </div>
-            <ExportCsv excelData={excelData} fileName="Excel Export" />
             <div className="prompts-table">
               <div className="row prompts-header">
                 <div className="col-1">
@@ -629,7 +613,7 @@ export const Prompts = () => {
               </div>
                   <div className="col-5">Helpful?</div>
               <div className="col-6">Bookmark</div>*/}
-                <div className="col-7">Share</div>
+                <div className="col-7" />
               </div>
               {promptsList}
             </div>
