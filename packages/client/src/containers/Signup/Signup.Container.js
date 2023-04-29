@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
 import './Signup.Style.css';
 import { apiURL } from '../../apiURL';
+import { Button } from '../../components/Button/Button.component';
 
 export const Signup = () => {
   const {
@@ -65,16 +66,9 @@ export const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button className="register__btn" onClick={register}>
-          Register
-        </button>
-        <button
-          className="register__btn register__google"
-          onClick={signInWithGoogle}
-        >
-          Register with Google
-        </button>
-        <div>
+        <Button primary onClick={register} label="Sign up" />
+        <Button onClick={signInWithGoogle} label="Register with Google" />
+        <div className="already-have-account">
           Already have an account? <Link to="/">Login</Link> now.
         </div>
       </div>

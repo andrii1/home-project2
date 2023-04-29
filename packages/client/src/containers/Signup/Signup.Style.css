@@ -12,6 +12,7 @@
   background-color: #dcdcdc;
   padding: 30px;
   margin-top: 8rem;
+  border-radius: 5px;
 }
 .register__textBox {
   padding: 10px;
@@ -29,6 +30,6 @@
 .register__google {
   background-color: #4285f4;
 }
-/* .register div {
+.already-have-account {
   margin-top: 7px;
-} */
+}
