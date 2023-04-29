@@ -6,6 +6,10 @@ import { Helmet } from 'react-helmet';
 import { CSVLink, CSVDownload } from 'react-csv';
 import { TablePagination } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ButtonMui from '@mui/material/Button';
+import DownloadIcon from '@mui/icons-material/Download';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 import {
   faSearch,
   faArrowUp,
@@ -27,6 +31,14 @@ import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { apiURL } from '../../apiURL';
 import { Checkbox } from '../../components/Checkbox/Checkbox.component';
 import './Prompts.Style.css';
+
+const ButtonMuiStyled = styled(ButtonMui)({
+  color: '#946b54',
+  border: '1px solid #946b54',
+  '&:hover': {
+    backgroundColor: '#f4f1ee',
+  },
+});
 
 export const Prompts = () => {
   /* Clearing location state on page reload */
@@ -423,7 +435,7 @@ export const Prompts = () => {
       );
     }
   };
-  console.log('prompts', prompts);
+
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
@@ -505,6 +517,7 @@ export const Prompts = () => {
     </li>
   ));
 
+  const exportButton = false;
   return (
     <>
       <Helmet>
@@ -538,13 +551,39 @@ export const Prompts = () => {
                   onChange={handleSearchPrompts}
                 />
               </div>
-              <CSVLink
-                filename={'prompts.csv'}
-                data={promptsExport}
-                className="storybook-button storybook-button--medium storybook-button--secondary"
-              >
-                Export
-              </CSVLink>
+              {!exportButton ? (
+                <CSVLink filename={'prompts.csv'} data={promptsExport}>
+                  <ButtonMuiStyled
+                    variant="outlined"
+                    startIcon={<DownloadIcon />}
+                    style={{
+                      color: '#946b54',
+                      border: '1px solid #946b54',
+                      '&:hover': {
+                        backgroundColor: 'red!important',
+                        color: '#3c52b2',
+                      },
+                    }}
+                  >
+                    Export
+                  </ButtonMuiStyled>
+                </CSVLink>
+              ) : (
+                <Tooltip
+                  disableFocusListener
+                  title="Please sign-up to access this feature"
+                >
+                  <span>
+                    <ButtonMui
+                      variant="outlined"
+                      startIcon={<DownloadIcon />}
+                      disabled
+                    >
+                      Export
+                    </ButtonMui>
+                  </span>
+                </Tooltip>
+              )}
             </div>
             <div className="prompts-table">
               <div className="row prompts-header">
@@ -599,6 +638,7 @@ export const Prompts = () => {
                       className={`sort-icon ${
                         orderBy.column === 'topics.title' ? orderBy.class : ''
                       }`}
+                      id="topics.title"
                       icon={
                         orderBy.column === 'topics.title'
                           ? faArrowUp

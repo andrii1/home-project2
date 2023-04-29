@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { Button } from '../../components/Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
@@ -94,9 +95,7 @@ export const PromptView = () => {
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
-          <button type="button" onClick={navigateBack}>
-            Back
-          </button>
+          <Button label="Back" onClick={navigateBack} />
         </section>
       </main>
     </>
