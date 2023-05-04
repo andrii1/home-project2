@@ -11,7 +11,7 @@
   text-align: center;
   padding: 2rem 2.5rem;
   gap: 0.7rem;
-  margin-top: 4rem;
+  margin-top: 3rem;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   width: 22rem;
@@ -19,12 +19,12 @@
 }
 .register__textBox {
   padding: 10px;
-  font-size: 18px;
+  font-size: 14px;
   margin-bottom: 0.7rem;
 }
 .register__btn {
   padding: 10px;
-  font-size: 18px;
+  font-size: 14px;
   margin-bottom: 10px;
   border: none;
   color: white;
@@ -64,4 +64,33 @@
 .register input[type='password'] {
   border: none;
   border-radius: 5px;
+}
+
+.text-divider {
+  display: flex;
+  align-items: center;
+  --text-divider-gap: 1rem;
+}
+
+.text-divider::before,
+.text-divider::after {
+  content: '';
+  height: 1px;
+  background-color: silver;
+  flex-grow: 1;
+}
+
+.text-divider::before {
+  margin-right: var(--text-divider-gap);
+}
+
+.text-divider::after {
+  margin-left: var(--text-divider-gap);
+}
+
+@media only screen and (max-width: 992px) {
+  .register {
+    margin-top: 0rem;
+    box-shadow: none;
+  }
 }

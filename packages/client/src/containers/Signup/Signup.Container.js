@@ -50,10 +50,10 @@ export const Signup = () => {
           primary
           onClick={signInWithGoogle}
           backgroundColor="#4285f4"
-          label="Register with Google"
+          label="Continue with Google"
         />
         <div className="separator-container">
-          <span>Or</span>
+          <span className="text-divider">Or</span>
         </div>
         <input
           type="text"

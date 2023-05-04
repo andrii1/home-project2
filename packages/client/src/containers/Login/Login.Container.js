@@ -20,6 +20,7 @@ function Login() {
   return (
     <div className="register-container">
       <div className="register">
+        <h1>Log in</h1>
         <input
           type="text"
           className="login__textBox"
@@ -38,17 +39,17 @@ function Login() {
           primary
           onClick={() => logInWithEmailAndPassword(email, password)}
           backgroundColor="#000"
-          label="Login"
+          label="Log in"
         />
         <Button
           primary
           onClick={signInWithGoogle}
           backgroundColor="#4285f4"
-          label="Login with Google"
+          label="Sign in with Google"
         />
         <div>
           <Link className="form-additional-link" to="/reset">
-            Forgot Password
+            Forgot my password
           </Link>
         </div>
         <div className="form-additional-text">
