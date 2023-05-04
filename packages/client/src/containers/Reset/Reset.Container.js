@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
 import { Button } from '../../components/Button/Button.component';
 import './Reset.styles.css';
 
 function Reset() {
-  const { user, loading, error, auth, sendPasswordResetEmail } =
-    useUserContext();
+  const { user, loading, error, auth, sendPasswordReset } = useUserContext();
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
   useEffect(() => {
     if (loading) return;
     if (user) navigate('/dashboard');
-  }, [user, loading]);
+  }, [user, loading, navigate]);
   return (
     <div className="register-container">
       <div className="register">
@@ -27,7 +25,7 @@ function Reset() {
         />
         <Button
           primary
-          onClick={() => sendPasswordResetEmail(email)}
+          onClick={() => sendPasswordReset(email)}
           backgroundColor="#000"
           label="Send password reset email"
         />

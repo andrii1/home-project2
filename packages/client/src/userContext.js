@@ -15,6 +15,7 @@ import {
   signInWithGoogle,
   registerWithEmailAndPassword,
   logout,
+  sendPasswordReset,
 } from './firebase';
 import { query, collection, getDocs, where } from 'firebase/firestore';
 
@@ -50,6 +51,7 @@ export function UserProvider({ children }) {
       signInWithGoogle,
       registerWithEmailAndPassword,
       logout,
+      sendPasswordReset,
     }),
     [user, name, loading],
   );
