@@ -43,8 +43,18 @@ export const Signup = () => {
     }
   }, [user, loading, navigate]);
   return (
-    <div className="register">
-      <div className="register__container">
+    <div className="register-container">
+      <div className="register">
+        <h1>Create your free account</h1>
+        <Button
+          primary
+          onClick={signInWithGoogle}
+          backgroundColor="#4285f4"
+          label="Register with Google"
+        />
+        <div className="separator-container">
+          <span>Or</span>
+        </div>
         <input
           type="text"
           className="register__textBox"
@@ -66,10 +76,18 @@ export const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <Button primary onClick={register} label="Sign up" />
-        <Button onClick={signInWithGoogle} label="Register with Google" />
-        <div className="already-have-account">
-          Already have an account? <Link to="/">Login</Link> now.
+        <Button
+          primary
+          onClick={register}
+          backgroundColor="#000"
+          label="Sign up"
+        />
+
+        <div className="form-additional-text">
+          Already have an account?{' '}
+          <Link className="form-additional-link" to="/login">
+            Login
+          </Link>
         </div>
       </div>
     </div>

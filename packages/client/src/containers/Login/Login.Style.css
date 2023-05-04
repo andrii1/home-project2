@@ -1,10 +1,11 @@
-.login__container {
+.login-container {
+  width: 100vw;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  text-align: center;
-  background-color: #dcdcdc;
-  padding: 30px;
+  align-items: center;
+  justify-content: center;
 }
+
 .login__textBox {
   padding: 10px;
   font-size: 18px;
@@ -23,4 +24,15 @@
 }
 .login div {
   margin-top: 7px;
+}
+
+.login-box input[type='text'],
+.login-box input[type='password'] {
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+.login-box input[type='password'] {
+  border: none;
+  border-radius: 5px;
 }

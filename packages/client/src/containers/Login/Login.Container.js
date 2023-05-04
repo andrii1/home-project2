@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
+import { Button } from '../../components/Button/Button.component';
 import './Login.Style.css';
 
 function Login() {
@@ -17,8 +18,8 @@ function Login() {
     if (user) navigate('/');
   }, [user, loading, navigate]);
   return (
-    <div className="login-page">
-      <div className="login__container">
+    <div className="register-container">
+      <div className="register">
         <input
           type="text"
           className="login__textBox"
@@ -33,25 +34,28 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button
-          type="submit"
-          className="login__btn"
+        <Button
+          primary
           onClick={() => logInWithEmailAndPassword(email, password)}
-        >
-          Login
-        </button>
-        <button
-          type="submit"
-          className="login__btn login__google"
+          backgroundColor="#000"
+          label="Login"
+        />
+        <Button
+          primary
           onClick={signInWithGoogle}
-        >
-          Login with Google
-        </button>
+          backgroundColor="#4285f4"
+          label="Login with Google"
+        />
         <div>
-          <Link to="/reset">Forgot Password</Link>
+          <Link className="form-additional-link" to="/reset">
+            Forgot Password
+          </Link>
         </div>
-        <div>
-          Don&apos;t have an account? <Link to="/signup">Signup</Link> now.
+        <div className="form-additional-text">
+          Don&apos;t have an account?{' '}
+          <Link className="form-additional-link" to="/signup">
+            Signup
+          </Link>
         </div>
       </div>
     </div>
