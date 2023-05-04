@@ -8,6 +8,7 @@ import './Button.styles.css';
 export const Button = ({
   primary,
   lighterBg,
+  className,
   backgroundColor,
   color,
   size,
@@ -25,9 +26,12 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(
-        ' ',
-      )}
+      className={[
+        'storybook-button',
+        `storybook-button--${size}`,
+        mode,
+        className,
+      ].join(' ')}
       style={backgroundColor && { backgroundColor }}
       {...props}
     >
@@ -42,10 +46,12 @@ Button.propTypes = {
    */
   primary: PropTypes.bool,
   lighterBg: PropTypes.bool,
+
   /**
    * What background color to use
    */
   backgroundColor: PropTypes.string,
+  className: PropTypes.string,
   /**
    * How large should the button be?
    */
@@ -66,6 +72,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   backgroundColor: null,
+  className: null,
   color: null,
   primary: false,
   lighterBg: false,
