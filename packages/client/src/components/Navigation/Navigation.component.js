@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export const Navigation = () => {
-  const { user, logout } = useUserContext();
+  const { user, name, logout } = useUserContext();
   return (
     <div className="navigation">
       <div className="menu">
@@ -28,6 +28,7 @@ export const Navigation = () => {
         <ul>
           {user ? (
             <div className="container-logged-in">
+              {name}
               <Link to="/">
                 <FontAwesomeIcon icon={faUser} />
               </Link>

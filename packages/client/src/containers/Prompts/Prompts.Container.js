@@ -10,6 +10,7 @@ import ButtonMui from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 import { styled } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
+import { useUserContext } from '../../userContext';
 import {
   faSearch,
   faArrowUp,
@@ -56,7 +57,7 @@ export const Prompts = () => {
   } else {
     initialStateTopics = [];
   }
-
+  const { user, name, logout } = useUserContext();
   const [isLoading, setIsLoading] = useState(false);
   const [topicsListActive, setTopicsListActive] = useState('');
   const [prompts, setPrompts] = useState([]);
@@ -516,7 +517,6 @@ export const Prompts = () => {
     </li>
   ));
 
-  const exportButton = false;
   return (
     <>
       <Helmet>
@@ -550,7 +550,7 @@ export const Prompts = () => {
                   onChange={handleSearchPrompts}
                 />
               </div>
-              {exportButton ? (
+              {user ? (
                 <CSVLink filename={'prompts.csv'} data={promptsExport}>
                   <ButtonMuiStyled
                     variant="outlined"
@@ -570,7 +570,13 @@ export const Prompts = () => {
               ) : (
                 <Tooltip
                   disableFocusListener
-                  title="Please create an account to access this feature"
+                  interactive
+                  title={
+                    <div className="container-tooltip">
+                      Please <a href="/signup">create an account</a> to access
+                      this feature
+                    </div>
+                  }
                   arrow
                 >
                   <span>
