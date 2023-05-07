@@ -9,6 +9,7 @@ import { PromptView } from './containers/PromptView/PromptView.container';
 import { Signup } from './containers/Signup/Signup.Container';
 import Login from './containers/Login/Login.Container';
 import Reset from './containers/Reset/Reset.Container';
+import { Dashboard } from './containers/Dashboard/Dashboard.Container';
 import { About } from './containers/About/About.container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
@@ -31,6 +32,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/reset" element={<Reset />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           <Footer />

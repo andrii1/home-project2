@@ -62,7 +62,7 @@ export const Prompts = () => {
   const [topicsListActive, setTopicsListActive] = useState('');
   const [prompts, setPrompts] = useState([]);
   const [orderBy, setOrderBy] = useState({
-    column: 'prompts.id',
+    column: 'prompts.title',
     direction: 'asc',
     class: 'arrow-up',
   });
@@ -595,27 +595,33 @@ export const Prompts = () => {
               <div className="row prompts-header">
                 <div className="col-1">
                   <div
-                    className="sort-div"
+                    className={`sort-div ${
+                      orderBy.column === 'prompts.title' ? 'active' : ''
+                    }`}
                     id="prompts.title"
                     onClick={sortHandler}
                   >
+                    Prompt
                     <FontAwesomeIcon
                       className={`sort-icon ${
-                        orderBy.column === 'prompts.title' ? orderBy.class : ''
+                        orderBy.column === 'prompts.title'
+                          ? orderBy.class
+                          : 'fa-blank'
                       }`}
                       icon={
                         orderBy.column === 'prompts.title'
                           ? faArrowUp
-                          : faArrowsUpDown
+                          : faArrowUp
                       }
                     />
-                    Prompt
                   </div>
                 </div>
 
                 <div className="col-2">
                   <div
-                    className="sort-div"
+                    className={`sort-div ${
+                      orderBy.column === 'categories.title' ? 'active' : ''
+                    }`}
                     id="categories.title"
                     onClick={sortHandler}
                   >
@@ -623,7 +629,7 @@ export const Prompts = () => {
                       className={`sort-icon ${
                         orderBy.column === 'categories.title'
                           ? orderBy.class
-                          : ''
+                          : 'fa-blank'
                       }`}
                       icon={
                         orderBy.column === 'categories.title'
@@ -636,13 +642,17 @@ export const Prompts = () => {
                 </div>
                 <div className="col-3">
                   <div
-                    className="sort-div"
+                    className={`sort-div ${
+                      orderBy.column === 'topics.title' ? 'active' : ''
+                    }`}
                     id="topics.title"
                     onClick={sortHandler}
                   >
                     <FontAwesomeIcon
                       className={`sort-icon ${
-                        orderBy.column === 'topics.title' ? orderBy.class : ''
+                        orderBy.column === 'topics.title'
+                          ? orderBy.class
+                          : 'fa-blank'
                       }`}
                       id="topics.title"
                       icon={
