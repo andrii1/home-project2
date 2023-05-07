@@ -608,11 +608,7 @@ export const Prompts = () => {
                           ? orderBy.class
                           : 'fa-blank'
                       }`}
-                      icon={
-                        orderBy.column === 'prompts.title'
-                          ? faArrowUp
-                          : faArrowUp
-                      }
+                      icon={faArrowUp}
                     />
                   </div>
                 </div>
@@ -631,11 +627,7 @@ export const Prompts = () => {
                           ? orderBy.class
                           : 'fa-blank'
                       }`}
-                      icon={
-                        orderBy.column === 'categories.title'
-                          ? faArrowUp
-                          : faArrowsUpDown
-                      }
+                      icon={faArrowUp}
                     />
                     Category
                   </div>
@@ -655,11 +647,7 @@ export const Prompts = () => {
                           : 'fa-blank'
                       }`}
                       id="topics.title"
-                      icon={
-                        orderBy.column === 'topics.title'
-                          ? faArrowUp
-                          : faArrowsUpDown
-                      }
+                      icon={faArrowUp}
                     />
                     Topic
                   </div>

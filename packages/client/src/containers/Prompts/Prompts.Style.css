@@ -93,8 +93,8 @@
   margin-left: 0rem;
 }
 
-.sort-div:hover {
-  color: #000;
+.sort-div:hover .sort-icon {
+  visibility: unset;
 }
 
 .sort-div {
@@ -107,14 +107,17 @@
 .sort-div.active {
   color: #000;
 }
+
 .icon-copy {
   width: 0.9rem;
 }
+
 .sort-icon {
   margin-right: 0.2rem;
   display: inline-block;
   width: 0.6rem;
 }
+
 .arrow-down {
   transform: rotate(180deg);
   transition: transform 0.4s linear;
@@ -126,7 +129,7 @@
 }
 
 .fa-blank {
-  visibility: hidden !important;
+  visibility: hidden;
 }
 
 .tab-filter {
