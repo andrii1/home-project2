@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { Button } from '../../components/Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faLink } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebookF,
   faTwitter,
@@ -71,7 +71,15 @@ export const PromptView = () => {
             >
               <img src={iconCopy} alt="copy" className="icon-copy" />
             </button>
-
+            <FontAwesomeIcon
+              icon={faLink}
+              className="button-copy"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `https://www.example.com/prompts/${prompt.id}`,
+                );
+              }}
+            />
             <FacebookShareButton url={`/prompts/${prompt.id}`}>
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
             </FacebookShareButton>
