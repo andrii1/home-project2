@@ -10,7 +10,7 @@ import { Signup } from './containers/Signup/Signup.Container';
 import Login from './containers/Login/Login.Container';
 import Reset from './containers/Reset/Reset.Container';
 import { Dashboard } from './containers/Dashboard/Dashboard.Container';
-import { About } from './containers/About/About.container';
+import { Faq } from './containers/Faq/Faq.Container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
@@ -28,7 +28,7 @@ function App() {
             <Route path="/test" element={<TestPage />} />
             <Route path="/prompts" element={<Prompts />} />
             <Route exact path="/prompts/:id" element={<PromptView />} />
-            <Route exact path="/about" element={<About />} />
+            <Route exact path="/faq" element={<Faq />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/reset" element={<Reset />} />

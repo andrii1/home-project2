@@ -8,12 +8,9 @@ export const Footer = () => {
       <div className="menu">
         <ul>
           <li>
-            <NavLink to="/about" className="nav-link">
-              About
+            <NavLink to="/faq" className="nav-link">
+              FAQ
             </NavLink>
-          </li>
-          <li>
-            <a href="#">Community</a>
           </li>
         </ul>
       </div>
