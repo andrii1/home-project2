@@ -51,8 +51,8 @@ export const Prompts = () => {
   } else {
     initialStateTopics = [];
   }
-  const { user, name, logout } = useUserContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUserContext();
+  /* const [isLoading, setIsLoading] = useState(false); */
   const [topicsListActive, setTopicsListActive] = useState('');
   const [prompts, setPrompts] = useState([]);
   const [orderBy, setOrderBy] = useState({
@@ -66,31 +66,18 @@ export const Prompts = () => {
     page: 0,
     rowsPerPage: 50,
   });
-  const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
-
-  const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState(initialStateTopics);
-  const [searchedCategories, setSearchedCategories] = useState('');
   const [searchedTopics, setSearchedTopics] = useState('');
   const [searchedPrompts, setSearchedPrompts] = useState('');
 
   useEffect(() => {
     let urlFilters = '';
     if (
-      filteredCategories.length > 0 &&
       filteredTopics.length > 0 &&
       searchedPrompts.length > 0
     ) {
       urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredCategories.length > 0 && searchedPrompts.length > 0) {
-      urlFilters = `?filteredCategories=${filteredCategories}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredCategories.length > 0 && filteredTopics.length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredCategories.length > 0) {
-      urlFilters = `?filteredCategories=${filteredCategories}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (filteredTopics.length > 0) {
       urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (searchedPrompts.length > 0) {
@@ -116,18 +103,6 @@ export const Prompts = () => {
       setPromptsExport(promptsExportReady);
     }
 
-    async function fetchCategories() {
-      const response = await fetch(`${apiURL()}/categories/`);
-      const categoriesResponse = await response.json();
-      if (searchedCategories) {
-        const filteredCategoriesSearch = categoriesResponse.filter((item) =>
-          item.title.toLowerCase().includes(searchedCategories.toLowerCase()),
-        );
-        setCategories(filteredCategoriesSearch);
-      } else {
-        setCategories(categoriesResponse);
-      }
-    }
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
@@ -318,7 +293,6 @@ export const Prompts = () => {
       } */
     }
     fetchPrompts();
-    fetchCategories();
     fetchTopics();
     /* fetchPromptsPagination(); */
   }, [

@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
 import './Dashboard.Style.css';
 import { Button } from '../../components/Button/Button.component';
@@ -18,9 +18,7 @@ export const Dashboard = () => {
         Logged in as
         <div>{name}</div>
         <div>{user?.email}</div>
-        <button type="button" className="dashboard__btn" onClick={logout}>
-          Logout
-        </button>
+        <Button onClick={logout} label="logout" />
       </div>
     </div>
   );

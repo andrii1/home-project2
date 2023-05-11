@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import './FrontPage.Style.css';
 import { apiURL } from '../../apiURL';
@@ -51,10 +51,6 @@ export const FrontPage = () => {
 
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
-  };
-
-  const handleClick = () => {
-    setShowDropdown(!showDropdown);
   };
 
   const dropdownList = resultsHome.map((result) => {

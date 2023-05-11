@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Button } from '../../components/Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,6 @@ import {
   EmailShareButton,
 } from 'react-share';
 
-import PropTypes from 'prop-types';
 import { apiURL } from '../../apiURL';
 import './PromptView.styles.css';
 
