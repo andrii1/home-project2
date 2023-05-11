@@ -1,18 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
 import './Signup.Style.css';
-import { apiURL } from '../../apiURL';
 import { Button } from '../../components/Button/Button.component';
 
 export const Signup = () => {
-  const {
-    user,
-    name1,
-    loading,
-    registerWithEmailAndPassword,
-    signInWithGoogle,
-  } = useUserContext();
+  const { user, loading, registerWithEmailAndPassword, signInWithGoogle } =
+    useUserContext();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +26,7 @@ export const Signup = () => {
     await fetch(`${apiURL()}/users`, requestOptions);
   }, []); */
   const register = () => {
-    if (!name) alert('Please enter name');
+    /* if (!name) alert('Please enter name'); add error handling */
     registerWithEmailAndPassword(name, email, password);
   };
   useEffect(() => {

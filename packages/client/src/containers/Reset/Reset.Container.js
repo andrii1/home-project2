@@ -5,7 +5,7 @@ import { Button } from '../../components/Button/Button.component';
 import './Reset.styles.css';
 
 function Reset() {
-  const { user, loading, error, auth, sendPasswordReset } = useUserContext();
+  const { user, loading, sendPasswordReset } = useUserContext();
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
   useEffect(() => {

@@ -9,7 +9,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export const FrontPage = () => {
   const [searchTerms, setSearchTerms] = useState();
-  const [showDropdown, setShowDropdown] = useState(false);
   const [resultsHome, setResultsHome] = useState([]);
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
@@ -25,14 +24,12 @@ export const FrontPage = () => {
           item.title.toLowerCase().includes(searchTerms.toLowerCase()),
         );
         setResultsHome(filteredSearch);
-      } else if (showDropdown === true) {
-        setResultsHome(categoriesResponse);
       } else {
         setResultsHome(categoriesResponse);
       }
     }
     fetchCategories();
-  }, [searchTerms, showDropdown]);
+  }, [searchTerms]);
 
   useEffect(() => {
     async function fetchCategories() {
