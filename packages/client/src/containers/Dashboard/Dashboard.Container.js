@@ -18,7 +18,7 @@ export const Dashboard = () => {
         Logged in as
         <div>{name}</div>
         <div>{user?.email}</div>
-        <button className="dashboard__btn" onClick={logout}>
+        <button type="button" className="dashboard__btn" onClick={logout}>
           Logout
         </button>
       </div>

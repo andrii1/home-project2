@@ -47,11 +47,6 @@ export const Prompts = () => {
   const location = useLocation();
   const { frontPageItem = '' } = location.state || {};
   let initialStateTopics;
-  console.log(
-    'frontPageItem',
-    frontPageItem,
-    Object.keys(frontPageItem).length,
-  );
   if (frontPageItem) {
     initialStateTopics = frontPageItem;
   } else {

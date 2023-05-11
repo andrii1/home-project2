@@ -96,7 +96,7 @@ export const PromptView = () => {
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
-              subject={'Check out this GPT prompt!'}
+              subject="Check out this GPT prompt!"
               body={`This GPT prompt is great: '${prompt.title}'`}
               url={`https://www.example.com/prompts/${prompt.id}`}
             >

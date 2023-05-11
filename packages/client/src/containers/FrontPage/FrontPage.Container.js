@@ -20,7 +20,6 @@ export const FrontPage = () => {
       const categoriesResponse = await responseCategories.json();
       const topicsResponse = await responseTopics.json();
       const combinedArray = categoriesResponse.concat(topicsResponse);
-      console.log('combined', combinedArray);
       if (searchTerms) {
         const filteredSearch = combinedArray.filter((item) =>
           item.title.toLowerCase().includes(searchTerms.toLowerCase()),
