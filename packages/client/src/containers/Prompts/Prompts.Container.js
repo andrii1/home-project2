@@ -230,40 +230,6 @@ export const Prompts = () => {
         });
 
         setTopics(filteredTopicsResult);
-      } else if (filteredCategories.length > 0) {
-        const updatedCategories = result.map((item) => {
-          if (filteredCategories.includes(item.categoryId)) {
-            return {
-              categoryId: item.categoryId,
-              categoryTitle: item.categoryTitle,
-              checked: true,
-              indeterminate: false,
-              active: item.active,
-              topics: item.topics.map((topic) => {
-                return {
-                  id: topic.id,
-                  title: topic.title,
-                  checked: true,
-                };
-              }),
-            };
-          }
-          return {
-            categoryId: item.categoryId,
-            categoryTitle: item.categoryTitle,
-            checked: false,
-            indeterminate: false,
-            active: item.active,
-            topics: item.topics.map((topic) => {
-              return {
-                id: topic.id,
-                title: topic.title,
-                checked: false,
-              };
-            }),
-          };
-        });
-        setTopics(updatedCategories);
       } else {
         setTopics(result);
       }
