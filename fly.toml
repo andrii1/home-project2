@@ -1,7 +1,4 @@
 # fly.toml app configuration file generated for morning-brook-8026 on 2023-05-11T10:31:48+02:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
 
 app = "morning-brook-8026"
 primary_region = "ams"
