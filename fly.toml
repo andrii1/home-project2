@@ -1,16 +1,46 @@
-# fly.toml app configuration file generated for morning-brook-8026 on 2023-05-07T22:32:45+02:00
+# fly.toml app configuration file generated for morning-brook-8026 on 2023-05-11T10:31:48+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = "morning-brook-8026"
-primary_region = "atl"
+primary_region = "ams"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[experimental]
+  auto_rollback = true
+
+[build]
+  builder = "heroku/buildpacks:20"
+
+[deploy]
+  release_command = "yarn knex migrate:latest"
 
 [env]
+  NODE_ENV = "production"
   PORT = "8080"
 
-[http_service]
+[[services]]
+  protocol = "tcp"
   internal_port = 8080
-  force_https = true
-  auto_stop_machines = true
-  auto_start_machines = true
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "1s"
+    restart_limit = 0
