@@ -34,7 +34,7 @@ export const Checkbox = ({
         ref={cRef}
         className={className}
       />{' '}
-      <div className="label" onClick={toggleTopicsList}>
+      <div aria-hidden="true" className="label" onClick={toggleTopicsList}>
         <span>{label}</span>
         <FontAwesomeIcon
           icon={faChevronDown}
@@ -43,4 +43,26 @@ export const Checkbox = ({
       </div>
     </div>
   );
+};
+
+Checkbox.propTypes = {
+  indeterminate: PropTypes.bool,
+  checked: PropTypes.bool,
+  active: PropTypes.bool,
+  label: PropTypes.string,
+  value: PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  toggleTopicsList: PropTypes.func,
+};
+
+Checkbox.defaultProps = {
+  indeterminate: false,
+  checked: false,
+  active: false,
+  label: null,
+  className: null,
+  value: null,
+  onChange: undefined,
+  toggleTopicsList: undefined,
 };
