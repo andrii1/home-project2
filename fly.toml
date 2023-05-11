@@ -1,8 +1,13 @@
-app = "morning-brook-8026"
+# fly.toml app configuration file generated for summer-cloud-9028 on 2023-05-11T14:52:41+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-[build]
-  builder = "heroku/buildpacks:20"
+app = "summer-cloud-9028"
+primary_region = "ams"
 
-[[services]]
+[http_service]
   internal_port = 8080
-  protocol = "tcp"
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
