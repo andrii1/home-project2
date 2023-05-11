@@ -30,7 +30,7 @@ RUN yarn install --production=false
 COPY --link . .
 
 # Remove development dependencies
-RUN yarn install --production=true
+RUN yarn install
 
 
 # Final stage for app image
