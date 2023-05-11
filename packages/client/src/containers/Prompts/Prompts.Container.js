@@ -14,7 +14,6 @@ import { useUserContext } from '../../userContext';
 import {
   faSearch,
   faArrowUp,
-  faArrowsUpDown,
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import {
