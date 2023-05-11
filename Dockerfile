@@ -24,7 +24,7 @@ RUN apt-get update -qq && \
 
 # Install node modules
 COPY --link package.json yarn.lock .
-RUN yarn install --production=false --legacy-peer-deps
+RUN yarn install --legacy-peer-deps --production=false
 
 # Copy application code
 COPY --link . .
