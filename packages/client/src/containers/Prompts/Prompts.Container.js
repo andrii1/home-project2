@@ -442,9 +442,9 @@ export const Prompts = () => {
         <span className="prompt-additional-text">Topic:&nbsp;</span>
         {prompt.topicTitle}
       </div>
-      {/*<div className="col-4">Rating</div>
+      {/* <div className="col-4">Rating</div>
       <div className="col-5">👍 / 👎</div>
-      <div className="col-6">❤️</div>*/}
+      <div className="col-6">❤️</div> */}
       <div className="col-7">
         <div className="icons-prompts">
           <button
@@ -546,7 +546,7 @@ export const Prompts = () => {
                 />
               </div>
               {user ? (
-                <CSVLink filename={'prompts.csv'} data={promptsExport}>
+                <CSVLink filename="prompts.csv" data={promptsExport}>
                   <ButtonMuiStyled
                     variant="outlined"
                     startIcon={<DownloadIcon />}
@@ -647,11 +647,11 @@ export const Prompts = () => {
                     Topic
                   </div>
                 </div>
-                {/*<div className="col-4">
+                {/* <div className="col-4">
                 <div id="ratings">Rating</div>
               </div>
                   <div className="col-5">Helpful?</div>
-              <div className="col-6">Bookmark</div>*/}
+              <div className="col-6">Bookmark</div> */}
                 <div className="col-7" />
               </div>
               {promptsList}

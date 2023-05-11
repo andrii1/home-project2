@@ -30,7 +30,7 @@ function Reset() {
           label="Send password reset email"
         />
         <div className="form-additional-text">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link to="/signup" className="form-additional-link">
             Sign up
           </Link>
