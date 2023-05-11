@@ -73,10 +73,7 @@ export const Prompts = () => {
 
   useEffect(() => {
     let urlFilters = '';
-    if (
-      filteredTopics.length > 0 &&
-      searchedPrompts.length > 0
-    ) {
+    if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
       urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     } else if (filteredTopics.length > 0) {
       urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
@@ -296,9 +293,7 @@ export const Prompts = () => {
     fetchTopics();
     /* fetchPromptsPagination(); */
   }, [
-    filteredCategories,
     filteredTopics,
-    searchedCategories,
     searchedTopics,
     controller,
     orderBy,
