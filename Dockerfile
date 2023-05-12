@@ -24,7 +24,7 @@ RUN apt-get update -qq && \
 
 # Install node modules
 COPY --link package.json yarn.lock .
-RUN yarn install --production=false
+RUN corepack enable && corepack prepare yarn@3.5.1 --activate
 
 # Copy application code
 COPY --link . .
