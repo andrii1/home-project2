@@ -1,50 +1,46 @@
-app = "hyf-fp-class22"
+# fly.toml app configuration file generated for asdgsdg on 2023-05-12T14:44:23+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "asdgsdg"
+primary_region = "ams"
 kill_signal = "SIGINT"
-kill_timeout = 5
-processes = []
+kill_timeout = "5s"
+
+[experimental]
+  auto_rollback = true
 
 [build]
   builder = "heroku/buildpacks:20"
 
-[env]
-  NODE_ENV = "production"
-  PORT = "8080"
-  # The following ENVs are not listed here because they are registered as secrets:
-  # MYSQL_HOST
-  # MYSQL_PORT
-  # MYSQL_DATABASE
-  # MYSQL_USER
-  # MYSQL_PASSWORD
-
 [deploy]
   release_command = "yarn knex migrate:latest"
 
-[experimental]
-  allowed_public_ports = []
-  auto_rollback = true
+[env]
+  NODE_ENV = "production"
+  PORT = "8080"
 
 [[services]]
-  http_checks = []
+  protocol = "tcp"
   internal_port = 8080
   processes = ["app"]
-  protocol = "tcp"
-  script_checks = []
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
   [services.concurrency]
+    type = "connections"
     hard_limit = 25
     soft_limit = 20
-    type = "connections"
-
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 80
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
 
   [[services.tcp_checks]]
-    grace_period = "1s"
     interval = "15s"
-    restart_limit = 0
     timeout = "2s"
+    grace_period = "1s"
+    restart_limit = 0
