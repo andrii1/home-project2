@@ -30,7 +30,7 @@ RUN corepack enable && corepack prepare yarn@3.5.1 --activate
 COPY --link . .
 
 # Remove development dependencies
-RUN yarn install --production=true
+RUN corepack enable && corepack prepare yarn@3.5.1 --activate
 
 
 # Final stage for app image
