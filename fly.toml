@@ -11,8 +11,8 @@ kill_timeout = "5s"
 [experimental]
   auto_rollback = true
 
-[build]
-  dockerfile = Dockerfile
+# [build]
+#  dockerfile = "Dockerfile"
 
 [deploy]
   release_command = "yarn knex migrate:latest"
