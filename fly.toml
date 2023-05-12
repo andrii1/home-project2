@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for app-test098 on 2023-05-11T19:11:40+02:00
+# fly.toml app configuration file generated for app-test9898 on 2023-05-12T11:21:37+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "app-test098"
+app = "app-test9898"
 primary_region = "ams"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
