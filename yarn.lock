@@ -12556,7 +12556,6 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     husky: ^7.0.4
     lint-staged: ^13.0.3
-    pg: ^8.10.0
     prettier: ^2.6.2
     stylelint: ^14.8.2
     stylelint-config-prettier: ^9.0.3
@@ -20171,6 +20170,7 @@ __metadata:
     morgan: ~1.9.1
     mysql2: ^2.3.3
     nodemon: ^2.0.15
+    pg: ^8.10.0
     prettier: 2.6.2
     swagger-jsdoc: ^6.2.1
     swagger-ui-express: ^4.3.0

@@ -45,8 +45,5 @@
     "**/*.+(css)": [
       "yarn stylelint:check"
     ]
-  },
-  "dependencies": {
-    "pg": "^8.10.0"
   }
 }
