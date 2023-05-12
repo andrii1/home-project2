@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for apptest345 on 2023-05-12T20:59:37+02:00
+# fly.toml app configuration file generated for sfddsfh on 2023-05-12T21:52:33+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "apptest345"
+app = "sfddsfh"
 primary_region = "ams"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
