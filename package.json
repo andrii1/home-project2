@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "script/build",
+    "start": "yarn workspace server start",
     "knex": "knex --cwd ./packages/server",
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json|css)\"",
     "prettier:check": "yarn prettier --check",
