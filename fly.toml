@@ -15,7 +15,7 @@ kill_timeout = "5s"
   builder = "heroku/buildpacks:20"
 
 [deploy]
-  release_command = "yarn knex migrate:latest"
+  release_command = "yarn db:setup"
 
 [env]
   NODE_ENV = "production"
