@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   production: {
-    client: 'mysql2',
+    client: 'pg',
     connection: {
       connectionString: process.env.DATABASE_URL,
       ssl: {
