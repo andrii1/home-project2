@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import {
   GoogleAuthProvider,
   getAuth,
@@ -27,6 +28,7 @@ const firebaseConfig = {
   measurementId: 'G-4XTLT1ESRB',
 };
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
@@ -88,4 +90,6 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  analytics,
+  logEvent,
 };

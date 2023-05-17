@@ -21,21 +21,23 @@ function App() {
     <div className="app">
       <Router>
         <UserProvider>
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<FrontPage />} />
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/prompts" element={<Prompts />} />
-            <Route exact path="/prompts/:id" element={<PromptView />} />
-            <Route exact path="/faq" element={<Faq />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/signup" element={<Signup />} />
-            <Route exact path="/reset" element={<Reset />} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-          <Footer />
+          <useFirebaseRoutesAnalytics>
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<FrontPage />} />
+              <Route path="/landing" element={<LandingPage />} />
+              <Route path="/test" element={<TestPage />} />
+              <Route path="/prompts" element={<Prompts />} />
+              <Route exact path="/prompts/:id" element={<PromptView />} />
+              <Route exact path="/faq" element={<Faq />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/signup" element={<Signup />} />
+              <Route exact path="/reset" element={<Reset />} />
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+            <Footer />
+          </useFirebaseRoutesAnalytics>
         </UserProvider>
       </Router>
     </div>
