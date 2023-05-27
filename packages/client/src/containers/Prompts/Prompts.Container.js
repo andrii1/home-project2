@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { CSVLink } from 'react-csv';
 import { TablePagination } from '@mui/material';
@@ -45,12 +45,25 @@ export const Prompts = () => {
 
   const location = useLocation();
   const { frontPageItem = '' } = location.state || {};
+  const { topicId, categoryIdParam } = useParams();
   let initialStateTopics;
-  if (frontPageItem) {
+  const getTopicsByCategory = async (categoryId) => {
+    const response = await fetch(`${apiURL()}/topics/`);
+    const topicsResponse = await response.json();
+    const relatedTopics = topicsResponse
+      .filter((item) => item.categoryId === categoryId)
+      .map((item) => item.id);
+    return relatedTopics;
+  };
+
+  if (topicId) {
+    initialStateTopics = topicId;
+  } else if (frontPageItem) {
     initialStateTopics = frontPageItem;
   } else {
     initialStateTopics = [];
   }
+
   const { user } = useUserContext();
   /* const [isLoading, setIsLoading] = useState(false); */
   const [topicsListActive, setTopicsListActive] = useState('');
@@ -70,18 +83,25 @@ export const Prompts = () => {
   const [filteredTopics, setFilteredTopics] = useState(initialStateTopics);
   const [searchedTopics, setSearchedTopics] = useState('');
   const [searchedPrompts, setSearchedPrompts] = useState('');
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     let urlFilters = '';
-    if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (filteredTopics.length > 0) {
-      urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else if (searchedPrompts.length > 0) {
-      urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    } else {
-      urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-    }
+    const setupUrlFilters = async () => {
+      if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
+        urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      } else if (filteredTopics.length > 0) {
+        urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      } else if (categoryIdParam && !filteredTopics.length > 0 && counter < 1) {
+        urlFilters = `?filteredCategories=${categoryIdParam}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      } else if (searchedPrompts.length > 0) {
+        urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      } else {
+        urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+      }
+    };
+
+    setupUrlFilters();
 
     async function fetchPrompts() {
       const url = `${apiURL()}/prompts/${urlFilters}`;
@@ -255,8 +275,19 @@ export const Prompts = () => {
         setTopics(topicsResponse);
       } */
     }
+    async function setCategoryByParams() {
+      const relatedTopics = await getTopicsByCategory(
+        parseInt(categoryIdParam, 10),
+      );
+      setFilteredTopics(relatedTopics);
+      setCounter(1);
+    }
+
     fetchPrompts();
     fetchTopics();
+    if (categoryIdParam && !filteredTopics.length > 0 && counter < 1) {
+      setCategoryByParams();
+    }
     /* fetchPromptsPagination(); */
   }, [
     filteredTopics,
@@ -265,6 +296,8 @@ export const Prompts = () => {
     orderBy,
     searchedPrompts,
     topicsListActive,
+    categoryIdParam,
+    counter,
   ]);
 
   /*
@@ -300,14 +333,6 @@ export const Prompts = () => {
     }
   };
 
-  const getTopicsByCategory = async (categoryId) => {
-    const response = await fetch(`${apiURL()}/topics/`);
-    const topicsResponse = await response.json();
-    const relatedTopics = topicsResponse
-      .filter((item) => item.categoryId === categoryId)
-      .map((item) => item.id);
-    return relatedTopics;
-  };
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
   };

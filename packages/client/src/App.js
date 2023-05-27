@@ -28,6 +28,12 @@ function App() {
             <Route path="/test" element={<TestPage />} />
             <Route path="/prompts" element={<Prompts />} />
             <Route exact path="/prompts/:id" element={<PromptView />} />
+            <Route exact path="/prompts/topic/:topicId" element={<Prompts />} />
+            <Route
+              exact
+              path="/prompts/category/:categoryIdParam"
+              element={<Prompts />}
+            />
             <Route exact path="/faq" element={<Faq />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
