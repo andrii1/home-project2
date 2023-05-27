@@ -6,6 +6,7 @@ const exampleResources = require('./exampleResources.router');
 const prompts = require('./prompts.router');
 const categories = require('./categories.router');
 const topics = require('./topics.router');
+const promptsResources = require('./promptsResources.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -39,5 +40,6 @@ router.use('/exampleResources', exampleResources);
 router.use('/prompts', prompts);
 router.use('/categories', categories);
 router.use('/topics', topics);
+router.use('/promptsResources', promptsResources);
 
 module.exports = router;
