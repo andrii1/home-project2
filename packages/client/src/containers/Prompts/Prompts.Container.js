@@ -45,7 +45,7 @@ export const Prompts = () => {
 
   const location = useLocation();
   const { frontPageItem = '' } = location.state || {};
-  const { topicId, categoryIdParam } = useParams();
+  const { topicIdParam, categoryIdParam } = useParams();
   let initialStateTopics;
   const getTopicsByCategory = async (categoryId) => {
     const response = await fetch(`${apiURL()}/topics/`);
@@ -56,10 +56,12 @@ export const Prompts = () => {
     return relatedTopics;
   };
 
-  if (topicId) {
-    initialStateTopics = topicId;
+  if (topicIdParam) {
+    initialStateTopics = [parseInt(topicIdParam, 10)];
+    console.log('initialStateTopics', initialStateTopics);
   } else if (frontPageItem) {
     initialStateTopics = frontPageItem;
+    console.log('initialStateTopics', initialStateTopics);
   } else {
     initialStateTopics = [];
   }
@@ -83,7 +85,8 @@ export const Prompts = () => {
   const [filteredTopics, setFilteredTopics] = useState(initialStateTopics);
   const [searchedTopics, setSearchedTopics] = useState('');
   const [searchedPrompts, setSearchedPrompts] = useState('');
-  const [counter, setCounter] = useState(0);
+  const [counterCategoryParam, setCounterCategoryParam] = useState(0);
+  const [pageTitle, setPageTitle] = useState('');
 
   useEffect(() => {
     let urlFilters = '';
@@ -92,7 +95,11 @@ export const Prompts = () => {
         urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
       } else if (filteredTopics.length > 0) {
         urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-      } else if (categoryIdParam && !filteredTopics.length > 0 && counter < 1) {
+      } else if (
+        categoryIdParam &&
+        !filteredTopics.length > 0 &&
+        counterCategoryParam < 1
+      ) {
         urlFilters = `?filteredCategories=${categoryIdParam}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
       } else if (searchedPrompts.length > 0) {
         urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
@@ -123,7 +130,7 @@ export const Prompts = () => {
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-
+      console.log('topicsResponse', topicsResponse);
       // eslint-disable-next-line prefer-arrow-callback
       let topicsAfterSearch;
       if (searchedTopics) {
@@ -274,18 +281,39 @@ export const Prompts = () => {
       } else {
         setTopics(topicsResponse);
       } */
+      if (topicIdParam) {
+        setPageTitle(
+          `ChatGPT prompts - ${topicsResponse
+            .filter((topic) => topic.id === parseInt(topicIdParam, 10))
+            .map((item) => item.title)}`,
+        );
+      } else if (categoryIdParam) {
+        setPageTitle(
+          topicsResponse
+            .filter(
+              (topic) => topic.categoryId === parseInt(categoryIdParam, 10),
+            )
+            .map((item) => item.categoryTitle),
+        );
+      } else {
+        setPageTitle('Prompt library');
+      }
     }
     async function setCategoryByParams() {
       const relatedTopics = await getTopicsByCategory(
         parseInt(categoryIdParam, 10),
       );
       setFilteredTopics(relatedTopics);
-      setCounter(1);
+      setCounterCategoryParam(1);
     }
 
     fetchPrompts();
     fetchTopics();
-    if (categoryIdParam && !filteredTopics.length > 0 && counter < 1) {
+    if (
+      categoryIdParam &&
+      !filteredTopics.length > 0 &&
+      counterCategoryParam < 1
+    ) {
       setCategoryByParams();
     }
     /* fetchPromptsPagination(); */
@@ -296,8 +324,9 @@ export const Prompts = () => {
     orderBy,
     searchedPrompts,
     topicsListActive,
+    topicIdParam,
     categoryIdParam,
-    counter,
+    counterCategoryParam,
   ]);
 
   /*
@@ -474,7 +503,7 @@ export const Prompts = () => {
   return (
     <>
       <Helmet>
-        <title>Prompt library</title>
+        <title>{pageTitle}</title>
       </Helmet>
       <main>
         <h1 className="hero-header">Prompts</h1>
