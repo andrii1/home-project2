@@ -394,19 +394,19 @@ export const Prompts = () => {
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
           <FacebookShareButton
-            url={`https://www.example.com/prompts/${prompt.id}`}
+            url={`https://www.prompthunt.me/prompts/${prompt.id}`}
           >
             <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
           </FacebookShareButton>
           <TwitterShareButton
-            url={`https://www.example.com/prompts/${prompt.id}`}
+            url={`https://www.prompthunt.me//prompts/${prompt.id}`}
             title={`Check out this GPT prompt: '${prompt.title}'`}
             hashtags={['prompts']}
           >
             <FontAwesomeIcon className="share-icon" icon={faTwitter} />
           </TwitterShareButton>
           <LinkedinShareButton
-            url={`https://www.example.com/prompts/${prompt.id}`}
+            url={`https://www.prompthunt.me//prompts/${prompt.id}`}
           >
             <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
           </LinkedinShareButton>
