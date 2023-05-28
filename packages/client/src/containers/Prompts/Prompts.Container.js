@@ -283,20 +283,20 @@ export const Prompts = () => {
       } */
       if (topicIdParam) {
         setPageTitle(
-          `ChatGPT prompts - ${topicsResponse
+          `Best Chat GPT prompts for ${topicsResponse
             .filter((topic) => topic.id === parseInt(topicIdParam, 10))
             .map((item) => item.title)}`,
         );
       } else if (categoryIdParam) {
         setPageTitle(
-          `ChatGPT prompts - ${topicsResponse
+          `Best Chat GPT prompts for ${topicsResponse
             .filter(
               (topic) => topic.categoryId === parseInt(categoryIdParam, 10),
             )
             .map((item) => item.categoryTitle)}`,
         );
       } else {
-        setPageTitle('Prompt library');
+        setPageTitle('Best Chat GPT prompts - Prompt library');
       }
     }
     async function setCategoryByParams() {

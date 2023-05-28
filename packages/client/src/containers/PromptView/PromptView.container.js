@@ -44,10 +44,10 @@ export const PromptView = () => {
         <title>{`${String(prompt.title).substring(
           0,
           50,
-        )} - ChatGPT prompts`}</title>
+        )} - Chat GPT prompts`}</title>
         <meta
           name="description"
-          content={`Find ChatGPT prompts about ${prompt.topicTitle} and ${prompt.categoryTitle}`}
+          content={`Top Chat GPT prompts for ${prompt.topicTitle} and ${prompt.categoryTitle}`}
         />
       </Helmet>
       <main>

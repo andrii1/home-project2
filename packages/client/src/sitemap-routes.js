@@ -6,6 +6,8 @@ export default (
     <Route path="/" />
     <Route path="/prompts" />
     <Route exact path="/prompts/:id" />
+    <Route exact path="/prompts/topic/:topicIdParam" />
+    <Route exact path="/prompts/category/:categoryIdParam" />
     <Route exact path="/faq" />
     <Route exact path="/login" />
     <Route exact path="/signup" />

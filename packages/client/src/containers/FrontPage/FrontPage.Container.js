@@ -83,6 +83,10 @@ export const FrontPage = () => {
         <title>
           Prompt library - 3500+ GPT prompts, 110 topics, 22 categories
         </title>
+        <meta
+          name="description"
+          content="Find best Chat GPT prompts for free"
+        />
       </Helmet>
       <div className="hero">
         <h1>Find best GPT prompts</h1>
