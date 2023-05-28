@@ -289,11 +289,11 @@ export const Prompts = () => {
         );
       } else if (categoryIdParam) {
         setPageTitle(
-          topicsResponse
+          `ChatGPT prompts - ${topicsResponse
             .filter(
               (topic) => topic.categoryId === parseInt(categoryIdParam, 10),
             )
-            .map((item) => item.categoryTitle),
+            .map((item) => item.categoryTitle)}`,
         );
       } else {
         setPageTitle('Prompt library');

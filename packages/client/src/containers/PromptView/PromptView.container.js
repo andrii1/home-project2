@@ -41,12 +41,13 @@ export const PromptView = () => {
   return (
     <>
       <Helmet>
-        <title>
-          {`${prompt.title} - ChatGPT prompts for ${prompt.categoryTitle}`}
-        </title>
+        <title>{`${String(prompt.title).substring(
+          0,
+          50,
+        )} - ChatGPT prompts`}</title>
         <meta
           name="description"
-          content={`Find ChatGPT prompts related to ${prompt.topicTitle} and ${prompt.categoryTitle}`}
+          content={`Find ChatGPT prompts about ${prompt.topicTitle} and ${prompt.categoryTitle}`}
         />
       </Helmet>
       <main>
