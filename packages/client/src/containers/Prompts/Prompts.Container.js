@@ -58,10 +58,8 @@ export const Prompts = () => {
 
   if (topicIdParam) {
     initialStateTopics = [parseInt(topicIdParam, 10)];
-    console.log('initialStateTopics', initialStateTopics);
   } else if (frontPageItem) {
     initialStateTopics = frontPageItem;
-    console.log('initialStateTopics', initialStateTopics);
   } else {
     initialStateTopics = [];
   }
@@ -130,7 +128,6 @@ export const Prompts = () => {
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
-      console.log('topicsResponse', topicsResponse);
       // eslint-disable-next-line prefer-arrow-callback
       let topicsAfterSearch;
       if (searchedTopics) {
