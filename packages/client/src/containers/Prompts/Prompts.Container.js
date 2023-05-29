@@ -15,7 +15,9 @@ import {
   faSearch,
   faArrowUp,
   faArrowUpRightFromSquare,
+  faBookmark as faBookmarkSolid,
 } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import {
   faFacebookF,
   faTwitter,
@@ -359,6 +361,22 @@ export const Prompts = () => {
     }
   };
 
+  const addFavorite = async (promptId) => {
+    const response = await fetch(`${apiURL()}/favorites`, {
+      method: 'POST',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt_id: promptId,
+      }),
+    });
+    if (response.ok) {
+      return response;
+    }
+  };
+
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
   };
@@ -444,6 +462,10 @@ export const Prompts = () => {
           <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
+          <FontAwesomeIcon
+            icon={faBookmark}
+            onClick={(event) => addFavorite(prompt.id)}
+          />
           <FacebookShareButton
             url={`https://www.prompthunt.me/prompts/${prompt.id}`}
           >

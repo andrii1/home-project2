@@ -29,6 +29,9 @@ export const Navigation = () => {
           {user ? (
             <div className="container-logged-in">
               {name}
+              <NavLink to="/bookmarks" className="login">
+                Bookmarks
+              </NavLink>
               <Link to="/">
                 <FontAwesomeIcon icon={faUser} />
               </Link>

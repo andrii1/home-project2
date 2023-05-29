@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { apiURL } from '../../apiURL';
 import { useUserContext } from '../../userContext';
 import './Signup.Style.css';
 import { Button } from '../../components/Button/Button.component';
@@ -12,7 +13,6 @@ export const Signup = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
 
-  /*
   const addUserToDb = useCallback(async (userCreated, fullName) => {
     const requestOptions = {
       method: 'POST',
@@ -24,7 +24,7 @@ export const Signup = () => {
       }),
     };
     await fetch(`${apiURL()}/users`, requestOptions);
-  }, []); */
+  }, []);
   const register = () => {
     /* if (!name) alert('Please enter name'); add error handling */
     registerWithEmailAndPassword(name, email, password);
@@ -32,10 +32,10 @@ export const Signup = () => {
   useEffect(() => {
     if (loading) return;
     if (user) {
-      /* addUserToDb(user, name1); */
+      addUserToDb(user, name);
       navigate('/');
     }
-  }, [user, loading, navigate]);
+  }, [user, name, loading, addUserToDb, navigate]);
   return (
     <div className="register-container">
       <div className="register">

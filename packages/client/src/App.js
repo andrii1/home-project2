@@ -10,6 +10,7 @@ import { Signup } from './containers/Signup/Signup.Container';
 import Login from './containers/Login/Login.Container';
 import Reset from './containers/Reset/Reset.Container';
 import { Dashboard } from './containers/Dashboard/Dashboard.Container';
+import { Bookmarks } from './containers/Bookmarks/Bookmarks.Container';
 import { Faq } from './containers/Faq/Faq.Container';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
 import { Navigation } from './components/Navigation/Navigation.component';
@@ -39,6 +40,7 @@ function App() {
               element={<Prompts />}
             />
             <Route exact path="/faq" element={<Faq />} />
+            <Route exact path="/bookmarks" element={<Bookmarks />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/reset" element={<Reset />} />
