@@ -219,6 +219,7 @@ ul.topics-list {
 
 .share-icon {
   color: #000;
+  cursor: pointer;
 }
 
 .prompt-additional-text {

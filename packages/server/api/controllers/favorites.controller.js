@@ -11,7 +11,7 @@ const getFavoritesByUserId = async (token) => {
   }
 
   try {
-    const favorites = await knex('products')
+    const favorites = await knex('prompts')
       .select('prompts.*', 'favorites.id as favoritesID')
       .leftJoin('favorites', function () {
         this.on('prompts.id', '=', 'favorites.prompt_id');

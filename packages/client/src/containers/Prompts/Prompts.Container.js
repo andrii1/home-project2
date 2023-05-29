@@ -463,6 +463,7 @@ export const Prompts = () => {
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
           <FontAwesomeIcon
+            className="share-icon"
             icon={faBookmark}
             onClick={(event) => addFavorite(prompt.id)}
           />
