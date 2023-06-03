@@ -47,7 +47,7 @@ export const Promptrow = ({ id, title, category, topic, ...props }) => {
           >
             <img src={iconCopy} alt="copy" className="icon-copy" />
           </button>
-          <Link to={id.toString()} params={{ id }}>
+          <Link to={`../prompts/${id.toString()}`} params={{ id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
           <Link>Remove from bookmarks</Link>

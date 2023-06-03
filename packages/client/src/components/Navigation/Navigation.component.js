@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
 import { Button } from '../Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export const Navigation = () => {
   const { user, name, logout } = useUserContext();
@@ -35,10 +35,10 @@ export const Navigation = () => {
               <Link to="/">
                 <FontAwesomeIcon icon={faUser} />
               </Link>
-              <Button
-                label="Logout"
-                backgroundColor="#F5F5F5"
+              <FontAwesomeIcon
                 onClick={logout}
+                className="share-icon"
+                icon={faRightFromBracket}
               />
             </div>
           ) : (
