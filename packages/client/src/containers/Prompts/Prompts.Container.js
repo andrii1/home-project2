@@ -395,7 +395,7 @@ export const Prompts = () => {
       }),
     });
     if (response.ok) {
-      return response;
+      fetchFavorites();
     }
   };
 
@@ -456,11 +456,6 @@ export const Prompts = () => {
     }
   };
 
-  const checkIfFavorited = (id) => {
-    const favoritesArray = favorites.map((favorite) => favorite.id);
-    return favoritesArray.includes(id);
-  };
-
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
@@ -489,7 +484,7 @@ export const Prompts = () => {
           <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
-          {checkIfFavorited(prompt.id) ? (
+          {favorites.some((x) => x.id === prompt.id) ? (
             <FontAwesomeIcon icon={faBookmarkSolid} />
           ) : (
             <FontAwesomeIcon
