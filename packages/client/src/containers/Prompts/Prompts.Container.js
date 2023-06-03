@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { CSVLink } from 'react-csv';
@@ -87,6 +87,7 @@ export const Prompts = () => {
   const [searchedPrompts, setSearchedPrompts] = useState('');
   const [counterCategoryParam, setCounterCategoryParam] = useState(0);
   const [pageTitle, setPageTitle] = useState('');
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     let urlFilters = '';
@@ -328,6 +329,27 @@ export const Prompts = () => {
     counterCategoryParam,
   ]);
 
+  const fetchFavorites = useCallback(async () => {
+    const url = `${apiURL()}/favorites`;
+    const response = await fetch(url, {
+      headers: {
+        token: `token ${user?.uid}`,
+      },
+    });
+    const favoritesData = await response.json();
+    console.log('favoritesData', favoritesData);
+    if (Array.isArray(favoritesData)) {
+      setFavorites(favoritesData);
+      console.log('favoritesData', favoritesData);
+    } else {
+      setFavorites([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
+
   /*
   useEffect(() => {
     //Runs only on the first render
@@ -434,6 +456,11 @@ export const Prompts = () => {
     }
   };
 
+  const checkIfFavorited = (id) => {
+    const favoritesArray = favorites.map((favorite) => favorite.id);
+    return favoritesArray.includes(id);
+  };
+
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
@@ -462,11 +489,15 @@ export const Prompts = () => {
           <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
-          <FontAwesomeIcon
-            className="share-icon"
-            icon={faBookmark}
-            onClick={(event) => addFavorite(prompt.id)}
-          />
+          {checkIfFavorited(prompt.id) ? (
+            <FontAwesomeIcon icon={faBookmarkSolid} />
+          ) : (
+            <FontAwesomeIcon
+              className="share-icon"
+              icon={faBookmark}
+              onClick={(event) => addFavorite(prompt.id)}
+            />
+          )}
           <FacebookShareButton
             url={`https://www.prompthunt.me/prompts/${prompt.id}`}
           >
