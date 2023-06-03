@@ -24,7 +24,14 @@ import {
 /**
  * Primary UI component for user interaction
  */
-export const Promptrow = ({ id, title, category, topic, ...props }) => {
+export const Promptrow = ({
+  id,
+  title,
+  category,
+  topic,
+  deleteBookmark,
+  ...props
+}) => {
   return (
     <>
       <div className="col-1">{title}</div>
@@ -50,7 +57,6 @@ export const Promptrow = ({ id, title, category, topic, ...props }) => {
           <Link to={`../prompts/${id.toString()}`} params={{ id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </Link>
-          <Link>Remove from bookmarks</Link>
           <FacebookShareButton url={`https://www.prompthunt.me/prompts/${id}`}>
             <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
           </FacebookShareButton>
@@ -64,6 +70,9 @@ export const Promptrow = ({ id, title, category, topic, ...props }) => {
           <LinkedinShareButton url={`https://www.prompthunt.me//prompts/${id}`}>
             <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
           </LinkedinShareButton>
+          <Link className="remove-bookmark" onClick={deleteBookmark}>
+            Remove from bookmarks
+          </Link>
         </div>
       </div>
     </>

@@ -61,7 +61,7 @@ const deleteFavorites = async (token, favoritesId) => {
   }
   try {
     const deletedFav = await knex('favorites')
-      .where({ id: favoritesId, user_id: user.id })
+      .where({ prompt_id: favoritesId, user_id: user.id })
       .del();
     if (deletedFav === 0) {
       throw new HttpError('The favorites ID you provided does not exist.', 400);

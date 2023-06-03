@@ -34,6 +34,23 @@ export const Bookmarks = () => {
     fetchFavorites();
   }, [fetchFavorites]);
 
+  const handleDeleteBookmarks = (favoritesId, id) => {
+    const deleteFavorites = async () => {
+      const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
+        method: 'DELETE',
+        headers: {
+          token: `token ${user?.uid}`,
+        },
+      });
+      console.log('response', response);
+      if (response.ok) {
+        fetchFavorites();
+      }
+    };
+    console.log('favoritesId', favoritesId);
+
+    deleteFavorites();
+  };
   const favoritesList = favorites.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <Promptrow
@@ -41,6 +58,7 @@ export const Bookmarks = () => {
         title={prompt.title}
         category={prompt.category}
         topic={prompt.topic}
+        deleteBookmark={() => handleDeleteBookmarks(prompt.id)}
       />
     </div>
   ));
