@@ -31,6 +31,7 @@ import {
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { apiURL } from '../../apiURL';
 import { Checkbox } from '../../components/Checkbox/Checkbox.component';
+import { Loading } from '../../components/Loading/Loading.Component';
 import './Prompts.Style.css';
 
 const ButtonMuiStyled = styled(ButtonMui)({
@@ -88,8 +89,10 @@ export const Prompts = () => {
   const [counterCategoryParam, setCounterCategoryParam] = useState(0);
   const [pageTitle, setPageTitle] = useState('');
   const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     let urlFilters = '';
     const setupUrlFilters = async () => {
       if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
@@ -126,6 +129,7 @@ export const Prompts = () => {
         };
       });
       setPromptsExport(promptsExportReady);
+      setIsLoading(false);
     }
 
     async function fetchTopics() {
@@ -688,7 +692,7 @@ export const Prompts = () => {
               <div className="col-6">Bookmark</div> */}
                 <div className="col-7" />
               </div>
-              {promptsList}
+              {isLoading ? <Loading /> : promptsList}
             </div>
           </div>
         </section>
