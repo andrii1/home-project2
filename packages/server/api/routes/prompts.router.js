@@ -132,12 +132,4 @@ router.get('/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/:id/ratings', (req, res, next) => {
-  const { token } = req.headers;
-  ratingsController
-    .getRatingsByPromptId(token, req.params.id)
-    .then((result) => res.json(result))
-    .catch(next);
-});
-
 module.exports = router;

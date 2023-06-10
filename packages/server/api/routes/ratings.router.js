@@ -29,10 +29,17 @@ const ratingsController = require('../controllers/ratings.controller');
 router.get('/', (req, res, next) => {
   const { token } = req.headers;
   // TO DO : once we will add authentication I will update it
-  ratingsController
-    .getRatingsByUserId(token)
-    .then((result) => res.json(result))
-    .catch(next);
+  if (req.query.promptId) {
+    ratingsController
+      .getRatingsByPromptId(token, req.query.promptId)
+      .then((result) => res.json(result))
+      .catch(next);
+  } else {
+    ratingsController
+      .getRatingsByUserId(token)
+      .then((result) => res.json(result))
+      .catch(next);
+  }
 });
 
 /**
