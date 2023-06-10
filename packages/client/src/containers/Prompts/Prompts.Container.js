@@ -89,6 +89,7 @@ export const Prompts = () => {
   const [counterCategoryParam, setCounterCategoryParam] = useState(0);
   const [pageTitle, setPageTitle] = useState('');
   const [favorites, setFavorites] = useState([]);
+  const [ratings, setRatings] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -354,6 +355,26 @@ export const Prompts = () => {
     fetchFavorites();
   }, [fetchFavorites]);
 
+  const fetchRatings = useCallback(async () => {
+    const url = `${apiURL()}/ratings`;
+    const response = await fetch(url, {
+      headers: {
+        token: `token ${user?.uid}`,
+      },
+    });
+    const ratingsData = await response.json();
+    console.log('ratingsData', ratingsData);
+    if (Array.isArray(ratingsData)) {
+      setRatings(ratingsData);
+    } else {
+      setRatings([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchRatings();
+  }, [fetchRatings]);
+
   /*
   useEffect(() => {
     //Runs only on the first render
@@ -400,6 +421,22 @@ export const Prompts = () => {
     });
     if (response.ok) {
       fetchFavorites();
+    }
+  };
+
+  const addRating = async (promptId) => {
+    const response = await fetch(`${apiURL()}/ratings`, {
+      method: 'POST',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt_id: promptId,
+      }),
+    });
+    if (response.ok) {
+      fetchRatings();
     }
   };
 
@@ -476,6 +513,17 @@ export const Prompts = () => {
       <div className="col-6">❤️</div> */}
       <div className="col-7">
         <div className="icons-prompts">
+          {ratings.some((rating) => rating.id === prompt.id) ? (
+            <button type="button">
+              Add rating
+              {ratings.filter((rating) => rating.id === prompt.id).length}
+            </button>
+          ) : (
+            <button type="button" onClick={(event) => addRating(prompt.id)}>
+              Add rating
+              {ratings.filter((rating) => rating.id === prompt.id).length}
+            </button>
+          )}
           <button
             type="button"
             className="button-copy"
