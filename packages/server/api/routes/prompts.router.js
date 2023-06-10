@@ -7,6 +7,7 @@ const router = express.Router({ mergeParams: true });
 
 // controllers
 const promptsController = require('../controllers/prompts.controller');
+const ratingsController = require('../controllers/ratings.controller');
 
 /**
  * @swagger
@@ -127,6 +128,14 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   promptsController
     .getPromptById(req.params.id)
+    .then((result) => res.json(result))
+    .catch(next);
+});
+
+router.get('/:id/ratings', (req, res, next) => {
+  const { token } = req.headers;
+  ratingsController
+    .getRatingsByPromptId(token, req.params.id)
     .then((result) => res.json(result))
     .catch(next);
 });
