@@ -16,22 +16,15 @@ import {
   faArrowUp,
   faArrowUpRightFromSquare,
   faBookmark as faBookmarkSolid,
+  faCaretUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
-import {
-  faFacebookF,
-  faTwitter,
-  faLinkedinIn,
-} from '@fortawesome/free-brands-svg-icons';
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-} from 'react-share';
+
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { apiURL } from '../../apiURL';
 import { Checkbox } from '../../components/Checkbox/Checkbox.component';
 import { Loading } from '../../components/Loading/Loading.Component';
+import BasicMenu from '../../components/BasicMenu/BasicMenu.Component';
 import './Prompts.Style.css';
 
 const ButtonMuiStyled = styled(ButtonMui)({
@@ -527,16 +520,25 @@ export const Prompts = () => {
       <div className="col-7">
         <div className="icons-prompts">
           {ratings.some((rating) => rating.id === prompt.id) ? (
-            <button type="button" onClick={(event) => deleteRating(prompt.id)}>
-              Add rating
+            <button
+              type="button"
+              className="button-rating"
+              onClick={(event) => deleteRating(prompt.id)}
+            >
+              <FontAwesomeIcon icon={faCaretUp} />
               {ratings.filter((rating) => rating.id === prompt.id).length}
             </button>
           ) : (
-            <button type="button" onClick={(event) => addRating(prompt.id)}>
-              Add rating
+            <button
+              type="button"
+              className="button-rating"
+              onClick={(event) => addRating(prompt.id)}
+            >
+              <FontAwesomeIcon icon={faCaretUp} />
               {ratings.filter((rating) => rating.id === prompt.id).length}
             </button>
           )}
+
           <button
             type="button"
             className="button-copy"
@@ -547,34 +549,27 @@ export const Prompts = () => {
             <img src={iconCopy} alt="copy" className="icon-copy" />
           </button>
           <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
           </Link>
           {favorites.some((x) => x.id === prompt.id) ? (
-            <FontAwesomeIcon icon={faBookmarkSolid} />
+            <FontAwesomeIcon
+              className="share-icon"
+              icon={faBookmarkSolid}
+              size="lg"
+            />
           ) : (
             <FontAwesomeIcon
               className="share-icon"
               icon={faBookmark}
-              onClick={(event) => addFavorite(prompt.id)}
+              size="lg"
             />
           )}
-          <FacebookShareButton
-            url={`https://www.prompthunt.me/prompts/${prompt.id}`}
-          >
-            <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
-          </FacebookShareButton>
-          <TwitterShareButton
-            url={`https://www.prompthunt.me//prompts/${prompt.id}`}
-            title={`Check out this GPT prompt: '${prompt.title}'`}
-            hashtags={['prompts']}
-          >
-            <FontAwesomeIcon className="share-icon" icon={faTwitter} />
-          </TwitterShareButton>
-          <LinkedinShareButton
-            url={`https://www.prompthunt.me//prompts/${prompt.id}`}
-          >
-            <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
-          </LinkedinShareButton>
+          <BasicMenu
+            promptId={prompt.id}
+            isFavorite={favorites.some((x) => x.id === prompt.id)}
+            addFavorite={(event) => addFavorite(prompt.id)}
+            promptTitle={prompt.title}
+          />
         </div>
       </div>
     </div>

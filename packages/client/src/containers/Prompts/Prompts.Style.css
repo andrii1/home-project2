@@ -109,7 +109,7 @@
 }
 
 .icon-copy {
-  width: 0.9rem;
+  width: 1.1rem;
 }
 
 .sort-icon {
@@ -244,6 +244,16 @@ ul.topics-list {
 .container-tooltip a {
   text-decoration: underline;
   color: #fff;
+}
+
+.button-rating {
+  display: flex;
+  min-width: 2rem;
+  padding: 0.1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 992px) {
