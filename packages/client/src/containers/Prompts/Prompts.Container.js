@@ -440,6 +440,19 @@ export const Prompts = () => {
     }
   };
 
+  const deleteRating = async (promptId) => {
+    const response = await fetch(`${apiURL()}/ratings/${promptId}`, {
+      method: 'DELETE',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      fetchRatings();
+    }
+  };
+
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
   };
@@ -514,7 +527,7 @@ export const Prompts = () => {
       <div className="col-7">
         <div className="icons-prompts">
           {ratings.some((rating) => rating.id === prompt.id) ? (
-            <button type="button">
+            <button type="button" onClick={(event) => deleteRating(prompt.id)}>
               Add rating
               {ratings.filter((rating) => rating.id === prompt.id).length}
             </button>
