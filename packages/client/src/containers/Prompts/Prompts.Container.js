@@ -551,19 +551,6 @@ export const Prompts = () => {
           <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
           </Link>
-          {favorites.some((x) => x.id === prompt.id) ? (
-            <FontAwesomeIcon
-              className="share-icon"
-              icon={faBookmarkSolid}
-              size="lg"
-            />
-          ) : (
-            <FontAwesomeIcon
-              className="share-icon"
-              icon={faBookmark}
-              size="lg"
-            />
-          )}
           <BasicMenu
             promptId={prompt.id}
             isFavorite={favorites.some((x) => x.id === prompt.id)}
