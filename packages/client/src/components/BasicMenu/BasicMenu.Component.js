@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './BasicMenu.Style.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
@@ -67,12 +68,18 @@ export default function BasicMenu({
               type="button"
               onClick={deleteBookmark}
               onKeyDown={deleteBookmark}
+              className="button-bookmark"
             >
               <FontAwesomeIcon className="share-icon" icon={faBookmarkSolid} />
               &nbsp; Remove from bookmarks
             </button>
           ) : (
-            <button type="button" onClick={addFavorite} onKeyDown={addFavorite}>
+            <button
+              type="button"
+              onClick={addFavorite}
+              onKeyDown={addFavorite}
+              className="button-bookmark"
+            >
               <FontAwesomeIcon className="share-icon" icon={faBookmark} />
               &nbsp; Add to bookmarks
             </button>
