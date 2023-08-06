@@ -5,8 +5,7 @@ import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faSearch,
-  faArrowUp,
+  faTrash,
   faArrowUpRightFromSquare,
   faBookmark as faBookmarkSolid,
 } from '@fortawesome/free-solid-svg-icons';
@@ -55,23 +54,35 @@ export const Promptrow = ({
             <img src={iconCopy} alt="copy" className="icon-copy" />
           </button>
           <Link to={`../prompts/${id.toString()}`} params={{ id }}>
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
           </Link>
           <FacebookShareButton url={`https://www.prompthunt.me/prompts/${id}`}>
-            <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
+            <FontAwesomeIcon
+              className="share-icon"
+              icon={faFacebookF}
+              size="lg"
+            />
           </FacebookShareButton>
           <TwitterShareButton
             url={`https://www.prompthunt.me//prompts/${id}`}
             title={`Check out this GPT prompt: '${title}'`}
             hashtags={['prompts']}
           >
-            <FontAwesomeIcon className="share-icon" icon={faTwitter} />
+            <FontAwesomeIcon
+              className="share-icon"
+              icon={faTwitter}
+              size="lg"
+            />
           </TwitterShareButton>
           <LinkedinShareButton url={`https://www.prompthunt.me//prompts/${id}`}>
-            <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
+            <FontAwesomeIcon
+              className="share-icon"
+              icon={faLinkedinIn}
+              size="lg"
+            />
           </LinkedinShareButton>
           <Link className="remove-bookmark" onClick={deleteBookmark}>
-            Remove from bookmarks
+            <FontAwesomeIcon icon={faTrash} size="lg" className="trash-icon" />
           </Link>
         </div>
       </div>

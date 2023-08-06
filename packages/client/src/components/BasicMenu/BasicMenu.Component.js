@@ -28,6 +28,7 @@ export default function BasicMenu({
   promptTitle,
   isFavorite,
   addFavorite,
+  deleteBookmark = { deleteBookmark },
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -61,10 +62,10 @@ export default function BasicMenu({
       >
         <MenuItem onClick={handleClose}>
           {isFavorite ? (
-            <>
+            <div onClick={deleteBookmark}>
               <FontAwesomeIcon className="share-icon" icon={faBookmarkSolid} />
               &nbsp; Remove from bookmarks
-            </>
+            </div>
           ) : (
             <div onClick={addFavorite}>
               <FontAwesomeIcon className="share-icon" icon={faBookmark} />

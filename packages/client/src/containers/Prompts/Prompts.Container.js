@@ -446,6 +446,24 @@ export const Prompts = () => {
     }
   };
 
+  const handleDeleteBookmarks = (favoritesId) => {
+    const deleteFavorites = async () => {
+      const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
+        method: 'DELETE',
+        headers: {
+          token: `token ${user?.uid}`,
+        },
+      });
+      console.log('response', response);
+      if (response.ok) {
+        fetchFavorites();
+      }
+    };
+    console.log('favoritesId', favoritesId);
+
+    deleteFavorites();
+  };
+
   const handleSearchPrompts = (event) => {
     setSearchedPrompts(event.target.value);
   };
@@ -556,6 +574,7 @@ export const Prompts = () => {
             isFavorite={favorites.some((x) => x.id === prompt.id)}
             addFavorite={(event) => addFavorite(prompt.id)}
             promptTitle={prompt.title}
+            deleteBookmark={() => handleDeleteBookmarks(prompt.id)}
           />
         </div>
       </div>
