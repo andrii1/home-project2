@@ -91,41 +91,17 @@ export const Promptrow = ({
 };
 
 Promptrow.propTypes = {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary: PropTypes.bool,
-  lighterBg: PropTypes.bool,
-
-  /**
-   * What background color to use
-   */
-  backgroundColor: PropTypes.string,
-  className: PropTypes.string,
-  /**
-   * How large should the button be?
-   */
-  color: PropTypes.string,
-  /**
-   * How large should the button be?
-   */
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
-  /**
-   * Button contents
-   */
-  label: PropTypes.string.isRequired,
-  /**
-   * Optional click handler
-   */
-  onClick: PropTypes.func,
+  id: PropTypes.string,
+  title: PropTypes.string,
+  category: PropTypes.string,
+  topic: PropTypes.string,
+  deleteBookmark: PropTypes.func,
 };
 
 Promptrow.defaultProps = {
-  backgroundColor: null,
-  className: null,
-  color: null,
-  primary: false,
-  lighterBg: false,
-  size: 'medium',
-  onClick: undefined,
+  id: null,
+  title: null,
+  category: null,
+  topic: null,
+  deleteBookmark: undefined,
 };

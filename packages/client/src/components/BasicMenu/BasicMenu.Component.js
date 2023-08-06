@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -62,15 +63,19 @@ export default function BasicMenu({
       >
         <MenuItem onClick={handleClose}>
           {isFavorite ? (
-            <div onClick={deleteBookmark}>
+            <button
+              type="button"
+              onClick={deleteBookmark}
+              onKeyDown={deleteBookmark}
+            >
               <FontAwesomeIcon className="share-icon" icon={faBookmarkSolid} />
               &nbsp; Remove from bookmarks
-            </div>
+            </button>
           ) : (
-            <div onClick={addFavorite}>
+            <button type="button" onClick={addFavorite} onKeyDown={addFavorite}>
               <FontAwesomeIcon className="share-icon" icon={faBookmark} />
               &nbsp; Add to bookmarks
-            </div>
+            </button>
           )}
         </MenuItem>
         <MenuItem onClick={handleClose}>
@@ -104,3 +109,19 @@ export default function BasicMenu({
     </div>
   );
 }
+
+BasicMenu.propTypes = {
+  promptId: PropTypes.string,
+  promptTitle: PropTypes.string,
+  isFavorite: PropTypes.func,
+  addFavorite: PropTypes.func,
+  deleteBookmark: PropTypes.func,
+};
+
+BasicMenu.defaultProps = {
+  promptId: null,
+  promptTitle: null,
+  isFavorite: undefined,
+  addFavorite: undefined,
+  deleteBookmark: undefined,
+};

@@ -335,10 +335,9 @@ export const Prompts = () => {
       },
     });
     const favoritesData = await response.json();
-    console.log('favoritesData', favoritesData);
+
     if (Array.isArray(favoritesData)) {
       setFavorites(favoritesData);
-      console.log('favoritesData', favoritesData);
     } else {
       setFavorites([]);
     }
@@ -356,7 +355,7 @@ export const Prompts = () => {
       },
     });
     const ratingsData = await response.json();
-    console.log('ratingsData', ratingsData);
+
     if (Array.isArray(ratingsData)) {
       setRatings(ratingsData);
     } else {
@@ -454,12 +453,11 @@ export const Prompts = () => {
           token: `token ${user?.uid}`,
         },
       });
-      console.log('response', response);
+
       if (response.ok) {
         fetchFavorites();
       }
     };
-    console.log('favoritesId', favoritesId);
 
     deleteFavorites();
   };
