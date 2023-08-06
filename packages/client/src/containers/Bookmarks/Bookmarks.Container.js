@@ -20,10 +20,9 @@ export const Bookmarks = () => {
       },
     });
     const favoritesData = await response.json();
-    console.log('favoritesData', favoritesData);
+
     if (Array.isArray(favoritesData)) {
       setFavorites(favoritesData);
-      console.log('favoritesData', favoritesData);
     } else {
       setFavorites([]);
     }
@@ -42,12 +41,11 @@ export const Bookmarks = () => {
           token: `token ${user?.uid}`,
         },
       });
-      console.log('response', response);
+
       if (response.ok) {
         fetchFavorites();
       }
     };
-    console.log('favoritesId', favoritesId);
 
     deleteFavorites();
   };
