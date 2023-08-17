@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useCallback } from 'react';
@@ -25,6 +26,7 @@ import { apiURL } from '../../apiURL';
 import { Checkbox } from '../../components/Checkbox/Checkbox.component';
 import { Loading } from '../../components/Loading/Loading.Component';
 import BasicMenu from '../../components/BasicMenu/BasicMenu.Component';
+import Modal from '../../components/Modal/Modal.Component';
 import './Prompts.Style.css';
 
 const ButtonMuiStyled = styled(ButtonMui)({
@@ -62,6 +64,8 @@ export const Prompts = () => {
 
   const { user } = useUserContext();
   /* const [isLoading, setIsLoading] = useState(false); */
+  const [openModal, setOpenModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
   const [topicsListActive, setTopicsListActive] = useState('');
   const [prompts, setPrompts] = useState([]);
   const [orderBy, setOrderBy] = useState({
@@ -84,6 +88,11 @@ export const Prompts = () => {
   const [favorites, setFavorites] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const toggleModal = () => {
+    setOpenModal(false);
+    document.body.style.overflow = 'visible';
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -535,7 +544,7 @@ export const Prompts = () => {
       <div className="col-6">❤️</div> */}
       <div className="col-7">
         <div className="icons-prompts">
-          {ratings.some((rating) => rating.id === prompt.id) ? (
+          {user && ratings.some((rating) => rating.id === prompt.id) ? (
             <button
               type="button"
               className="button-rating"
@@ -544,11 +553,23 @@ export const Prompts = () => {
               <FontAwesomeIcon icon={faCaretUp} />
               {ratings.filter((rating) => rating.id === prompt.id).length}
             </button>
-          ) : (
+          ) : user ? (
             <button
               type="button"
               className="button-rating"
               onClick={(event) => addRating(prompt.id)}
+            >
+              <FontAwesomeIcon icon={faCaretUp} />
+              {ratings.filter((rating) => rating.id === prompt.id).length}
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="button-rating"
+              onClick={() => {
+                setOpenModal(true);
+                setModalTitle('Sign up to vote');
+              }}
             >
               <FontAwesomeIcon icon={faCaretUp} />
               {ratings.filter((rating) => rating.id === prompt.id).length}
@@ -573,6 +594,10 @@ export const Prompts = () => {
             addFavorite={(event) => addFavorite(prompt.id)}
             promptTitle={prompt.title}
             deleteBookmark={() => handleDeleteBookmarks(prompt.id)}
+            bookmarkOnClick={() => {
+              setOpenModal(true);
+              setModalTitle('Sign up to add bookmarks');
+            }}
           />
         </div>
       </div>
@@ -661,27 +686,26 @@ export const Prompts = () => {
                   </ButtonMuiStyled>
                 </CSVLink>
               ) : (
-                <Tooltip
-                  disableFocusListener
-                  interactive
-                  title={
-                    <div className="container-tooltip">
-                      Please <a href="/signup">create an account</a> to access
-                      this feature
-                    </div>
-                  }
-                  arrow
-                >
-                  <span>
-                    <ButtonMui
-                      variant="outlined"
-                      startIcon={<DownloadIcon />}
-                      disabled
-                    >
-                      Export
-                    </ButtonMui>
-                  </span>
-                </Tooltip>
+                <span>
+                  <ButtonMuiStyled
+                    variant="outlined"
+                    startIcon={<DownloadIcon />}
+                    style={{
+                      color: '#946b54',
+                      border: '1px solid #946b54',
+                      '&:hover': {
+                        backgroundColor: 'red!important',
+                        color: '#3c52b2',
+                      },
+                    }}
+                    onClick={() => {
+                      setOpenModal(true);
+                      setModalTitle('Sign up to export');
+                    }}
+                  >
+                    Export
+                  </ButtonMuiStyled>
+                </span>
               )}
             </div>
             <div className="prompts-table">
@@ -764,6 +788,9 @@ export const Prompts = () => {
           rowsPerPage={controller.rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
+          Sign up here
+        </Modal>
       </main>
     </>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import * as React from 'react';
 import './BasicMenu.Style.css';
 import Menu from '@mui/material/Menu';
@@ -19,6 +20,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { useUserContext } from '../../userContext';
 
 const IconButtonStyled = styled(IconButton)({
   margin: '0 0 0 -0.3rem',
@@ -31,6 +33,7 @@ export default function BasicMenu({
   isFavorite,
   addFavorite,
   deleteBookmark = { deleteBookmark },
+  bookmarkOnClick,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -40,6 +43,7 @@ export default function BasicMenu({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { user } = useUserContext();
 
   return (
     <div>
@@ -63,7 +67,7 @@ export default function BasicMenu({
         }}
       >
         <MenuItem onClick={handleClose}>
-          {isFavorite ? (
+          {user && isFavorite ? (
             <button
               type="button"
               onClick={deleteBookmark}
@@ -73,10 +77,20 @@ export default function BasicMenu({
               <FontAwesomeIcon className="share-icon" icon={faBookmarkSolid} />
               &nbsp; Remove from bookmarks
             </button>
-          ) : (
+          ) : user ? (
             <button
               type="button"
               onClick={addFavorite}
+              onKeyDown={addFavorite}
+              className="button-bookmark"
+            >
+              <FontAwesomeIcon className="share-icon" icon={faBookmark} />
+              &nbsp; Add to bookmarks
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={bookmarkOnClick}
               onKeyDown={addFavorite}
               className="button-bookmark"
             >
@@ -123,6 +137,7 @@ BasicMenu.propTypes = {
   isFavorite: PropTypes.func,
   addFavorite: PropTypes.func,
   deleteBookmark: PropTypes.func,
+  bookmarkOnClick: PropTypes.func,
 };
 
 BasicMenu.defaultProps = {
@@ -131,4 +146,5 @@ BasicMenu.defaultProps = {
   isFavorite: undefined,
   addFavorite: undefined,
   deleteBookmark: undefined,
+  bookmarkOnClick: undefined,
 };
