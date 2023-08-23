@@ -46,5 +46,9 @@
 .modal-content {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
+}
+
+.modal-content a {
+  text-decoration: underline;
 }

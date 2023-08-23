@@ -789,7 +789,8 @@ export const Prompts = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
-          Sign up here
+          <Link to="/signup">Create an account</Link> or
+          <Link to="/login">log in</Link> to access this feature.
         </Modal>
       </main>
     </>
