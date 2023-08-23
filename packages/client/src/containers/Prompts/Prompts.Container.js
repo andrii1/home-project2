@@ -80,6 +80,7 @@ export const Prompts = () => {
     rowsPerPage: 50,
   });
   const [topics, setTopics] = useState([]);
+  const [allRatings, setAllRatings] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState(initialStateTopics);
   const [searchedTopics, setSearchedTopics] = useState('');
   const [searchedPrompts, setSearchedPrompts] = useState('');
@@ -314,8 +315,18 @@ export const Prompts = () => {
       setCounterCategoryParam(1);
     }
 
+    /* async function fetchAllRatings() {
+      const url = `${apiURL()}/ratings/all`;
+      const response = await fetch(url);
+      const ratingsData = await response.json();
+      setAllRatings(ratingsData);
+    }
+
+    fetchAllRatings(); */
+
     fetchPrompts();
     fetchTopics();
+
     if (
       categoryIdParam &&
       !filteredTopics.length > 0 &&
@@ -335,6 +346,17 @@ export const Prompts = () => {
     categoryIdParam,
     counterCategoryParam,
   ]);
+
+  const fetchAllRatings = useCallback(async () => {
+    const url = `${apiURL()}/ratings`;
+    const response = await fetch(url);
+    const ratingsData = await response.json();
+    setAllRatings(ratingsData);
+  }, []);
+
+  useEffect(() => {
+    fetchAllRatings();
+  }, [fetchAllRatings]);
 
   const fetchFavorites = useCallback(async () => {
     const url = `${apiURL()}/favorites`;
@@ -438,6 +460,7 @@ export const Prompts = () => {
     });
     if (response.ok) {
       fetchRatings();
+      fetchAllRatings();
     }
   };
 
@@ -451,6 +474,7 @@ export const Prompts = () => {
     });
     if (response.ok) {
       fetchRatings();
+      fetchAllRatings();
     }
   };
 
@@ -544,14 +568,19 @@ export const Prompts = () => {
       <div className="col-6">❤️</div> */}
       <div className="col-7">
         <div className="icons-prompts">
-          {user && ratings.some((rating) => rating.id === prompt.id) ? (
+          {user &&
+          allRatings.some((rating) => rating.prompt_id === prompt.id) &&
+          ratings.some((rating) => rating.id === prompt.id) ? (
             <button
               type="button"
               className="button-rating"
               onClick={(event) => deleteRating(prompt.id)}
             >
               <FontAwesomeIcon icon={faCaretUp} />
-              {ratings.filter((rating) => rating.id === prompt.id).length}
+              {
+                allRatings.filter((rating) => rating.prompt_id === prompt.id)
+                  .length
+              }
             </button>
           ) : user ? (
             <button
@@ -560,7 +589,10 @@ export const Prompts = () => {
               onClick={(event) => addRating(prompt.id)}
             >
               <FontAwesomeIcon icon={faCaretUp} />
-              {ratings.filter((rating) => rating.id === prompt.id).length}
+              {
+                allRatings.filter((rating) => rating.prompt_id === prompt.id)
+                  .length
+              }
             </button>
           ) : (
             <button
@@ -572,7 +604,10 @@ export const Prompts = () => {
               }}
             >
               <FontAwesomeIcon icon={faCaretUp} />
-              {ratings.filter((rating) => rating.id === prompt.id).length}
+              {
+                allRatings.filter((rating) => rating.prompt_id === prompt.id)
+                  .length
+              }
             </button>
           )}
 

@@ -7,7 +7,6 @@ const router = express.Router({ mergeParams: true });
 
 // controllers
 const promptsController = require('../controllers/prompts.controller');
-const ratingsController = require('../controllers/ratings.controller');
 
 /**
  * @swagger

@@ -1,6 +1,15 @@
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 
+const getAllRatings = async () => {
+  try {
+    const ratings = await knex('ratings');
+
+    return ratings;
+  } catch (error) {
+    return error.message;
+  }
+};
 // get by user-id
 const getRatingsByUserId = async (token) => {
   const userUid = token.split(' ')[1];
@@ -108,4 +117,5 @@ module.exports = {
   getRatingsByPromptId,
   createratings,
   deleteratings,
+  getAllRatings,
 };
