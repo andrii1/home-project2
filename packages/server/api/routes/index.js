@@ -9,6 +9,7 @@ const topics = require('./topics.router');
 const users = require('./users.router');
 const favorites = require('./favorites.router');
 const ratings = require('./ratings.router');
+const stripe = require('./stripe.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -45,5 +46,6 @@ router.use('/topics', topics);
 router.use('/users', users);
 router.use('/favorites', favorites);
 router.use('/ratings', ratings);
+router.use('/stripe', stripe);
 
 module.exports = router;
