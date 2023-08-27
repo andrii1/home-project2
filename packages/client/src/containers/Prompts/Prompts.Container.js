@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import getStripe from '../../lib/getStripe';
 import { Helmet } from 'react-helmet';
 import { CSVLink } from 'react-csv';
 import { TablePagination } from '@mui/material';
@@ -552,6 +553,22 @@ export const Prompts = () => {
     }
   };
 
+  async function handleStripeCheckout() {
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout({
+      lineItems: [
+        {
+          price: `${process.env.REACT_APP_PUBLIC_STRIPE_PRICE_ID}`,
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      successUrl: `http://localhost:3000/success`,
+      cancelUrl: `http://localhost:3000/cancel`,
+    });
+    console.warn(error.message);
+  }
+
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
       <div className="col-1">{prompt.title}</div>
@@ -703,6 +720,9 @@ export const Prompts = () => {
                   onChange={handleSearchPrompts}
                 />
               </div>
+              <button type="button" onClick={handleStripeCheckout}>
+                Checkout
+              </button>
               {user ? (
                 <CSVLink filename="prompts.csv" data={promptsExport}>
                   <ButtonMuiStyled
@@ -825,7 +845,7 @@ export const Prompts = () => {
         />
         <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
           <Link to="/signup">Create an account</Link> or
-          <Link to="/login">log in</Link> to access this feature.
+          <Link to="/login">log in</Link>
         </Modal>
       </main>
     </>

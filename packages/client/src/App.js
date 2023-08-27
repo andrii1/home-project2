@@ -12,6 +12,8 @@ import Reset from './containers/Reset/Reset.Container';
 import { Dashboard } from './containers/Dashboard/Dashboard.Container';
 import { Bookmarks } from './containers/Bookmarks/Bookmarks.Container';
 import { Faq } from './containers/Faq/Faq.Container';
+import { StripeSuccess } from './containers/StripeSuccess/StripeSuccess.Container';
+import { StripeCancel } from './containers/StripeCancel/StripeCancel.Container';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
@@ -40,6 +42,8 @@ function App() {
               element={<Prompts />}
             />
             <Route exact path="/faq" element={<Faq />} />
+            <Route exact path="/success" element={<StripeSuccess />} />
+            <Route exact path="/cancel" element={<StripeCancel />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
