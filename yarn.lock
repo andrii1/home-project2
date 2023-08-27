@@ -5199,6 +5199,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stripe/react-stripe-js@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@stripe/react-stripe-js@npm:2.1.2"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    "@stripe/stripe-js": ^1.44.1 || ^2.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: fd1d51d9ea6b43d3a4e4d163b42aceaea8702b40ae75f5c3717ef38e64004e0cfc6bfa65986f9b764fd21af0e0255a0f3da42deb1a7164cdf80f1e542efd0ce6
+  languageName: node
+  linkType: hard
+
+"@stripe/stripe-js@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@stripe/stripe-js@npm:2.1.0"
+  checksum: e78f4f0f73ca9471fc73b1b10e9c7786c94c305d77a612ad9abe1993451a17a18315a031987cd9a3573bee348b25c7d95090496ee537f33c497954bcf8ddca1b
+  languageName: node
+  linkType: hard
+
 "@surma/rollup-plugin-off-main-thread@npm:^2.2.3":
   version: 2.2.3
   resolution: "@surma/rollup-plugin-off-main-thread@npm:2.2.3"
@@ -5763,6 +5783,13 @@ __metadata:
   version: 20.1.2
   resolution: "@types/node@npm:20.1.2"
   checksum: 9bb2cf0a846e60cc06c44a5622c1998d8373c8675b24d11c86845a29f32c60f5bca9627f2a2535640f902be3dbcc60f126a895abe8e10f12e1467ae3deaba56d
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>=8.1.0":
+  version: 20.5.6
+  resolution: "@types/node@npm:20.5.6"
+  checksum: d2ce44f1cfa3fd00fe7426f7cf9a46d680cd57802b874ed5618e7d9101a9c6b8de37f08c0e7185ee06fb363ad492549c3ea69665c7e8e31c7813210ed8e89005
   languageName: node
   linkType: hard
 
@@ -9335,6 +9362,8 @@ __metadata:
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": ^6.4.22
     "@storybook/testing-library": ^0.0.11
+    "@stripe/react-stripe-js": ^2.1.2
+    "@stripe/stripe-js": ^2.1.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.1.1
     "@testing-library/user-event": ^13.5.0
@@ -19703,6 +19732,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.11.0":
+  version: 6.11.2
+  resolution: "qs@npm:6.11.2"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: e812f3c590b2262548647d62f1637b6989cc56656dc960b893fe2098d96e1bd633f36576f4cd7564dfbff9db42e17775884db96d846bebe4f37420d073ecdc0b
+  languageName: node
+  linkType: hard
+
 "querystring-es3@npm:^0.2.0":
   version: 0.2.1
   resolution: "querystring-es3@npm:0.2.1"
@@ -21308,6 +21346,7 @@ __metadata:
     nodemon: ^2.0.15
     pg: ^8.10.0
     prettier: 2.6.2
+    stripe: ^13.3.0
     swagger-jsdoc: ^6.2.1
     swagger-ui-express: ^4.3.0
     winston: ^3.7.2
@@ -22234,6 +22273,16 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "stripe@npm:13.3.0"
+  dependencies:
+    "@types/node": ">=8.1.0"
+    qs: ^6.11.0
+  checksum: 5a59a7e1f2fe442e5390c6bae4d096e4176fa9615c97e892bc9f0e72669cfab1591860f207f5b3f306328f2959a16219e13dfe8afbb48a7708b11f36fad5e0ac
   languageName: node
   linkType: hard
 

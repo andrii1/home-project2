@@ -6,7 +6,8 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import getStripe from '../../lib/getStripe';
 import { Helmet } from 'react-helmet';
 import { CSVLink } from 'react-csv';
-import { TablePagination } from '@mui/material';
+import { Button, TablePagination } from '@mui/material';
+import { Button as ButtonComponent } from '../../components/Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ButtonMui from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -63,9 +64,10 @@ export const Prompts = () => {
     initialStateTopics = [];
   }
 
-  const { user } = useUserContext();
+  const { user, customer } = useUserContext();
   /* const [isLoading, setIsLoading] = useState(false); */
   const [openModal, setOpenModal] = useState(false);
+  const [openUpgradeModal, setOpenUpgradeModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [topicsListActive, setTopicsListActive] = useState('');
   const [prompts, setPrompts] = useState([]);
@@ -93,6 +95,11 @@ export const Prompts = () => {
 
   const toggleModal = () => {
     setOpenModal(false);
+    document.body.style.overflow = 'visible';
+  };
+
+  const toggleUpgradeModal = () => {
+    setOpenUpgradeModal(false);
     document.body.style.overflow = 'visible';
   };
 
@@ -378,7 +385,6 @@ export const Prompts = () => {
   useEffect(() => {
     fetchFavorites();
   }, [fetchFavorites]);
-
   const fetchRatings = useCallback(async () => {
     const url = `${apiURL()}/ratings`;
     const response = await fetch(url, {
@@ -720,10 +726,7 @@ export const Prompts = () => {
                   onChange={handleSearchPrompts}
                 />
               </div>
-              <button type="button" onClick={handleStripeCheckout}>
-                Checkout
-              </button>
-              {user ? (
+              {customer ? (
                 <CSVLink filename="prompts.csv" data={promptsExport}>
                   <ButtonMuiStyled
                     variant="outlined"
@@ -740,6 +743,27 @@ export const Prompts = () => {
                     Export
                   </ButtonMuiStyled>
                 </CSVLink>
+              ) : user ? (
+                <span>
+                  <ButtonMuiStyled
+                    variant="outlined"
+                    startIcon={<DownloadIcon />}
+                    style={{
+                      color: '#946b54',
+                      border: '1px solid #946b54',
+                      '&:hover': {
+                        backgroundColor: 'red!important',
+                        color: '#3c52b2',
+                      },
+                    }}
+                    onClick={() => {
+                      setOpenUpgradeModal(true);
+                      setModalTitle('Upgrade to export');
+                    }}
+                  >
+                    Export
+                  </ButtonMuiStyled>
+                </span>
               ) : (
                 <span>
                   <ButtonMuiStyled
@@ -844,8 +868,28 @@ export const Prompts = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
-          <Link to="/signup">Create an account</Link> or
-          <Link to="/login">log in</Link>
+          <Link to="/signup">
+            <ButtonComponent primary label="Create an account" />
+          </Link>
+          or
+          <Link to="/login">
+            <ButtonComponent label="Log in" />
+          </Link>
+        </Modal>
+        <Modal
+          title={modalTitle}
+          open={openUpgradeModal}
+          toggle={toggleUpgradeModal}
+        >
+          <div className="upgrade-div">
+            <ButtonComponent
+              primary
+              label="Upgrade for $19"
+              // eslint-disable-next-line react/jsx-no-bind
+              onClick={handleStripeCheckout}
+            />
+          </div>
+          <p>One-time payment</p>
         </Modal>
       </main>
     </>
