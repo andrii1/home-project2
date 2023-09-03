@@ -37,8 +37,8 @@ export const Signup = () => {
     }
   }, [user, name, loading, addUserToDb, navigate]);
   return (
-    <div className="register-container">
-      <div className="register">
+    <div className="form-container signup-container">
+      <div className="form-box signup-box">
         <h1>Create your free account</h1>
         <Button
           primary

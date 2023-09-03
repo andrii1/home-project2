@@ -12,6 +12,7 @@ import Reset from './containers/Reset/Reset.Container';
 import { Dashboard } from './containers/Dashboard/Dashboard.Container';
 import { Bookmarks } from './containers/Bookmarks/Bookmarks.Container';
 import { Faq } from './containers/Faq/Faq.Container';
+import { Submit } from './containers/Submit/Submit.Container';
 import { StripeSuccess } from './containers/StripeSuccess/StripeSuccess.Container';
 import { StripeCancel } from './containers/StripeCancel/StripeCancel.Container';
 import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
@@ -42,6 +43,7 @@ function App() {
               element={<Prompts />}
             />
             <Route exact path="/faq" element={<Faq />} />
+            <Route exact path="/prompts/new" element={<Submit />} />
             <Route exact path="/success" element={<StripeSuccess />} />
             <Route exact path="/cancel" element={<StripeCancel />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />

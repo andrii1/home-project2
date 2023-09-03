@@ -28,10 +28,13 @@ export const Navigation = () => {
         <ul>
           {user ? (
             <div className="container-logged-in">
-              {name}
+              <NavLink to="/prompts/new" className="login submit">
+                Submit
+              </NavLink>
               <NavLink to="/bookmarks" className="login">
                 Bookmarks
               </NavLink>
+              {name}
               <Link to="/">
                 <FontAwesomeIcon icon={faUser} />
               </Link>

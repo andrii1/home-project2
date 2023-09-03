@@ -3,3 +3,7 @@
   gap: 1rem;
   align-items: center;
 }
+
+.submit {
+  font-weight: bold;
+}
