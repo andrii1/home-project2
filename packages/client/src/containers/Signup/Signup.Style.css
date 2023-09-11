@@ -69,6 +69,7 @@
 
 .form-box input[type='password'],
 .form-box textarea,
+.comment-box textarea,
 .form-box select {
   border: none;
   border-radius: 5px;

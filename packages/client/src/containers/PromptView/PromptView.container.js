@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Button } from '../../components/Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Modal from '../../components/Modal/Modal.Component';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { faEnvelope, faLink } from '@fortawesome/free-solid-svg-icons';
+import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
+import useInputValidation from '../../utils/hooks/useInputValidation';
 import {
   faFacebookF,
   faTwitter,
@@ -19,11 +22,19 @@ import {
 
 import { apiURL } from '../../apiURL';
 import './PromptView.styles.css';
+import { useUserContext } from '../../userContext';
 
 export const PromptView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState({});
+  const [comments, setComments] = useState([]);
+  const [error, setError] = useState('');
+  const { user } = useUserContext();
+  const [validForm, setValidForm] = useState(false);
+  const [invalidForm, setInvalidForm] = useState(false);
+  const [comment, setComment] = useState('');
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSinglePrompt(promptId) {
       const response = await fetch(`${apiURL()}/prompts/${promptId}`);
@@ -34,8 +45,63 @@ export const PromptView = () => {
     fetchSinglePrompt(id);
   }, [id]);
 
+  const fetchCommentsByPromptId = useCallback(async (promptId) => {
+    const response = await fetch(`${apiURL()}/comments?promptId=${promptId}`);
+    const commentResponse = await response.json();
+    setComments(commentResponse);
+  }, []);
+
+  useEffect(() => {
+    fetchCommentsByPromptId(id);
+  }, [fetchCommentsByPromptId, id]);
+
   const navigateBack = () => {
     navigate(-1);
+  };
+
+  const addComment = async (commentContent) => {
+    const response = await fetch(`${apiURL()}/comments`, {
+      method: 'POST',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: commentContent,
+        prompt_id: id,
+      }),
+    });
+    if (response.ok) {
+      fetchCommentsByPromptId(id);
+    }
+  };
+
+  const commentHandler = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!comment) {
+      setError('Comment is required!');
+      console.log('error');
+      setInvalidForm(true);
+      setValidForm(false);
+      return;
+    }
+    if (comment.trim().length < 5) {
+      setError('Comment must be more than five characters!');
+      console.log('error');
+      setInvalidForm(true);
+      setValidForm(false);
+      return;
+    }
+
+    setInvalidForm(false);
+    setValidForm(true);
+    addComment(comment);
+    setOpenConfirmationModal(true);
+    setComment('');
   };
 
   return (
@@ -103,7 +169,38 @@ export const PromptView = () => {
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
-          <Button label="Back" onClick={navigateBack} />
+          {comments.length === 0 && (
+            <i>No comments for this prompt. Add first one below.</i>
+          )}
+          {comments.length > 0 && comments.map((item) => <p>{item.content}</p>)}
+          <div className="form-container">
+            <div className="comment-box submit-box">
+              <form onSubmit={handleSubmit}>
+                <textarea
+                  className="form-input"
+                  value={comment}
+                  placeholder="Your comment"
+                  onChange={commentHandler}
+                />
+
+                <Button
+                  primary
+                  className="btn-add-prompt"
+                  type="submit"
+                  label="Add comment"
+                />
+                {validForm && (
+                  <Modal
+                    title="Your comment has been submitted!"
+                    open={openConfirmationModal}
+                    toggle={() => setOpenConfirmationModal(false)}
+                  />
+                )}
+                {invalidForm && <p className="error-message">{error}</p>}
+              </form>
+            </div>
+          </div>
+          <Button className="button-back" label="Back" onClick={navigateBack} />
         </section>
       </main>
     </>

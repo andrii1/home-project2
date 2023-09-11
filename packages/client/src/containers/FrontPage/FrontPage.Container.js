@@ -81,7 +81,7 @@ export const FrontPage = () => {
     <main>
       <Helmet>
         <title>
-          Prompt library - 3500+ GPT prompts, 110 topics, 22 categories
+          Prompt library - 3500+ ChatGPT prompts, 110 topics, 22 categories
         </title>
         <meta
           name="description"
@@ -89,7 +89,7 @@ export const FrontPage = () => {
         />
       </Helmet>
       <div className="hero">
-        <h1>Find best GPT prompts</h1>
+        <h1>Find best ChatGPT prompts</h1>
         <p className="subheading">3500+ prompts, 110 topics, 22 categories</p>
         <form>
           <label>

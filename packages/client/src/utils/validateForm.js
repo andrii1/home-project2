@@ -23,9 +23,9 @@ export const validateForm = (value, type) => {
   }
 
   if (!value && type === 'prompt') {
-    error = 'Prompt is required!';
+    error = 'Text is required!';
   } else if (value && type === 'prompt' && value.length < 5) {
-    error = 'Prompt must be more than five characters!';
+    error = 'Text must be more than five characters!';
   }
 
   return error;

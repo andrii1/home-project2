@@ -13,6 +13,7 @@ export const Button = ({
   color,
   size,
   label,
+  type = 'button',
   ...props
 }) => {
   let mode;
@@ -25,7 +26,9 @@ export const Button = ({
   }
   return (
     <button
-      type="button"
+      /* eslint-disable react/button-has-type */
+      type={type}
+      /* eslint-enable react/button-has-type */
       className={[
         'storybook-button',
         `storybook-button--${size}`,
@@ -56,6 +59,7 @@ Button.propTypes = {
    * How large should the button be?
    */
   color: PropTypes.string,
+  type: PropTypes.string,
   /**
    * How large should the button be?
    */
@@ -78,4 +82,5 @@ Button.defaultProps = {
   lighterBg: false,
   size: 'medium',
   onClick: undefined,
+  type: 'button',
 };
