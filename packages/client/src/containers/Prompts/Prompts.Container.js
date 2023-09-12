@@ -643,7 +643,10 @@ export const Prompts = () => {
           >
             <img src={iconCopy} alt="copy" className="icon-copy" />
           </button>
-          <Link to={prompt.id.toString()} params={{ id: prompt.id }}>
+          <Link
+            to={`/prompts/${prompt.id.toString()}`}
+            params={{ id: prompt.id }}
+          >
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
           </Link>
           <BasicMenu
@@ -699,7 +702,7 @@ export const Prompts = () => {
         <title>{pageTitle}</title>
       </Helmet>
       <main>
-        <h1 className="hero-header">Prompts</h1>
+        <h1 className="hero-header">Find best ChatGPT Prompts</h1>
 
         <section className="container-prompts">
           <div className="prompts-filter">

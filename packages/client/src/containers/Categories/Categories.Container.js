@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import './FrontPage.Style.css';
+import './Categories.Style.css';
 import { apiURL } from '../../apiURL';
 import { Card } from '../../components/Card/Card.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-export const FrontPage = () => {
+export const Categories = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
   const [categories, setCategories] = useState([]);

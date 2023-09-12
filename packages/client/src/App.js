@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { FrontPage } from './containers/FrontPage/FrontPage.Container';
+import { Categories } from './containers/Categories/Categories.Container';
 import { LandingPage } from './containers/LandingPage/LandingPage.Container';
 import { TestPage } from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
@@ -27,10 +27,10 @@ function App() {
         <UserProvider>
           <Navigation />
           <Routes>
-            <Route path="/" element={<FrontPage />} />
+            <Route path="/" element={<Prompts />} />
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/test" element={<TestPage />} />
-            <Route path="/prompts" element={<Prompts />} />
+            <Route path="/categories" element={<Categories />} />
             <Route exact path="/prompts/:id" element={<PromptView />} />
             <Route
               exact
