@@ -103,6 +103,10 @@ export const PromptView = () => {
     setOpenConfirmationModal(true);
     setComment('');
   };
+  const getOnlyYearMonthDay = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  };
 
   return (
     <>
@@ -172,7 +176,17 @@ export const PromptView = () => {
           {comments.length === 0 && (
             <i>No comments for this prompt. Add first one below.</i>
           )}
-          {comments.length > 0 && comments.map((item) => <p>{item.content}</p>)}
+          {comments.length > 0 &&
+            comments.map((item) => (
+              <div className="form-container">
+                <div className="comment-box submit-box">
+                  <div>{item.content}</div>
+                  <div className="comment-author-date">{`by ${
+                    item.full_name
+                  } on ${getOnlyYearMonthDay(item.created_at)}`}</div>
+                </div>
+              </div>
+            ))}
           <div className="form-container">
             <div className="comment-box submit-box">
               <form onSubmit={handleSubmit}>

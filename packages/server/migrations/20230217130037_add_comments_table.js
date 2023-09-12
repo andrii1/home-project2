@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable('reviews', (table) => {
+  return knex.schema.createTable('comments', (table) => {
     table.increments();
     table.text('content').notNullable();
     table.integer('prompt_id').unsigned();
@@ -19,5 +19,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable('reviews');
+  return knex.schema.dropTable('comments');
 };

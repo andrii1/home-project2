@@ -274,7 +274,7 @@ const getPromptsByTopic = async (topic) => {
   }
 };
 
-// Get prommpts by id
+// Get prompts by id
 const getPromptById = async (id) => {
   if (!id) {
     throw new HttpError('Id should be a number', 400);
@@ -299,6 +299,28 @@ const getPromptById = async (id) => {
   }
 };
 
+// post
+const createPrompts = async (token, body) => {
+  try {
+    const userUid = token.split(' ')[1];
+    const user = (await knex('users').where({ uid: userUid }))[0];
+    if (!user) {
+      throw new HttpError('User not found', 401);
+    }
+    await knex('prompts').insert({
+      title: body.title,
+      description: body.description,
+      topic_id: body.topic_id,
+      user_id: user.id,
+    });
+    return {
+      successful: true,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   getPrompts,
   getPromptsPagination,
@@ -310,4 +332,5 @@ module.exports = {
   getPromptsByCategory,
   getPromptsByTopic,
   getPromptById,
+  createPrompts,
 };

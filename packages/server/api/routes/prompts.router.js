@@ -99,6 +99,16 @@ router.get('/', (req, res, next) => {
   }
 });
 
+/* Create prompts */
+
+router.post('/', (req, res, next) => {
+  const { token } = req.headers;
+  promptsController
+    .createPrompts(token, req.body)
+    .then((result) => res.json(result))
+    .catch(next);
+});
+
 /**
  * @swagger
  * /exampleResources/{ID}:
