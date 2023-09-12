@@ -312,7 +312,7 @@ export const Prompts = () => {
             .map((item) => item.categoryTitle)}`,
         );
       } else {
-        setPageTitle('Best Chat GPT prompts - Prompt library');
+        setPageTitle('Prompt library - best ChatGPT prompts');
       }
     }
     async function setCategoryByParams() {
@@ -702,7 +702,7 @@ export const Prompts = () => {
         <title>{pageTitle}</title>
       </Helmet>
       <main>
-        <h1 className="hero-header">Find best ChatGPT Prompts</h1>
+        {/* <h1 className="hero-header">Find best ChatGPT Prompts</h1> */}
 
         <section className="container-prompts">
           <div className="prompts-filter">

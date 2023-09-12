@@ -5,6 +5,7 @@
 .container-prompts {
   display: flex;
   gap: 2rem;
+  margin-top: 2rem;
 }
 
 .prompts-filter {

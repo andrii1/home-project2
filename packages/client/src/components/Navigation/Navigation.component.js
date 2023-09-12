@@ -4,16 +4,35 @@ import { NavLink, Link } from 'react-router-dom';
 import { useUserContext } from '../../userContext';
 import { Button } from '../Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUser,
+  faRightFromBracket,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import Modal from '../Modal/Modal.Component';
 
 export const Navigation = () => {
   const { user, name, logout } = useUserContext();
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
+  const [searchTerms, setSearchTerms] = useState();
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
+  };
+  React.useEffect(() => {
+    const down = (e) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpenModal((openModal) => !openModal);
+      }
+    };
+
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+  const handleSearch = (event) => {
+    setSearchTerms(event.target.value);
   };
   return (
     <>
@@ -29,6 +48,20 @@ export const Navigation = () => {
               <NavLink to="/categories" className="nav-link">
                 Categories
               </NavLink>
+            </li>
+            <li>
+              <form>
+                <label>
+                  <FontAwesomeIcon className="search-icon" icon={faSearch} />
+                  <input
+                    type="text"
+                    className="input-search-navigation"
+                    onChange={handleSearch}
+                    onFocus={() => setOpenModal((openModal) => !openModal)}
+                    placeholder="Search ( ⌘ + k )"
+                  />
+                </label>
+              </form>
             </li>
           </ul>
         </div>

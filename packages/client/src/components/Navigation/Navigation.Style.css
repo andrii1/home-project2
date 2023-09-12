@@ -8,3 +8,10 @@
   font-weight: bold;
   color: #946b54 !important;
 }
+
+.input-search-navigation {
+  border: 1px solid #d9e1ec !important;
+  min-width: 15rem !important;
+  padding: 1rem 1.5rem 1rem 2rem !important;
+  border-radius: 5px !important;
+}
