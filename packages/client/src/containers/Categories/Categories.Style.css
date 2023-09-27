@@ -11,10 +11,7 @@ main {
 
 .hero {
   width: 100%;
-  height: 15rem;
-  background-color: #e3d5ca;
   border-radius: 8px;
-  padding: 2rem 2rem;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -30,7 +27,7 @@ main {
 }
 
 .subheading {
-  margin-top: 0rem;
+  margin-top: 1rem;
 }
 
 .logo {
@@ -38,21 +35,27 @@ main {
 }
 
 .container-cards {
-  margin: 3rem 0rem;
+  /* margin: 3rem 0rem; */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  justify-content: end;
-  align-content: end;
+  /* justify-content: end;
+  align-content: end; */
+  /* display: flex;
+  flex-direction: column;
+  gap: 2rem; */
+  margin-top: 2rem;
 }
 
 .input-search-home {
   min-width: 28rem !important;
-  padding: 1rem 1.5rem 1rem 2.5rem !important;
+  border: 1px solid #d9e1ec !important;
+  padding: 1rem 1.5rem 1rem 2rem !important;
+  border-radius: 5px !important;
 }
 .dropdown-search {
   position: absolute;
-  top: 17.1rem;
+  top: 20.5rem;
   background-color: #fff;
   border: 1px dashed #946b54 !important;
   border-radius: 5px;

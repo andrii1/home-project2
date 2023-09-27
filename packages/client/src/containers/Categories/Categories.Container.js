@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import './Categories.Style.css';
 import { apiURL } from '../../apiURL';
-import { Card } from '../../components/Card/Card.component';
+import { CardCategories } from '../../components/CardCategories/CardCategories.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,6 +11,7 @@ export const Categories = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [categoriesAndTopics, setCategoriesAndTopics] = useState([]);
   const [topics, setTopics] = useState([]);
   useEffect(() => {
     async function fetchCategories() {
@@ -41,6 +42,29 @@ export const Categories = () => {
       const response = await fetch(`${apiURL()}/topics/`);
       const topicsResponse = await response.json();
       setTopics(topicsResponse);
+
+      const topicsAndCategories = topicsResponse.reduce((acc, d) => {
+        const found = acc.find((a) => a.categoryId === d.categoryId);
+        /* const value = { name: d.name, val: d.value }; */
+        const value = {
+          id: d.id,
+          title: d.title,
+          categoryId: d.categoryId,
+        }; // the element in data property
+        if (!found) {
+          /* acc.push(...value); */
+          acc.push({
+            categoryId: d.categoryId,
+            categoryTitle: d.categoryTitle,
+            topics: [value],
+          }); // not found, so need to add data property
+        } else {
+          /* acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] }); */
+          found.topics.push(value); // if found, that means data property exists, so just push new element to found.data.
+        }
+        return acc;
+      }, []);
+      setCategoriesAndTopics(topicsAndCategories);
     }
     fetchCategories();
     fetchTopics();
@@ -71,11 +95,18 @@ export const Categories = () => {
     }
     return finalResult;
   });
-  const cardItems = categories.map((category) => {
-    const relatedTopics = topics
-      .filter((topic) => topic.categoryId === category.id)
-      .map((item) => item.id);
-    return <Card title={category.title} url={relatedTopics} />;
+  console.log('categoriesAndTopics', categoriesAndTopics);
+  const cardItems = categoriesAndTopics.map((category) => {
+    // const relatedTopics = topics
+    //   .filter((topic) => topic.categoryId === category.id)
+    //   .map((item) => item.id);
+    return (
+      <CardCategories
+        title={category.categoryTitle}
+        url={category.categoryId}
+        topics={category.topics}
+      />
+    );
   });
   return (
     <main>
@@ -88,8 +119,9 @@ export const Categories = () => {
           content="Find best Chat GPT prompts for free"
         />
       </Helmet>
+      {/* <div className="hero"></div> */}
       <div className="hero">
-        <h1>Find best ChatGPT prompts</h1>
+        <h1 className="hero-header">Categories</h1>
         <p className="subheading">3500+ prompts, 110 topics, 22 categories</p>
         <form>
           <label>
@@ -99,7 +131,7 @@ export const Categories = () => {
               className="input-search-home"
               onChange={handleSearch}
               /* onFocus={handleClick} */
-              placeholder="Search"
+              placeholder="Search categories and topics"
             />
           </label>
         </form>

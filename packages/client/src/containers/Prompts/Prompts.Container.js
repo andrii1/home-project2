@@ -104,45 +104,45 @@ export const Prompts = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    let urlFilters = '';
-    const setupUrlFilters = async () => {
-      if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
-        urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-      } else if (filteredTopics.length > 0) {
-        urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-      } else if (
-        categoryIdParam &&
-        !filteredTopics.length > 0 &&
-        counterCategoryParam < 1
-      ) {
-        urlFilters = `?filteredCategories=${categoryIdParam}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-      } else if (searchedPrompts.length > 0) {
-        urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-      } else {
-        urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
-      }
-    };
+    // setIsLoading(true);
+    // let urlFilters = '';
+    // const setupUrlFilters = async () => {
+    //   if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
+    //     urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    //   } else if (filteredTopics.length > 0) {
+    //     urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    //   } else if (
+    //     categoryIdParam &&
+    //     !filteredTopics.length > 0 &&
+    //     counterCategoryParam < 1
+    //   ) {
+    //     urlFilters = `?filteredCategories=${categoryIdParam}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    //   } else if (searchedPrompts.length > 0) {
+    //     urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    //   } else {
+    //     urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    //   }
+    // };
 
-    setupUrlFilters();
+    // setupUrlFilters();
 
-    async function fetchPrompts() {
-      const url = `${apiURL()}/prompts/${urlFilters}`;
-      const response = await fetch(url);
-      const promptsResponse = await response.json();
-      setPromptsCount(promptsResponse.totalCount);
-      setPrompts(promptsResponse.data);
-      const promptsExportReady = promptsResponse.dataExport.map((prompt) => {
-        return {
-          id: prompt.id,
-          prompt: prompt.title,
-          category: prompt.categoryTitle,
-          topic: prompt.topicTitle,
-        };
-      });
-      setPromptsExport(promptsExportReady);
-      setIsLoading(false);
-    }
+    // async function fetchPrompts() {
+    //   const url = `${apiURL()}/prompts/${urlFilters}`;
+    //   const response = await fetch(url);
+    //   const promptsResponse = await response.json();
+    //   setPromptsCount(promptsResponse.totalCount);
+    //   setPrompts(promptsResponse.data);
+    //   const promptsExportReady = promptsResponse.dataExport.map((prompt) => {
+    //     return {
+    //       id: prompt.id,
+    //       prompt: prompt.title,
+    //       category: prompt.categoryTitle,
+    //       topic: prompt.topicTitle,
+    //     };
+    //   });
+    //   setPromptsExport(promptsExportReady);
+    //   setIsLoading(false);
+    // }
 
     async function fetchTopics() {
       const response = await fetch(`${apiURL()}/topics/`);
@@ -332,7 +332,6 @@ export const Prompts = () => {
 
     fetchAllRatings(); */
 
-    fetchPrompts();
     fetchTopics();
 
     if (
@@ -344,16 +343,65 @@ export const Prompts = () => {
     }
     /* fetchPromptsPagination(); */
   }, [
-    filteredTopics,
-    searchedTopics,
-    controller,
-    orderBy,
-    searchedPrompts,
-    topicsListActive,
-    topicIdParam,
     categoryIdParam,
     counterCategoryParam,
+    filteredTopics,
+    searchedTopics,
+    topicIdParam,
+    topicsListActive,
   ]);
+
+  const setupUrlFilters = useCallback(async () => {
+    let urlFilters = '';
+    if (filteredTopics.length > 0 && searchedPrompts.length > 0) {
+      urlFilters = `?filteredTopics=${filteredTopics}&search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (filteredTopics.length > 0) {
+      urlFilters = `?filteredTopics=${filteredTopics}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (
+      categoryIdParam &&
+      !filteredTopics.length > 0 &&
+      counterCategoryParam < 1
+    ) {
+      urlFilters = `?filteredCategories=${categoryIdParam}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else if (searchedPrompts.length > 0) {
+      urlFilters = `?search=${searchedPrompts}&column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    } else {
+      urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
+    }
+    return urlFilters;
+  }, [
+    categoryIdParam,
+    controller.page,
+    controller.rowsPerPage,
+    counterCategoryParam,
+    filteredTopics,
+    orderBy.column,
+    orderBy.direction,
+    searchedPrompts,
+  ]);
+  const fetchPrompts = useCallback(async () => {
+    const urlFilters = await setupUrlFilters();
+    const url = `${apiURL()}/prompts/${urlFilters}`;
+    const response = await fetch(url);
+    const promptsResponse = await response.json();
+    setPromptsCount(promptsResponse.totalCount);
+    setPrompts(promptsResponse.data);
+    const promptsExportReady = promptsResponse.dataExport.map((prompt) => {
+      return {
+        id: prompt.id,
+        prompt: prompt.title,
+        category: prompt.categoryTitle,
+        topic: prompt.topicTitle,
+      };
+    });
+    setPromptsExport(promptsExportReady);
+    setIsLoading(false);
+  }, [setupUrlFilters]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchPrompts();
+  }, [fetchPrompts]);
 
   const fetchAllRatings = useCallback(async () => {
     const url = `${apiURL()}/ratings`;
