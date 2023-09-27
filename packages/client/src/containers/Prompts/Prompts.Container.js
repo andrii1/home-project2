@@ -625,7 +625,13 @@ export const Prompts = () => {
 
   const promptsList = prompts.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
-      <div className="col-1">{prompt.title}</div>
+      <Link
+        className="col-1"
+        to={`/prompts/${prompt.id.toString()}`}
+        params={{ id: prompt.id }}
+      >
+        <div>{prompt.title}</div>
+      </Link>
       <div className="col-2">
         <span className="prompt-additional-text">Category:&nbsp;</span>
         {prompt.categoryTitle}
@@ -694,6 +700,7 @@ export const Prompts = () => {
           <Link
             to={`/prompts/${prompt.id.toString()}`}
             params={{ id: prompt.id }}
+            target="_blank"
           >
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
           </Link>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Promptrow.Style.css';
+import './PromptRow.Style.css';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,7 +23,7 @@ import {
 /**
  * Primary UI component for user interaction
  */
-export const Promptrow = ({
+export const PromptRow = ({
   id,
   title,
   category,
@@ -64,7 +64,7 @@ export const Promptrow = ({
             />
           </FacebookShareButton>
           <TwitterShareButton
-            url={`https://www.prompthunt.me//prompts/${id}`}
+            url={`https://www.prompthunt.me/prompts/${id}`}
             title={`Check out this GPT prompt: '${title}'`}
             hashtags={['prompts']}
           >
@@ -74,7 +74,7 @@ export const Promptrow = ({
               size="lg"
             />
           </TwitterShareButton>
-          <LinkedinShareButton url={`https://www.prompthunt.me//prompts/${id}`}>
+          <LinkedinShareButton url={`https://www.prompthunt.me/prompts/${id}`}>
             <FontAwesomeIcon
               className="share-icon"
               icon={faLinkedinIn}
@@ -90,7 +90,7 @@ export const Promptrow = ({
   );
 };
 
-Promptrow.propTypes = {
+PromptRow.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   category: PropTypes.string,
@@ -98,7 +98,7 @@ Promptrow.propTypes = {
   deleteBookmark: PropTypes.func,
 };
 
-Promptrow.defaultProps = {
+PromptRow.defaultProps = {
   id: null,
   title: null,
   category: null,

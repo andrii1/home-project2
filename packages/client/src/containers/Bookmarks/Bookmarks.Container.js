@@ -4,7 +4,7 @@ import { useUserContext } from '../../userContext';
 import { Helmet } from 'react-helmet';
 import './Bookmarks.Style.css';
 import { apiURL } from '../../apiURL';
-import { Promptrow } from '../../components/Promptrow/Promptrow.Component';
+import { PromptRow } from '../../components/PromptRow/PromptRow.Component';
 
 export const Bookmarks = () => {
   const { user, loading } = useUserContext();
