@@ -4,7 +4,7 @@ import { useUserContext } from '../../userContext';
 import { Helmet } from 'react-helmet';
 import './Bookmarks.Style.css';
 import { apiURL } from '../../apiURL';
-import { PromptRow } from '../../components/PromptRow/PromptRow.Component';
+import { Promptrow } from '../../components/Promptrow/Promptrow.component';
 
 export const Bookmarks = () => {
   const { user, loading } = useUserContext();
@@ -51,7 +51,7 @@ export const Bookmarks = () => {
   };
   const favoritesList = favorites.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
-      <PromptRow
+      <Promptrow
         id={prompt.id}
         title={prompt.title}
         category={prompt.category}

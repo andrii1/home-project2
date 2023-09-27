@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './PromptRow.Style.css';
+import './Promptrow.Style.css';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,7 +23,7 @@ import {
 /**
  * Primary UI component for user interaction
  */
-export const PromptRow = ({
+export const Promptrow = ({
   id,
   title,
   category,
@@ -90,7 +90,7 @@ export const PromptRow = ({
   );
 };
 
-PromptRow.propTypes = {
+Promptrow.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   category: PropTypes.string,
@@ -98,7 +98,7 @@ PromptRow.propTypes = {
   deleteBookmark: PropTypes.func,
 };
 
-PromptRow.defaultProps = {
+Promptrow.defaultProps = {
   id: null,
   title: null,
   category: null,
