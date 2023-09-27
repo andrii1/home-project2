@@ -23,7 +23,7 @@ import {
 /**
  * Primary UI component for user interaction
  */
-export const PromptRow = ({
+export const TableRow = ({
   id,
   title,
   category,
@@ -90,7 +90,7 @@ export const PromptRow = ({
   );
 };
 
-PromptRow.propTypes = {
+TableRow.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
   category: PropTypes.string,
@@ -98,7 +98,7 @@ PromptRow.propTypes = {
   deleteBookmark: PropTypes.func,
 };
 
-PromptRow.defaultProps = {
+TableRow.defaultProps = {
   id: null,
   title: null,
   category: null,
