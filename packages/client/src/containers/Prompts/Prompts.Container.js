@@ -706,13 +706,13 @@ export const Prompts = () => {
 
         <section className="container-prompts">
           <div className="prompts-filter">
-            <div className="tab-filter">Categories and Topics</div>
             <FontAwesomeIcon className="search-icon-filter" icon={faSearch} />
             <input
               type="text"
               placeholder="Search categories or topics"
               className="input-search"
               onChange={handleSearchTopics}
+              style={{ width: '100%' }}
             />
             <div className="checkboxes">
               <ul className="checkboxes-list">{categoriesList}</ul>
