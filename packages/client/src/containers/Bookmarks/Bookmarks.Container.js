@@ -51,7 +51,7 @@ export const Bookmarks = () => {
   };
   const favoritesList = favorites.map((prompt) => (
     <div key={prompt.id} className="row prompts-body">
-      <Promptrow
+      <PromptRow
         id={prompt.id}
         title={prompt.title}
         category={prompt.category}

@@ -95,7 +95,6 @@ export const Categories = () => {
     }
     return finalResult;
   });
-  console.log('categoriesAndTopics', categoriesAndTopics);
   const cardItems = categoriesAndTopics.map((category) => {
     // const relatedTopics = topics
     //   .filter((topic) => topic.categoryId === category.id)
