@@ -1,3 +1,37 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  align-items: center;
+}
+
+.menu ul,
+.nav-buttons ul {
+  display: flex;
+  align-items: center;
+  padding: 0rem;
+  margin: 0rem;
+}
+
+ul li,
+.menu ul li,
+.nav-buttons ul li {
+  list-style-type: none;
+  margin-right: 2rem;
+  color: black;
+}
+
+.navigation .menu ul > li:nth-child(1) {
+  font-weight: 700;
+}
+
+.nav-buttons ul > li:nth-child(3) {
+  margin-right: 0rem;
+}
+
+.nav-link {
+  color: black;
+}
 .container-logged-in {
   display: flex;
   gap: 2rem;
@@ -14,4 +48,21 @@
   min-width: 15rem !important;
   padding: 1rem 1.5rem 1rem 2rem !important;
   border-radius: 5px !important;
+}
+
+.dropdown-search-modal {
+  position: relative;
+  background-color: #fff;
+  border: 1px dashed #946b54 !important;
+  border-radius: 5px;
+  min-width: 28rem;
+  max-width: 28rem;
+}
+
+.dropdown-search-modal ul li {
+  margin-bottom: 1rem;
+}
+
+.img-logo {
+  max-width: 14rem;
 }

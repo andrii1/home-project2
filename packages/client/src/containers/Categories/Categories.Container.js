@@ -54,7 +54,7 @@ export const Categories = () => {
     let finalResult;
     if (Object.keys(result).length > 2) {
       finalResult = (
-        <Link to="/prompts" state={{ frontPageItem: [result.id] }}>
+        <Link to="/" state={{ frontPageItem: [result.id] }}>
           <li key={result.id}>{result.title}</li>
         </Link>
       );
@@ -64,7 +64,7 @@ export const Categories = () => {
         .map((item) => item.id);
 
       finalResult = (
-        <Link to="/prompts" state={{ frontPageItem: relatedTopics }}>
+        <Link to="/" state={{ frontPageItem: relatedTopics }}>
           <li key={result.id}>{result.title}</li>
         </Link>
       );

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import './Modal.Style.css';
 
-const Modal = ({ toggle, open, title, children }) => {
+const Modal = ({ toggle, open, title, children, overlayClass = 'overlay' }) => {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -16,7 +16,7 @@ const Modal = ({ toggle, open, title, children }) => {
   if (!open) return null;
 
   return (
-    <div onClick={toggle} role="presentation" className="overlay">
+    <div onClick={toggle} role="presentation" className={overlayClass}>
       <div
         onClick={(e) => {
           e.stopPropagation();
@@ -46,5 +46,6 @@ Modal.propTypes = {
   toggle: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
+  overlayClass: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
