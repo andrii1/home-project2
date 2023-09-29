@@ -56,7 +56,9 @@ export const TableRow = ({
           <Link to={`../prompts/${id.toString()}`} params={{ id }}>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
           </Link>
-          <FacebookShareButton url={`https://www.prompthunt.me/prompts/${id}`}>
+          <FacebookShareButton
+            url={`https://www.prompt-library.net/prompts/${id}`}
+          >
             <FontAwesomeIcon
               className="share-icon"
               icon={faFacebookF}
@@ -64,7 +66,7 @@ export const TableRow = ({
             />
           </FacebookShareButton>
           <TwitterShareButton
-            url={`https://www.prompthunt.me/prompts/${id}`}
+            url={`https://www.prompt-library.net/prompts/${id}`}
             title={`Check out this GPT prompt: '${title}'`}
             hashtags={['prompts']}
           >
@@ -74,7 +76,9 @@ export const TableRow = ({
               size="lg"
             />
           </TwitterShareButton>
-          <LinkedinShareButton url={`https://www.prompthunt.me/prompts/${id}`}>
+          <LinkedinShareButton
+            url={`https://www.prompt-library.net/prompts/${id}`}
+          >
             <FontAwesomeIcon
               className="share-icon"
               icon={faLinkedinIn}

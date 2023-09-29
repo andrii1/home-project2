@@ -50,7 +50,7 @@ async function generateSitemap() {
 
     return new Sitemap(router)
       .applyParams(paramsConfig)
-      .build('https://www.prompthunt.me')
+      .build('https://www.prompt-library.net')
       .save('./public/sitemap.xml');
   } catch (e) {
     console.log(e);
