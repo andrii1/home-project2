@@ -184,7 +184,6 @@ export const Navigation = () => {
         </Link>
       </Modal>
       <Modal
-        title={modalTitle}
         open={openSearchModal}
         toggle={toggleSearchModal}
         overlayClass="overlay-navigation"

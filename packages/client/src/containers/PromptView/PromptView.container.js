@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Button } from '../../components/Button/Button.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../components/Modal/Modal.Component';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import { faEnvelope, faLink } from '@fortawesome/free-solid-svg-icons';
-import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
-import useInputValidation from '../../utils/hooks/useInputValidation';
 import {
   faFacebookF,
   faTwitter,
@@ -172,7 +170,10 @@ export const PromptView = () => {
             </EmailShareButton>
           </div>
           {comments.length === 0 && (
-            <i>No comments for this prompt. Add first one below.</i>
+            <div>
+              <i>No comments for this prompt. </i>
+              {user && <i>Add first one below.</i>}
+            </div>
           )}
           {comments.length > 0 &&
             comments.map((item) => (
@@ -185,33 +186,50 @@ export const PromptView = () => {
                 </div>
               </div>
             ))}
-          <div className="form-container">
-            <div className="comment-box submit-box">
-              <form onSubmit={handleSubmit}>
-                <textarea
-                  className="form-input"
-                  value={comment}
-                  placeholder="Your comment"
-                  onChange={commentHandler}
-                />
-
-                <Button
-                  primary
-                  className="btn-add-prompt"
-                  type="submit"
-                  label="Add comment"
-                />
-                {validForm && (
-                  <Modal
-                    title="Your comment has been submitted!"
-                    open={openConfirmationModal}
-                    toggle={() => setOpenConfirmationModal(false)}
-                  />
-                )}
-                {invalidForm && <p className="error-message">{error}</p>}
-              </form>
+          {!user && (
+            <div>
+              <i>
+                <br />
+                <Link to="/signup" className="simple-link">
+                  Sign up
+                </Link>{' '}
+                or{' '}
+                <Link to="/login" className="simple-link">
+                  log in
+                </Link>{' '}
+                to add comments
+              </i>
             </div>
-          </div>
+          )}
+          {user && (
+            <div className="form-container">
+              <div className="comment-box submit-box">
+                <form onSubmit={handleSubmit}>
+                  <textarea
+                    className="form-input"
+                    value={comment}
+                    placeholder="Your comment"
+                    onChange={commentHandler}
+                  />
+
+                  <Button
+                    primary
+                    className="btn-add-prompt"
+                    type="submit"
+                    label="Add comment"
+                  />
+                  {validForm && (
+                    <Modal
+                      title="Your comment has been submitted!"
+                      open={openConfirmationModal}
+                      toggle={() => setOpenConfirmationModal(false)}
+                    />
+                  )}
+                  {invalidForm && <p className="error-message">{error}</p>}
+                </form>
+              </div>
+            </div>
+          )}
           <Button className="button-back" label="Back" onClick={navigateBack} />
         </section>
       </main>

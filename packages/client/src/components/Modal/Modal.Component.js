@@ -25,7 +25,7 @@ const Modal = ({ toggle, open, title, children, overlayClass = 'overlay' }) => {
         className="modal-container"
       >
         <div className="modal-wrapper">
-          <h2>{title}</h2>
+          {title && <h2>{title}</h2>}
           <button
             type="button"
             onClick={() => toggle()}
