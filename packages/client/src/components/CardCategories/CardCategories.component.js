@@ -6,7 +6,6 @@ import { Button } from '../Button/Button.component';
 import './CardCategories.styles.css';
 
 export const CardCategories = ({ title, url, topics }) => {
-  console.log('topics', topics);
   return (
     <div className="card-category-new">
       <Link to={`/prompts/category/${url}`}>

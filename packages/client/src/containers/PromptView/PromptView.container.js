@@ -84,14 +84,12 @@ export const PromptView = () => {
     event.preventDefault();
     if (!comment) {
       setError('Comment is required!');
-      console.log('error');
       setInvalidForm(true);
       setValidForm(false);
       return;
     }
     if (comment.trim().length < 5) {
       setError('Comment must be more than five characters!');
-      console.log('error');
       setInvalidForm(true);
       setValidForm(false);
       return;

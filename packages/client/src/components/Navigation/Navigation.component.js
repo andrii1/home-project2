@@ -33,7 +33,7 @@ export const Navigation = () => {
     const down = (e) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpenSearchModal((openSearchModal) => !openSearchModal);
+        setOpenSearchModal((modal) => !modal);
       }
     };
 
@@ -110,9 +110,7 @@ export const Navigation = () => {
                   <input
                     type="text"
                     className="input-search-navigation"
-                    onFocus={() =>
-                      setOpenSearchModal((openSearchModal) => !openSearchModal)
-                    }
+                    onFocus={() => setOpenSearchModal((modal) => !modal)}
                     placeholder="Search ( ⌘ + k )"
                   />
                 </label>
@@ -195,6 +193,7 @@ export const Navigation = () => {
           <label>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               type="text"
               className="input-search-home"

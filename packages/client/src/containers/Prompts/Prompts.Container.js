@@ -620,7 +620,6 @@ export const Prompts = () => {
       successUrl: `http://localhost:3000/success`,
       cancelUrl: `http://localhost:3000/cancel`,
     });
-    console.warn(error.message);
   }
 
   const promptsList = prompts.map((prompt) => (
