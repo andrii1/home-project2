@@ -4,39 +4,39 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 
-const getPrompts = async () => {
+const getApps = async () => {
   try {
-    const prompts = await knex('prompts')
+    const apps = await knex('apps')
       .select(
-        'prompts.*',
+        'apps.*',
         'topics.title as topicTitle',
         'topics.category_id as category_id',
         'categories.title as categoryTitle',
       )
-      .join('topics', 'prompts.topic_id', '=', 'topics.id')
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
       .join('categories', 'topics.category_id', '=', 'categories.id');
-    return prompts;
+    return apps;
   } catch (error) {
     return error.message;
   }
 };
 
-const getPromptsPagination = async (column, direction, page, size) => {
+const getAppsPagination = async (column, direction, page, size) => {
   try {
     const getModel = () =>
-      knex('prompts')
+      knex('apps')
         .select(
-          'prompts.*',
+          'apps.*',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
         )
-        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
         .orderBy(column, direction);
     const totalCount = await getModel()
-      .count('prompts.id', { as: 'rows' })
-      .groupBy('prompts.id');
+      .count('apps.id', { as: 'rows' })
+      .groupBy('apps.id');
     const data = await getModel()
       .offset(page * size)
       .limit(size)
@@ -53,23 +53,23 @@ const getPromptsPagination = async (column, direction, page, size) => {
   }
 };
 
-const getPromptsSearch = async (search, column, direction, page, size) => {
+const getAppsSearch = async (search, column, direction, page, size) => {
   try {
     const getModel = () =>
-      knex('prompts')
+      knex('apps')
         .select(
-          'prompts.*',
+          'apps.*',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
         )
-        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
         .orderBy(column, direction)
-        .where('prompts.title', 'like', `%${search}%`);
+        .where('apps.title', 'like', `%${search}%`);
     const totalCount = await getModel()
-      .count('prompts.id', { as: 'rows' })
-      .groupBy('prompts.id');
+      .count('apps.id', { as: 'rows' })
+      .groupBy('apps.id');
     const data = await getModel()
       .offset(page * size)
       .limit(size)
@@ -86,7 +86,7 @@ const getPromptsSearch = async (search, column, direction, page, size) => {
   }
 };
 
-const getPromptsByCategoriesSearch = async (
+const getAppsByCategoriesSearch = async (
   search,
   categories,
   column,
@@ -96,21 +96,21 @@ const getPromptsByCategoriesSearch = async (
 ) => {
   try {
     const getModel = () =>
-      knex('prompts')
+      knex('apps')
         .select(
-          'prompts.*',
+          'apps.*',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
         )
-        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
         .whereIn('category_id', categories)
-        .where('prompts.title', 'like', `%${search}%`)
+        .where('apps.title', 'like', `%${search}%`)
         .orderBy(column, direction);
     const totalCount = await getModel()
-      .count('prompts.id', { as: 'rows' })
-      .groupBy('prompts.id');
+      .count('apps.id', { as: 'rows' })
+      .groupBy('apps.id');
     const data = await getModel()
       .offset(page * size)
       .limit(size)
@@ -126,7 +126,7 @@ const getPromptsByCategoriesSearch = async (
   }
 };
 
-const getPromptsByCategories = async (
+const getAppsByCategories = async (
   categories,
   column,
   direction,
@@ -135,20 +135,20 @@ const getPromptsByCategories = async (
 ) => {
   try {
     const getModel = () =>
-      knex('prompts')
+      knex('apps')
         .select(
-          'prompts.*',
+          'apps.*',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
         )
-        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
         .whereIn('category_id', categories)
         .orderBy(column, direction);
     const totalCount = await getModel()
-      .count('prompts.id', { as: 'rows' })
-      .groupBy('prompts.id');
+      .count('apps.id', { as: 'rows' })
+      .groupBy('apps.id');
     const data = await getModel()
       .offset(page * size)
       .limit(size)
@@ -164,7 +164,7 @@ const getPromptsByCategories = async (
   }
 };
 
-const getPromptsByTopicsSearch = async (
+const getAppsByTopicsSearch = async (
   search,
   topics,
   column,
@@ -174,21 +174,21 @@ const getPromptsByTopicsSearch = async (
 ) => {
   try {
     const getModel = () =>
-      knex('prompts')
+      knex('apps')
         .select(
-          'prompts.*',
+          'apps.*',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
         )
-        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
         .whereIn('topic_id', topics)
-        .where('prompts.title', 'like', `%${search}%`)
+        .where('apps.title', 'like', `%${search}%`)
         .orderBy(column, direction);
     const totalCount = await getModel()
-      .count('prompts.id', { as: 'rows' })
-      .groupBy('prompts.id');
+      .count('apps.id', { as: 'rows' })
+      .groupBy('apps.id');
     const data = await getModel()
       .offset(page * size)
       .limit(size)
@@ -204,23 +204,23 @@ const getPromptsByTopicsSearch = async (
   }
 };
 
-const getPromptsByTopics = async (topics, column, direction, page, size) => {
+const getAppsByTopics = async (topics, column, direction, page, size) => {
   try {
     const getModel = () =>
-      knex('prompts')
+      knex('apps')
         .select(
-          'prompts.*',
+          'apps.*',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
         )
-        .join('topics', 'prompts.topic_id', '=', 'topics.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
         .whereIn('topic_id', topics)
         .orderBy(column, direction);
     const totalCount = await getModel()
-      .count('prompts.id', { as: 'rows' })
-      .groupBy('prompts.id');
+      .count('apps.id', { as: 'rows' })
+      .groupBy('apps.id');
     const data = await getModel()
       .offset(page * size)
       .limit(size)
@@ -236,78 +236,78 @@ const getPromptsByTopics = async (topics, column, direction, page, size) => {
   }
 };
 
-const getPromptsByCategory = async (category) => {
+const getAppsByCategory = async (category) => {
   try {
-    const promptsByCategory = await knex('prompts')
+    const appsByCategory = await knex('apps')
       .select(
-        'prompts.*',
+        'apps.*',
         'topics.title as topicTitle',
         'topics.category_id as category_id',
         'categories.title as categoryTitle',
       )
-      .join('topics', 'prompts.topic_id', '=', 'topics.id')
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
       .join('categories', 'topics.category_id', '=', 'categories.id')
       .where({
         'topics.category_id': category,
       });
-    return promptsByCategory;
+    return appsByCategory;
   } catch (error) {
     return error.message;
   }
 };
 
-const getPromptsByTopic = async (topic) => {
+const getAppsByTopic = async (topic) => {
   try {
-    const promptsByTopic = await knex('prompts')
+    const appsByTopic = await knex('apps')
       .select(
-        'prompts.*',
+        'apps.*',
         'topics.title as topicTitle',
         'topics.category_id as category_id',
         'categories.title as categoryTitle',
       )
-      .join('topics', 'prompts.topic_id', '=', 'topics.id')
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
       .join('categories', 'topics.category_id', '=', 'categories.id')
       .where({ topic_id: topic });
-    return promptsByTopic;
+    return appsByTopic;
   } catch (error) {
     return error.message;
   }
 };
 
-// Get prompts by id
-const getPromptById = async (id) => {
+// Get apps by id
+const getAppById = async (id) => {
   if (!id) {
     throw new HttpError('Id should be a number', 400);
   }
   try {
-    const prompt = await knex('prompts')
+    const app = await knex('apps')
       .select(
-        'prompts.*',
+        'apps.*',
         'topics.title as topicTitle',
         'topics.category_id as category_id',
         'categories.title as categoryTitle',
       )
-      .join('topics', 'prompts.topic_id', '=', 'topics.id')
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
       .join('categories', 'topics.category_id', '=', 'categories.id')
-      .where({ 'prompts.id': id });
-    if (prompt.length === 0) {
+      .where({ 'apps.id': id });
+    if (app.length === 0) {
       throw new HttpError(`incorrect entry with the id of ${id}`, 404);
     }
-    return prompt;
+    return app;
   } catch (error) {
     return error.message;
   }
 };
 
 // post
-const createPrompts = async (token, body) => {
+const createApps = async (token, body) => {
   try {
     const userUid = token.split(' ')[1];
     const user = (await knex('users').where({ uid: userUid }))[0];
     if (!user) {
       throw new HttpError('User not found', 401);
     }
-    await knex('prompts').insert({
+    await knex('apps').insert({
       title: body.title,
       description: body.description,
       topic_id: body.topic_id,
@@ -322,15 +322,15 @@ const createPrompts = async (token, body) => {
 };
 
 module.exports = {
-  getPrompts,
-  getPromptsPagination,
-  getPromptsSearch,
-  getPromptsByCategories,
-  getPromptsByCategoriesSearch,
-  getPromptsByTopics,
-  getPromptsByTopicsSearch,
-  getPromptsByCategory,
-  getPromptsByTopic,
-  getPromptById,
-  createPrompts,
+  getApps,
+  getAppsPagination,
+  getAppsSearch,
+  getAppsByCategories,
+  getAppsByCategoriesSearch,
+  getAppsByTopics,
+  getAppsByTopicsSearch,
+  getAppsByCategory,
+  getAppsByTopic,
+  getAppById,
+  createApps,
 };

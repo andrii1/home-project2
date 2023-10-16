@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 
 // controllers
-const promptsController = require('../controllers/prompts.controller');
+const appsController = require('../controllers/apps.controller');
 
 /**
  * @swagger
@@ -27,8 +27,8 @@ const promptsController = require('../controllers/prompts.controller');
 router.get('/', (req, res, next) => {
   if (req.query.filteredTopics && req.query.search) {
     const array = req.query.filteredTopics.split(',');
-    promptsController
-      .getPromptsByTopicsSearch(
+    appsController
+      .getAppsByTopicsSearch(
         req.query.search,
         array,
         req.query.column,
@@ -40,8 +40,8 @@ router.get('/', (req, res, next) => {
       .catch(next);
   } else if (req.query.filteredCategories && req.query.search) {
     const array = req.query.filteredCategories.split(',');
-    promptsController
-      .getPromptsByCategoriesSearch(
+    appsController
+      .getAppsByCategoriesSearch(
         req.query.search,
         array,
         req.query.column,
@@ -53,8 +53,8 @@ router.get('/', (req, res, next) => {
       .catch(next);
   } else if (req.query.filteredTopics) {
     const array = req.query.filteredTopics.split(',');
-    promptsController
-      .getPromptsByTopics(
+    appsController
+      .getAppsByTopics(
         array,
         req.query.column,
         req.query.direction,
@@ -65,8 +65,8 @@ router.get('/', (req, res, next) => {
       .catch(next);
   } else if (req.query.filteredCategories) {
     const array = req.query.filteredCategories.split(',');
-    promptsController
-      .getPromptsByCategories(
+    appsController
+      .getAppsByCategories(
         array,
         req.query.column,
         req.query.direction,
@@ -76,8 +76,8 @@ router.get('/', (req, res, next) => {
       .then((result) => res.json(result))
       .catch(next);
   } else if (req.query.search) {
-    promptsController
-      .getPromptsSearch(
+    appsController
+      .getAppsSearch(
         req.query.search,
         req.query.column,
         req.query.direction,
@@ -87,24 +87,19 @@ router.get('/', (req, res, next) => {
       .then((result) => res.json(result))
       .catch(next);
   } else {
-    promptsController
-      .getPromptsPagination(
-        req.query.column,
-        req.query.direction,
-        req.query.page,
-        req.query.size,
-      )
+    appsController
+      .getApps()
       .then((result) => res.json(result))
       .catch(next);
   }
 });
 
-/* Create prompts */
+/* Create Apps */
 
 router.post('/', (req, res, next) => {
   const { token } = req.headers;
-  promptsController
-    .createPrompts(token, req.body)
+  appsController
+    .createApps(token, req.body)
     .then((result) => res.json(result))
     .catch(next);
 });
@@ -135,7 +130,7 @@ router.post('/', (req, res, next) => {
  */
 
 router.get('/:id', (req, res, next) => {
-  promptsController
+  appsController
     .getPromptById(req.params.id)
     .then((result) => res.json(result))
     .catch(next);

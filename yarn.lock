@@ -13457,9 +13457,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"home-project-monorepo@workspace:.":
+"home-project2-monorepo@workspace:.":
   version: 0.0.0-use.local
-  resolution: "home-project-monorepo@workspace:."
+  resolution: "home-project2-monorepo@workspace:."
   dependencies:
     eslint-config-airbnb: ^19.0.4
     eslint-config-prettier: ^8.5.0

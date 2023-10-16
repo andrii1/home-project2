@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const exampleResources = require('./exampleResources.router');
-const prompts = require('./prompts.router');
+const apps = require('./apps.router');
 const categories = require('./categories.router');
 const topics = require('./topics.router');
 const users = require('./users.router');
@@ -11,6 +11,7 @@ const favorites = require('./favorites.router');
 const ratings = require('./ratings.router');
 const stripe = require('./stripe.router');
 const comments = require('./comments.router');
+//const topicAppsRouter = require('./topicApps.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -41,7 +42,7 @@ const swaggerDocument = swaggerJsDoc(swaggerOptions);
 router.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router.use('/exampleResources', exampleResources);
-router.use('/prompts', prompts);
+router.use('/apps', apps);
 router.use('/categories', categories);
 router.use('/topics', topics);
 router.use('/users', users);
@@ -49,5 +50,6 @@ router.use('/favorites', favorites);
 router.use('/ratings', ratings);
 router.use('/stripe', stripe);
 router.use('/comments', comments);
+//router.use('/topics/:id/apps', topicAppsRouter);
 
 module.exports = router;
