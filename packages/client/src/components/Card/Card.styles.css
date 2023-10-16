@@ -16,7 +16,12 @@
   flex: 0 0 50%;
 }
 
+.card-description {
+  padding: 0.5rem;
+}
+
 .card-category h2 {
+  color: #e5989b;
   margin: 0rem;
   display: flex;
   justify-content: center;
@@ -35,4 +40,12 @@
   gap: 1rem;
   align-items: center;
   justify-content: center;
+}
+
+.card-header a h2:hover {
+  color: #ffb4a2;
+}
+
+.card-header a .fa-arrow-up-right-from-square:hover {
+  color: #ffb4a2 !important;
 }

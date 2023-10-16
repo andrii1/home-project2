@@ -85,6 +85,7 @@ export const Apps = () => {
         description={app.description}
         url={app.url}
         topic={app.topicTitle}
+        pricingType={app.pricing_type}
       />
     );
   });

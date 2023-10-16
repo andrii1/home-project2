@@ -14,7 +14,8 @@ const getApps = async () => {
         'categories.title as categoryTitle',
       )
       .join('topics', 'apps.topic_id', '=', 'topics.id')
-      .join('categories', 'topics.category_id', '=', 'categories.id');
+      .join('categories', 'topics.category_id', '=', 'categories.id')
+      .orderBy('id', 'asc');
     return apps;
   } catch (error) {
     return error.message;

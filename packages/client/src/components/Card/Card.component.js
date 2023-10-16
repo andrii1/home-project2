@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button } from '../Button/Button.component';
+import { Badge } from '../Badge/Badge.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import appImage from '../../assets/images/app-placeholder.svg';
 
 import './Card.styles.css';
 
-export const Card = ({ title, description, topic, url }) => {
+export const Card = ({ title, description, topic, pricingType, url }) => {
   return (
     <div className="card-category">
       <div
@@ -25,14 +26,19 @@ export const Card = ({ title, description, topic, url }) => {
             <h2>{title}</h2>
           </Link>
           <Link to={`/apps/`} target="_blank">
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="lg" />
+            <FontAwesomeIcon
+              className="icon-card"
+              icon={faArrowUpRightFromSquare}
+              style={{ color: '#e5989b' }}
+              size="lg"
+            />
           </Link>
+          <Badge label={pricingType} size="small" />
         </div>
-        <div className="card-body">
-          {' '}
+        <div className="card-description">
           {description.split(' ').slice(0, 15).join(' ')}
         </div>
-        <Button label={topic} size="sm" />
+        <Button label={topic} size="small" />
       </div>
     </div>
   );
@@ -41,11 +47,15 @@ export const Card = ({ title, description, topic, url }) => {
 Card.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
+  topic: PropTypes.string,
+  pricingType: PropTypes.string,
   url: PropTypes.shape,
 };
 
 Card.defaultProps = {
   title: null,
   description: null,
+  pricingType: null,
+  topic: null,
   url: null,
 };
