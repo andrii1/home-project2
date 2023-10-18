@@ -120,6 +120,11 @@ main {
     min-width: 0% !important;
     width: 100%;
   }
+
+  .dropdown-search {
+    top: 26.5rem;
+    min-width: 20rem;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {

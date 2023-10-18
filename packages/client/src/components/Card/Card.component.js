@@ -5,6 +5,7 @@ import { Button } from '../Button/Button.component';
 import { Badge } from '../Badge/Badge.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import appImage from '../../assets/images/app-placeholder.svg';
 
 import './Card.styles.css';
@@ -22,23 +23,28 @@ export const Card = ({ title, description, topic, pricingType, url }) => {
       />
       <div className="card-body">
         <div className="card-header">
-          <Link to={`/apps/`} target="_blank">
-            <h2>{title}</h2>
-          </Link>
-          <Link to={`/apps/`} target="_blank">
-            <FontAwesomeIcon
-              className="icon-card"
-              icon={faArrowUpRightFromSquare}
-              style={{ color: '#e5989b' }}
-              size="lg"
-            />
-          </Link>
+          <div className="card-title">
+            <Link to={`/apps/`} target="_blank">
+              <h2>{title}</h2>
+            </Link>
+            <Link to={`/apps/`} target="_blank">
+              <FontAwesomeIcon
+                className="icon-card"
+                icon={faArrowUpRightFromSquare}
+                style={{ color: '#e5989b' }}
+                size="lg"
+              />
+            </Link>
+          </div>
           <Badge label={pricingType} size="small" />
         </div>
         <div className="card-description">
           {description.split(' ').slice(0, 15).join(' ')}
         </div>
-        <Button label={topic} size="small" />
+        <div className="topics-bookmark">
+          <Button label={topic} size="small" />
+          <FontAwesomeIcon icon={faHeart} size="lg" />
+        </div>
       </div>
     </div>
   );
