@@ -17,19 +17,18 @@ export const Apps = () => {
   const [topics, setTopics] = useState([]);
   useEffect(() => {
     async function fetchApps() {
-      const responseCategories = await fetch(`${apiURL()}/apps/`);
-      const responseTopics = await fetch(`${apiURL()}/topics/`);
-      const categoriesResponse = await responseCategories.json();
-      const topicsResponse = await responseTopics.json();
-      const combinedArray = categoriesResponse.concat(topicsResponse);
-      if (searchTerms) {
-        const filteredSearch = combinedArray.filter((item) =>
-          item.title.toLowerCase().includes(searchTerms.toLowerCase()),
-        );
-        setResultsHome(filteredSearch);
-      } else {
-        setResultsHome(categoriesResponse);
-      }
+      const responseApps = await fetch(`${apiURL()}/apps/`);
+
+      const responseAppsJson = await responseApps.json();
+
+      const filteredSearch = responseAppsJson.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.categoryTitle.toLowerCase().includes(searchTerms.toLowerCase()),
+      );
+      setResultsHome(filteredSearch);
     }
     fetchApps();
   }, [searchTerms]);
@@ -54,27 +53,11 @@ export const Apps = () => {
     setSearchTerms(event.target.value);
   };
 
-  const dropdownList = resultsHome.map((result) => {
-    let finalResult;
-    if (Object.keys(result).length > 2) {
-      finalResult = (
-        <Link to="/" state={{ frontPageItem: [result.id] }}>
-          <li key={result.id}>{result.title}</li>
-        </Link>
-      );
-    } else {
-      const relatedTopics = topics
-        .filter((topic) => topic.categoryId === result.id)
-        .map((item) => item.id);
-
-      finalResult = (
-        <Link to="/" state={{ frontPageItem: relatedTopics }}>
-          <li key={result.id}>{result.title}</li>
-        </Link>
-      );
-    }
-    return finalResult;
-  });
+  const dropdownList = resultsHome.map((app) => (
+    <Link key={app.id} to={`/apps/${app.id}`}>
+      <li>{app.title}</li>
+    </Link>
+  ));
   const cardItems = apps.map((app) => {
     // const relatedTopics = topics
     //   .filter((topic) => topic.categoryId === category.id)
@@ -100,9 +83,8 @@ export const Apps = () => {
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">
-        <h1 className="hero-header">AI apps</h1>
-        <p className="subheading">Browse 200+ apps</p>
-        <form>
+        <h1 className="hero-header">Browse 200+ AI apps</h1>
+        <form className="home">
           <label>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
@@ -110,13 +92,19 @@ export const Apps = () => {
               className="input-search-home"
               onChange={handleSearch}
               /* onFocus={handleClick} */
-              placeholder="Search categories and topics"
+              placeholder="I want to build..."
             />
           </label>
         </form>
         {searchTerms ? (
           <div className="dropdown-search">
-            <ul>{dropdownList}</ul>
+            <ul>
+              {resultsHome.length > 0 ? (
+                dropdownList
+              ) : (
+                <span className="search-no-apps">No apps found :(</span>
+              )}
+            </ul>
           </div>
         ) : (
           ''

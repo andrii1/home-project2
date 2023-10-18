@@ -63,9 +63,9 @@ main {
   max-width: 28rem;
 }
 
-.dropdown-search ul li {
+/* .dropdown-search ul li {
   margin-bottom: 1rem;
-}
+} */
 
 .search-icon {
   position: absolute;

@@ -110,9 +110,7 @@ export const Categories = () => {
   return (
     <main>
       <Helmet>
-        <title>
-          Prompt library - 3500+ ChatGPT prompts, 110 topics, 22 categories
-        </title>
+        <title>Apps with AI - discover best AI apps</title>
         <meta
           name="description"
           content="Find best Chat GPT prompts for free"
@@ -121,7 +119,7 @@ export const Categories = () => {
       {/* <div className="hero"></div> */}
       <div className="hero">
         <h1 className="hero-header">Categories</h1>
-        <p className="subheading">3500+ prompts, 110 topics, 22 categories</p>
+        <p className="subheading">200+ AI apps among 30+ topics</p>
         <form>
           <label>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />

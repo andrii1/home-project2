@@ -1,6 +1,6 @@
 .card-category {
   background-color: white;
-  border: 1px solid #e3d5ca;
+  border: 1px solid #ffcdb2;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
 }
 
 .card-body {
-  padding: 0.5rem;
+  padding: 1rem;
   flex: 0 0 50%;
 }
 
@@ -31,7 +31,8 @@
 .card-image {
   height: 100%;
   width: 100%;
-  border-radius: 8px;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
   background-position: center;
   flex: 0 0 50%;
 }
