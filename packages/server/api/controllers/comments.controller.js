@@ -17,8 +17,8 @@ const getAllComments = async () => {
   }
 };
 
-// get comment by prompt id
-const getCommentsByPromptId = async (id) => {
+// get comment by app id
+const getCommentsByAppId = async (id) => {
   if (!id) {
     throw new HttpError('Id should be a number', 400);
   }
@@ -26,38 +26,9 @@ const getCommentsByPromptId = async (id) => {
   try {
     const comments = await knex('comments')
       .join('users', 'comments.user_id', '=', 'users.id')
-      .where('comments.prompt_id', '=', `${id}`);
+      .where('comments.app_id', '=', `${id}`);
 
     return comments;
-  } catch (error) {
-    return error.message;
-  }
-};
-// get by user-id
-const getFavoritesByUserId = async (token) => {
-  const userUid = token.split(' ')[1];
-  const user = (await knex('users').where({ uid: userUid }))[0];
-
-  if (!token) {
-    throw new HttpError('There are not users', 401);
-  }
-
-  try {
-    const favorites = await knex('prompts')
-      .select('prompts.*', 'favorites.id as favoritesID')
-      .leftJoin('favorites', function () {
-        this.on('prompts.id', '=', 'favorites.prompt_id');
-      })
-      .where('favorites.user_id', '=', `${user.id}`);
-
-    if (favorites.length === 0) {
-      throw new HttpError(
-        `There are no favorites available with this user`,
-        404,
-      );
-    }
-
-    return favorites;
   } catch (error) {
     return error.message;
   }
@@ -73,7 +44,7 @@ const createComments = async (token, body) => {
     }
     await knex('comments').insert({
       user_id: user.id,
-      prompt_id: body.prompt_id,
+      app_id: body.app_id,
       content: body.content,
     });
     return {
@@ -110,7 +81,7 @@ const deleteComments = async (token, commentId) => {
 
 module.exports = {
   getAllComments,
-  getCommentsByPromptId,
+  getCommentsByAppId,
   createComments,
   deleteComments,
 };

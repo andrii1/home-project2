@@ -7,6 +7,7 @@ import './Button.styles.css';
  */
 export const Button = ({
   primary,
+  secondary,
   lighterBg,
   className,
   backgroundColor,
@@ -21,8 +22,10 @@ export const Button = ({
     mode = 'storybook-button--primary';
   } else if (lighterBg) {
     mode = 'storybook-button--lighterBg';
-  } else {
+  } else if (secondary) {
     mode = 'storybook-button--secondary';
+  } else {
+    mode = 'storybook-button--tertiary';
   }
   return (
     <button
@@ -49,6 +52,7 @@ Button.propTypes = {
    */
   primary: PropTypes.bool,
   lighterBg: PropTypes.bool,
+  secondary: PropTypes.bool,
 
   /**
    * What background color to use
@@ -80,6 +84,7 @@ Button.defaultProps = {
   color: null,
   primary: false,
   lighterBg: false,
+  secondary: false,
   size: 'medium',
   onClick: undefined,
   type: 'button',

@@ -16,6 +16,7 @@ main {
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  margin: 1rem 0 4rem 0;
 }
 
 .hero h1 {
@@ -23,7 +24,7 @@ main {
 }
 
 .hero form {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .subheading {
@@ -56,12 +57,12 @@ main {
 }
 .dropdown-search {
   position: absolute;
-  top: 15rem;
+  top: 17rem;
   background-color: #fff;
   border: 1px solid #ffcdb2 !important;
   border-radius: 5px;
-  min-width: 28rem;
-  max-width: 28rem;
+  min-width: 45rem;
+  max-width: 45rem;
 }
 .dropdown-search ul {
   padding-left: 0rem !important;

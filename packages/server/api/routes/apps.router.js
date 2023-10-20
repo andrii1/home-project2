@@ -131,7 +131,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   appsController
-    .getPromptById(req.params.id)
+    .getAppById(req.params.id)
     .then((result) => res.json(result))
     .catch(next);
 });

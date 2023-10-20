@@ -11,7 +11,7 @@
   background-color: #946b54;
 }
 .storybook-badge--secondary {
-  color: #333;
+  color: #e5989b !important;
   background-color: transparent;
   box-shadow: rgb(0 0 0 / 15%) 0 0 0 1px inset;
 }

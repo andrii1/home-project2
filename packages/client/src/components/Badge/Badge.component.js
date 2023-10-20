@@ -7,7 +7,7 @@ import './Badge.styles.css';
  */
 export const Badge = ({
   primary,
-  lighterBg,
+  secondary,
   className,
   backgroundColor,
   color,
@@ -17,11 +17,11 @@ export const Badge = ({
 }) => {
   let mode;
   if (primary) {
-    mode = 'storybook-button--primary';
-  } else if (lighterBg) {
-    mode = 'storybook-button--lighterBg';
+    mode = 'storybook-badge--primary';
+  } else if (secondary) {
+    mode = 'storybook-badge--secondary';
   } else {
-    mode = 'storybook-button--secondary';
+    mode = 'storybook-badge--tertiary';
   }
   return (
     <div
@@ -44,7 +44,7 @@ Badge.propTypes = {
    * Is this the principal call to action on the page?
    */
   primary: PropTypes.bool,
-  lighterBg: PropTypes.bool,
+  secondary: PropTypes.bool,
 
   /**
    * What background color to use
@@ -74,7 +74,7 @@ Badge.defaultProps = {
   className: null,
   color: null,
   primary: false,
-  lighterBg: false,
+  secondary: false,
   size: 'medium',
   onClick: undefined,
 };

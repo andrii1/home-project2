@@ -1,6 +1,6 @@
 .card-category {
   background-color: white;
-  border: 1px solid #ffcdb2;
+  border: 1px solid #efefef;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -18,10 +18,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .card-description {
-  padding: 0.5rem;
+  text-align: left;
 }
 
 .card-category h2 {
@@ -64,4 +65,35 @@
 
 .card-header a .fa-arrow-up-right-from-square:hover {
   color: #ffb4a2 !important;
+}
+
+.card-category--small {
+  background-color: white;
+  border: 1px solid #efefef;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  /* height: 8.5rem; */
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.card-category--small h2 {
+  color: #fff;
+}
+
+.card-image--small {
+  height: 100%;
+  width: 100%;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background-position: center;
+  flex: 0 0 50%;
+}
+
+.topics-bookmark--small {
+  display: flex;
+  gap: 1rem;
 }

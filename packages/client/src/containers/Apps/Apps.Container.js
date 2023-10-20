@@ -20,15 +20,20 @@ export const Apps = () => {
       const responseApps = await fetch(`${apiURL()}/apps/`);
 
       const responseAppsJson = await responseApps.json();
-
-      const filteredSearch = responseAppsJson.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchTerms.toLowerCase()) ||
-          item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
-          item.categoryTitle.toLowerCase().includes(searchTerms.toLowerCase()),
-      );
-      setResultsHome(filteredSearch);
+      if (searchTerms) {
+        const filteredSearch = responseAppsJson.filter(
+          (item) =>
+            item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
+            item.description
+              .toLowerCase()
+              .includes(searchTerms.toLowerCase()) ||
+            item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
+            item.categoryTitle
+              .toLowerCase()
+              .includes(searchTerms.toLowerCase()),
+        );
+        setResultsHome(filteredSearch);
+      }
     }
     fetchApps();
   }, [searchTerms]);
@@ -64,6 +69,7 @@ export const Apps = () => {
     //   .map((item) => item.id);
     return (
       <Card
+        id={app.id}
         title={app.title}
         description={app.description}
         url={app.url}
@@ -76,10 +82,7 @@ export const Apps = () => {
     <main>
       <Helmet>
         <title>AI apps - browse 200+ apps</title>
-        <meta
-          name="description"
-          content="Find best Chat GPT prompts for free"
-        />
+        <meta name="description" content="Find best AI apps for free" />
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">

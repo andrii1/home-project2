@@ -1,7 +1,7 @@
 .navigation {
   display: flex;
   justify-content: space-between;
-  padding: 1.5rem 2rem;
+  padding: 0.5rem 2rem 1.5rem 2rem;
   align-items: center;
 }
 
@@ -50,7 +50,7 @@ ul li:not(.dropdown-search ul li),
 
 .submit {
   font-weight: bold;
-  color: #946b54 !important;
+  color: #b5838d !important;
 }
 
 .input-search-navigation {
@@ -75,4 +75,5 @@ ul li:not(.dropdown-search ul li),
 
 .img-logo {
   max-width: 14rem;
+  padding-top: 1rem;
 }
