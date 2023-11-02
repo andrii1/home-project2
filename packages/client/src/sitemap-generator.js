@@ -43,14 +43,14 @@ async function generateSitemap() {
     });
 
     const paramsConfig = {
-      '/prompts/:id': idMap,
-      '/prompts/topic/:topicIdParam': idMapTopics,
-      '/prompts/category/:categoryIdParam': idMapCategories,
+      '/apps/:id': idMap,
+      '/apps/topic/:topicIdParam': idMapTopics,
+      '/apps/category/:categoryIdParam': idMapCategories,
     };
 
     return new Sitemap(router)
       .applyParams(paramsConfig)
-      .build('https://www.prompt-library.net')
+      .build('https://www.appswithai.xyz')
       .save('./public/sitemap.xml');
   } catch (e) {
     console.log(e);

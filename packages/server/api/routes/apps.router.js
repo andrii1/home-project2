@@ -5,6 +5,10 @@ const express = require('express');
 
 const router = express.Router({ mergeParams: true });
 
+const topicAppsRouter = require('./topicApps.router');
+
+router.use('/topics/:topicId/apps', topicAppsRouter);
+
 // controllers
 const appsController = require('../controllers/apps.controller');
 
@@ -54,25 +58,13 @@ router.get('/', (req, res, next) => {
   } else if (req.query.filteredTopics) {
     const array = req.query.filteredTopics.split(',');
     appsController
-      .getAppsByTopics(
-        array,
-        req.query.column,
-        req.query.direction,
-        req.query.page,
-        req.query.size,
-      )
+      .getAppsByTopics(array)
       .then((result) => res.json(result))
       .catch(next);
   } else if (req.query.filteredCategories) {
     const array = req.query.filteredCategories.split(',');
     appsController
-      .getAppsByCategories(
-        array,
-        req.query.column,
-        req.query.direction,
-        req.query.page,
-        req.query.size,
-      )
+      .getAppsByCategories(array)
       .then((result) => res.json(result))
       .catch(next);
   } else if (req.query.search) {

@@ -33,15 +33,11 @@ function App() {
             <Route path="/test" element={<TestPage />} />
             <Route path="/categories" element={<Categories />} />
             <Route exact path="/apps/:id" element={<AppView />} />
+            <Route exact path="/apps/topic/:topicIdParam" element={<Apps />} />
             <Route
               exact
-              path="/prompts/topic/:topicIdParam"
-              element={<Prompts />}
-            />
-            <Route
-              exact
-              path="/prompts/category/:categoryIdParam"
-              element={<Prompts />}
+              path="/apps/category/:categoryIdParam"
+              element={<Apps />}
             />
             <Route exact path="/faq" element={<Faq />} />
             <Route exact path="/prompts/new" element={<Submit />} />

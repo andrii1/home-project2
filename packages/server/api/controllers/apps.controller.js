@@ -127,39 +127,20 @@ const getAppsByCategoriesSearch = async (
   }
 };
 
-const getAppsByCategories = async (
-  categories,
-  column,
-  direction,
-  page,
-  size,
-) => {
+const getAppsByCategories = async (categories) => {
   try {
-    const getModel = () =>
-      knex('apps')
-        .select(
-          'apps.*',
-          'topics.title as topicTitle',
-          'topics.category_id as category_id',
-          'categories.title as categoryTitle',
-        )
-        .join('topics', 'apps.topic_id', '=', 'topics.id')
-        .join('categories', 'topics.category_id', '=', 'categories.id')
-        .whereIn('category_id', categories)
-        .orderBy(column, direction);
-    const totalCount = await getModel()
-      .count('apps.id', { as: 'rows' })
-      .groupBy('apps.id');
-    const data = await getModel()
-      .offset(page * size)
-      .limit(size)
-      .select();
-    const dataExport = await getModel().select();
-    return {
-      totalCount: totalCount.length,
-      data,
-      dataExport,
-    };
+    const apps = await knex('apps')
+      .select(
+        'apps.*',
+        'topics.title as topicTitle',
+        'topics.category_id as category_id',
+        'categories.title as categoryTitle',
+      )
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id')
+      .whereIn('category_id', categories);
+
+    return apps;
   } catch (error) {
     return error.message;
   }
@@ -205,33 +186,20 @@ const getAppsByTopicsSearch = async (
   }
 };
 
-const getAppsByTopics = async (topics, column, direction, page, size) => {
+const getAppsByTopics = async (topics) => {
   try {
-    const getModel = () =>
-      knex('apps')
-        .select(
-          'apps.*',
-          'topics.title as topicTitle',
-          'topics.category_id as category_id',
-          'categories.title as categoryTitle',
-        )
-        .join('topics', 'apps.topic_id', '=', 'topics.id')
-        .join('categories', 'topics.category_id', '=', 'categories.id')
-        .whereIn('topic_id', topics)
-        .orderBy(column, direction);
-    const totalCount = await getModel()
-      .count('apps.id', { as: 'rows' })
-      .groupBy('apps.id');
-    const data = await getModel()
-      .offset(page * size)
-      .limit(size)
-      .select();
-    const dataExport = await getModel().select();
-    return {
-      totalCount: totalCount.length,
-      data,
-      dataExport,
-    };
+    const apps = await knex('apps')
+      .select(
+        'apps.*',
+        'topics.title as topicTitle',
+        'topics.category_id as category_id',
+        'categories.title as categoryTitle',
+      )
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id')
+      .whereIn('topic_id', topics)
+      .orderBy('id', 'asc');
+    return apps;
   } catch (error) {
     return error.message;
   }
@@ -329,9 +297,9 @@ module.exports = {
   getAppsByCategories,
   getAppsByCategoriesSearch,
   getAppsByTopics,
+  getAppsByTopic,
   getAppsByTopicsSearch,
   getAppsByCategory,
-  getAppsByTopic,
   getAppById,
   createApps,
 };

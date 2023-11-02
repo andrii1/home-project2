@@ -4,6 +4,9 @@ documentation. Can be deleted when the first real route is added. */
 const express = require('express');
 
 const router = express.Router({ mergeParams: true });
+// const topicAppsRouter = require('./topicApps.router');
+
+// router.use('/:id/apps', topicAppsRouter);
 
 // controllers
 const topicsController = require('../controllers/topics.controller');

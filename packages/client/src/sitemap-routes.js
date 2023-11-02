@@ -4,10 +4,10 @@ import { Route } from 'react-router-dom';
 export default (
   <Route>
     <Route path="/" />
-    <Route path="/prompts" />
-    <Route exact path="/prompts/:id" />
-    <Route exact path="/prompts/topic/:topicIdParam" />
-    <Route exact path="/prompts/category/:categoryIdParam" />
+    <Route path="/apps" />
+    <Route exact path="/apps/:id" />
+    <Route exact path="/apps/topic/:topicIdParam" />
+    <Route exact path="/apps/category/:categoryIdParam" />
     <Route exact path="/faq" />
     <Route exact path="/login" />
     <Route exact path="/signup" />

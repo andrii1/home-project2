@@ -11,7 +11,6 @@ const favorites = require('./favorites.router');
 const ratings = require('./ratings.router');
 const stripe = require('./stripe.router');
 const comments = require('./comments.router');
-//const topicAppsRouter = require('./topicApps.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -50,6 +49,5 @@ router.use('/favorites', favorites);
 router.use('/ratings', ratings);
 router.use('/stripe', stripe);
 router.use('/comments', comments);
-//router.use('/topics/:id/apps', topicAppsRouter);
 
 module.exports = router;

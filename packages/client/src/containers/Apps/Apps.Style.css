@@ -16,7 +16,7 @@ main {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  margin: 1rem 0 4rem 0;
+  margin: 1rem 0 2rem 0;
 }
 
 .hero h1 {
@@ -89,6 +89,13 @@ main {
 .home .search-icon {
   position: absolute;
   padding: 1rem;
+}
+
+.container-topics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 @media only screen and (max-width: 992px) {
