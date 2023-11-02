@@ -14,7 +14,7 @@ export const CardCategories = ({ title, url, topics }) => {
       <div className="topics-div">
         {topics.map((topic) => (
           <Link to={`/prompts/topic/${topic.id}`}>
-            <Button label={topic.title} />
+            <Button secondary label={topic.title} />
           </Link>
         ))}
       </div>
