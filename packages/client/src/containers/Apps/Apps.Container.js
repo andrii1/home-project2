@@ -18,6 +18,7 @@ export const Apps = () => {
   const [resultsHome, setResultsHome] = useState([]);
   const [apps, setApps] = useState([]);
   const [topics, setTopics] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -95,8 +96,15 @@ export const Apps = () => {
       setTopics(topicsResponse);
     }
 
+    async function fetchCategories() {
+      const response = await fetch(`${apiURL()}/categories/`);
+      const categoriesResponse = await response.json();
+      setCategories(categoriesResponse);
+    }
+
     // fetchApps();
     fetchTopics();
+    fetchCategories();
   }, []);
 
   const handleSearch = (event) => {
@@ -161,10 +169,22 @@ export const Apps = () => {
       </Link>
     );
   });
+  let pageTitle;
+  if (topicIdParam) {
+    pageTitle = `${topics
+      .filter((topic) => topic.id === parseInt(topicIdParam, 10))
+      .map((item) => item.title)} - AI apps`;
+  } else if (categoryIdParam) {
+    pageTitle = `${categories
+      .filter((category) => category.id === parseInt(categoryIdParam, 10))
+      .map((item) => item.title)} - AI apps`;
+  } else {
+    pageTitle = 'Apps With AI - browse 200+ AI apps';
+  }
   return (
     <main>
       <Helmet>
-        <title>AI apps - browse 200+ apps</title>
+        <title>{pageTitle}</title>
         <meta name="description" content="Find best AI apps for free" />
       </Helmet>
       {/* <div className="hero"></div> */}

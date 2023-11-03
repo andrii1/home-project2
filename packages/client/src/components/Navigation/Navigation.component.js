@@ -20,6 +20,7 @@ export const Navigation = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
+  const [resultsHomeApps, setResultsHomeApps] = useState([]);
   const [topics, setTopics] = useState([]);
   const toggleModal = () => {
     setOpenModal(false);
@@ -58,18 +59,40 @@ export const Navigation = () => {
         setResultsHome(categoriesResponse);
       }
     }
+
+    async function fetchApps() {
+      const responseApps = await fetch(`${apiURL()}/apps/`);
+
+      const responseAppsJson = await responseApps.json();
+      if (searchTerms) {
+        const filteredSearch = responseAppsJson.filter(
+          (item) =>
+            item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
+            item.description
+              .toLowerCase()
+              .includes(searchTerms.toLowerCase()) ||
+            item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
+            item.categoryTitle
+              .toLowerCase()
+              .includes(searchTerms.toLowerCase()),
+        );
+        setResultsHomeApps(filteredSearch);
+      }
+    }
+
     fetchCategories();
+    fetchApps();
   }, [searchTerms]);
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
   };
 
-  const dropdownList = resultsHome.map((result) => {
+  const dropDownResultsTopics = resultsHome.map((result) => {
     let finalResult;
     if (Object.keys(result).length > 2) {
       finalResult = (
         <Link
-          to={`/prompts/topic/${result.id}`}
+          to={`/apps/topic/${result.id}`}
           /* state={{ frontPageItem: [result.id] }} */
           onClick={() => toggleSearchModal()}
         >
@@ -77,13 +100,9 @@ export const Navigation = () => {
         </Link>
       );
     } else {
-      const relatedTopics = topics
-        .filter((topic) => topic.categoryId === result.id)
-        .map((item) => item.id);
-
       finalResult = (
         <Link
-          to={`/prompts/category/${result.id}`}
+          to={`/apps/category/${result.id}`}
           /* state={{ frontPageItem: relatedTopics }} */
           onClick={() => toggleSearchModal()}
         >
@@ -93,6 +112,15 @@ export const Navigation = () => {
     }
     return finalResult;
   });
+  const dropDownResultsApps = resultsHomeApps.map((result) => (
+    <Link
+      to={`/apps/${result.id}`}
+      /* state={{ frontPageItem: relatedTopics }} */
+      onClick={() => toggleSearchModal()}
+    >
+      <li key={result.id}>{result.title}</li>
+    </Link>
+  ));
   return (
     <>
       <div className="navigation">
@@ -195,7 +223,7 @@ export const Navigation = () => {
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               type="text"
-              className="input-search-home"
+              className="input-search-modal"
               onChange={handleSearch}
               /* onFocus={handleClick} */
               placeholder="Search"
@@ -204,7 +232,22 @@ export const Navigation = () => {
         </form>
         {searchTerms ? (
           <div className="dropdown-search-modal">
-            <ul>{dropdownList}</ul>
+            <h3>Apps</h3>
+            <ul>
+              {dropDownResultsApps.length > 0 ? (
+                dropDownResultsApps
+              ) : (
+                <li>No apps found :(</li>
+              )}
+            </ul>
+            <h3>Topics & categories</h3>
+            <ul>
+              {dropDownResultsTopics.length > 0 ? (
+                dropDownResultsTopics
+              ) : (
+                <li>No topics found :(</li>
+              )}
+            </ul>
           </div>
         ) : (
           ''

@@ -63,13 +63,17 @@ main {
   max-width: 28rem;
 }
 
+.search-categories {
+  top: 18.8rem !important;
+}
+
 /* .dropdown-search ul li {
   margin-bottom: 1rem;
 } */
 
-.search-icon {
+.search-icon-categories {
   position: absolute;
-  padding: 0.7rem;
+  padding: 1rem;
 }
 
 @media only screen and (max-width: 992px) {

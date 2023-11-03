@@ -78,17 +78,13 @@ export const Categories = () => {
     let finalResult;
     if (Object.keys(result).length > 2) {
       finalResult = (
-        <Link to="/" state={{ frontPageItem: [result.id] }}>
+        <Link to={`/apps/topic/${result.id}`}>
           <li key={result.id}>{result.title}</li>
         </Link>
       );
     } else {
-      const relatedTopics = topics
-        .filter((topic) => topic.categoryId === result.id)
-        .map((item) => item.id);
-
       finalResult = (
-        <Link to="/" state={{ frontPageItem: relatedTopics }}>
+        <Link to={`/apps/category/${result.id}`}>
           <li key={result.id}>{result.title}</li>
         </Link>
       );
@@ -122,7 +118,10 @@ export const Categories = () => {
         <p className="subheading">200+ AI apps among 30+ topics</p>
         <form>
           <label>
-            <FontAwesomeIcon className="search-icon" icon={faSearch} />
+            <FontAwesomeIcon
+              className="search-icon-categories"
+              icon={faSearch}
+            />
             <input
               type="text"
               className="input-search-home"
@@ -133,7 +132,7 @@ export const Categories = () => {
           </label>
         </form>
         {searchTerms ? (
-          <div className="dropdown-search">
+          <div className="dropdown-search search-categories">
             <ul>{dropdownList}</ul>
           </div>
         ) : (

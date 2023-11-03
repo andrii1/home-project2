@@ -20,9 +20,13 @@ ul li,
   color: black;
 }
 
-ul li:not(.dropdown-search ul li),
+ul li:not(.dropdown-search ul li):not(.dropdown-search-modal ul li),
 .menu ul li {
   margin-right: 1.5rem;
+}
+
+.dropdown-search-modal ul {
+  padding: 0 !important;
 }
 
 .nav-buttons ul li {
@@ -76,4 +80,12 @@ ul li:not(.dropdown-search ul li),
 .img-logo {
   max-width: 14rem;
   padding-top: 1rem;
+}
+
+.input-search-modal {
+  min-width: 28rem !important;
+  border: 1px solid #d9e1ec !important;
+  padding: 1rem 1.5rem 1rem 2.5rem !important;
+  border-radius: 5px !important;
+  height: 3rem !important;
 }
