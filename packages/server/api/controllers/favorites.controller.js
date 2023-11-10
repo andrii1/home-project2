@@ -11,10 +11,10 @@ const getFavoritesByUserId = async (token) => {
   }
 
   try {
-    const favorites = await knex('prompts')
-      .select('prompts.*', 'favorites.id as favoritesID')
+    const favorites = await knex('apps')
+      .select('apps.*', 'favorites.id as favoritesID')
       .leftJoin('favorites', function () {
-        this.on('prompts.id', '=', 'favorites.prompt_id');
+        this.on('apps.id', '=', 'favorites.app_id');
       })
       .where('favorites.user_id', '=', `${user.id}`);
 
@@ -41,7 +41,7 @@ const createFavorites = async (token, body) => {
     }
     await knex('favorites').insert({
       user_id: user.id,
-      prompt_id: body.prompt_id,
+      app_id: body.app_id,
     });
     return {
       successful: true,
@@ -61,7 +61,7 @@ const deleteFavorites = async (token, favoritesId) => {
   }
   try {
     const deletedFav = await knex('favorites')
-      .where({ prompt_id: favoritesId, user_id: user.id })
+      .where({ app_id: favoritesId, user_id: user.id })
       .del();
     if (deletedFav === 0) {
       throw new HttpError('The favorites ID you provided does not exist.', 400);

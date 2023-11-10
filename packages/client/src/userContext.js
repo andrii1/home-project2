@@ -36,22 +36,22 @@ export function UserProvider({ children }) {
       /* error */
     }
   }, [user?.uid]);
-  const fetchIfCustomer = useCallback(async () => {
-    const url = `${apiURL()}/stripe/customers?userEmail=${user?.email}`;
-    const response = await fetch(url);
-    const json = await response.json();
-    if (!json.data.length) {
-      return setCustomer(false);
-    }
-    return setCustomer(true);
-  }, [user?.email]);
+  // const fetchIfCustomer = useCallback(async () => {
+  //   const url = `${apiURL()}/stripe/customers?userEmail=${user?.email}`;
+  //   const response = await fetch(url);
+  //   const json = await response.json();
+  //   if (!json.data.length) {
+  //     return setCustomer(false);
+  //   }
+  //   return setCustomer(true);
+  // }, [user?.email]);
   useEffect(() => {
     if (user) {
       fetchUserName();
-      fetchIfCustomer();
+      // fetchIfCustomer();
     }
     /* if (!user) navigate('/'); */
-  }, [user, fetchUserName, fetchIfCustomer]);
+  }, [user, fetchUserName]);
 
   const fireBaseProviderValue = useMemo(
     () => ({

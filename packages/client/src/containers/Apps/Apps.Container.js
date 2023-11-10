@@ -10,6 +10,8 @@ import { Loading } from '../../components/Loading/Loading.Component';
 import DropDownView from '../../components/CategoriesListDropDown/CategoriesListDropDown.component';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Modal from '../../components/Modal/Modal.Component';
+import { useUserContext } from '../../userContext';
 
 import {
   faSearch,
@@ -20,6 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export const Apps = () => {
+  const { user } = useUserContext();
   const location = useLocation();
   const { topicIdParam, categoryIdParam } = useParams();
   const [searchTerms, setSearchTerms] = useState();
@@ -27,6 +30,8 @@ export const Apps = () => {
   const [resultsHome, setResultsHome] = useState([]);
 
   const [topics, setTopics] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
   const [categories, setCategories] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [filteredPricingPreview, setFilteredPricingPreview] = useState([]);
@@ -35,6 +40,7 @@ export const Apps = () => {
   const [filteredDetails, setFilteredDetails] = useState([]);
   const [filtersSubmitted, setFiltersSubmitted] = useState(false);
   const [showFiltersContainer, setShowFiltersContainer] = useState(false);
+  const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [listView, setListView] = useState(false);
   const [page, setPage] = useState(0);
@@ -58,6 +64,11 @@ export const Apps = () => {
     { title: 'Android app available', checked: false },
     { title: 'Social media contacts', checked: false },
   ]);
+
+  const toggleModal = () => {
+    setOpenModal(false);
+    document.body.style.overflow = 'visible';
+  };
 
   console.log(filteredPricing, filteredDetails);
   // first fetch
@@ -522,6 +533,58 @@ export const Apps = () => {
       {item.title}
     </li>
   ));
+  const fetchFavorites = useCallback(async () => {
+    const url = `${apiURL()}/favorites`;
+    const response = await fetch(url, {
+      headers: {
+        token: `token ${user?.uid}`,
+      },
+    });
+    const favoritesData = await response.json();
+
+    if (Array.isArray(favoritesData)) {
+      setFavorites(favoritesData);
+    } else {
+      setFavorites([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
+
+  const addFavorite = async (appId) => {
+    const response = await fetch(`${apiURL()}/favorites`, {
+      method: 'POST',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        app_id: appId,
+      }),
+    });
+    if (response.ok) {
+      fetchFavorites();
+    }
+  };
+
+  const handleDeleteBookmarks = (favoritesId) => {
+    const deleteFavorites = async () => {
+      const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
+        method: 'DELETE',
+        headers: {
+          token: `token ${user?.uid}`,
+        },
+      });
+
+      if (response.ok) {
+        fetchFavorites();
+      }
+    };
+
+    deleteFavorites();
+  };
 
   return (
     <main>
@@ -636,6 +699,13 @@ export const Apps = () => {
                   topic={app.topicTitle}
                   topicId={app.topic_id}
                   pricingType={app.pricing_type}
+                  isFavorite={favorites.some((x) => x.id === app.id)}
+                  addFavorite={(event) => addFavorite(app.id)}
+                  deleteBookmark={() => handleDeleteBookmarks(app.id)}
+                  bookmarkOnClick={() => {
+                    setOpenModal(true);
+                    setModalTitle('Sign up to add bookmarks');
+                  }}
                 />
               );
             })}
@@ -644,6 +714,15 @@ export const Apps = () => {
       ) : (
         <Loading />
       )}
+      <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
+        <Link to="/signup">
+          <Button primary label="Create an account" />
+        </Link>
+        or
+        <Link to="/login">
+          <Button secondary label="Log in" />
+        </Link>
+      </Modal>
     </main>
   );
 };
