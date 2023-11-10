@@ -4,7 +4,7 @@ import './App.css';
 import { Categories } from './containers/Categories/Categories.Container';
 import { Apps } from './containers/Apps/Apps.Container';
 import { LandingPage } from './containers/LandingPage/LandingPage.Container';
-import { TestPage } from './containers/TestPage/TestPage.Container';
+import TestPage from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
 import { AppView } from './containers/AppView/AppView.container';
 import { Signup } from './containers/Signup/Signup.Container';
@@ -30,7 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Apps />} />
             <Route path="/landing" element={<LandingPage />} />
-            <Route path="/test" element={<TestPage />} />
+            <Route path="/test" element={<Prompts />} />
             <Route path="/categories" element={<Categories />} />
             <Route exact path="/apps/:id" element={<AppView />} />
             <Route exact path="/apps/topic/:topicIdParam" element={<Apps />} />

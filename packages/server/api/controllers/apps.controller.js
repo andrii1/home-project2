@@ -4,9 +4,19 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 
-const getApps = async () => {
+const getOppositeOrderDirection = (direction) => {
+  let lastItemDirection;
+  if (direction === 'asc') {
+    lastItemDirection = 'desc';
+  } else if (direction === 'desc') {
+    lastItemDirection = 'asc';
+  }
+  return lastItemDirection;
+};
+
+const getAppsAll = async () => {
   try {
-    const apps = await knex('apps')
+    const apps = knex('apps')
       .select(
         'apps.*',
         'topics.title as topicTitle',
@@ -14,9 +24,38 @@ const getApps = async () => {
         'categories.title as categoryTitle',
       )
       .join('topics', 'apps.topic_id', '=', 'topics.id')
-      .join('categories', 'topics.category_id', '=', 'categories.id')
-      .orderBy('id', 'asc');
+      .join('categories', 'topics.category_id', '=', 'categories.id');
     return apps;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const getApps = async (page, column, direction) => {
+  const lastItemDirection = getOppositeOrderDirection(direction);
+  try {
+    const getModel = () =>
+      knex('apps')
+        .select(
+          'apps.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id');
+    const lastItem = await getModel()
+      .orderBy(column, lastItemDirection)
+      .limit(1);
+    const data = await getModel()
+      .orderBy(column, direction)
+      .offset(page * 10)
+      .limit(10)
+      .select();
+    return {
+      lastItem: lastItem[0],
+      data,
+    };
   } catch (error) {
     return error.message;
   }
@@ -205,39 +244,142 @@ const getAppsByTopics = async (topics) => {
   }
 };
 
-const getAppsByCategory = async (category) => {
+const getAppsByCategory = async (category, page, column, direction) => {
+  const lastItemDirection = getOppositeOrderDirection(direction);
   try {
-    const appsByCategory = await knex('apps')
-      .select(
-        'apps.*',
-        'topics.title as topicTitle',
-        'topics.category_id as category_id',
-        'categories.title as categoryTitle',
-      )
-      .join('topics', 'apps.topic_id', '=', 'topics.id')
-      .join('categories', 'topics.category_id', '=', 'categories.id')
-      .where({
-        'topics.category_id': category,
-      });
-    return appsByCategory;
+    const getModel = () =>
+      knex('apps')
+        .select(
+          'apps.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .where({
+          'topics.category_id': category,
+        });
+
+    const lastItem = await getModel()
+      .orderBy(column, lastItemDirection)
+      .limit(1);
+    const data = await getModel()
+      .orderBy(column, direction)
+      .offset(page * 10)
+      .limit(10)
+      .select();
+    return {
+      lastItem: lastItem[0],
+      data,
+    };
   } catch (error) {
     return error.message;
   }
 };
 
-const getAppsByTopic = async (topic) => {
+const getAppsByTopic = async (topic, page, column, direction) => {
+  const lastItemDirection = getOppositeOrderDirection(direction);
   try {
-    const appsByTopic = await knex('apps')
-      .select(
-        'apps.*',
-        'topics.title as topicTitle',
-        'topics.category_id as category_id',
-        'categories.title as categoryTitle',
-      )
-      .join('topics', 'apps.topic_id', '=', 'topics.id')
-      .join('categories', 'topics.category_id', '=', 'categories.id')
-      .where({ topic_id: topic });
-    return appsByTopic;
+    const getModel = () =>
+      knex('apps')
+        .select(
+          'apps.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .where({ topic_id: topic });
+    const lastItem = await getModel()
+      .orderBy(column, lastItemDirection)
+      .limit(1);
+    const data = await getModel()
+      .orderBy(column, direction)
+      .offset(page * 10)
+      .limit(10)
+      .select();
+    return {
+      lastItem: lastItem[0],
+      data,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const getAppsBy = async ({
+  page,
+  column,
+  direction,
+  filteredTopics,
+  filteredCategories,
+  filteredPricing,
+  filteredDetails,
+}) => {
+  const lastItemDirection = getOppositeOrderDirection(direction);
+  try {
+    const getModel = () =>
+      knex('apps')
+        .select(
+          'apps.*',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+        )
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .modify((queryBuilder) => {
+          if (filteredTopics !== undefined) {
+            queryBuilder.where('topic_id', filteredTopics);
+          }
+          if (filteredCategories !== undefined) {
+            queryBuilder.where('topics.category_id', filteredCategories);
+          }
+          if (filteredPricing !== undefined) {
+            queryBuilder.whereIn('apps.pricing_type', filteredPricing);
+          }
+          if (
+            filteredDetails !== undefined &&
+            filteredDetails.includes('Browser extension')
+          ) {
+            queryBuilder.whereNotNull('apps.url_chrome_extension');
+          }
+          if (
+            filteredDetails !== undefined &&
+            filteredDetails.includes('iOS app available')
+          ) {
+            queryBuilder.whereNotNull('apps.url_app_store');
+          }
+          if (
+            filteredDetails !== undefined &&
+            filteredDetails.includes('Android app available')
+          ) {
+            queryBuilder.whereNotNull('apps.url_google_play_store');
+          }
+
+          if (
+            filteredDetails !== undefined &&
+            filteredDetails.includes('Social media contacts')
+          ) {
+            queryBuilder
+              .whereNotNull('apps.url_x')
+              .orWhereNotNull('apps.url_discord');
+          }
+        });
+    const lastItem = await getModel()
+      .orderBy(column, lastItemDirection)
+      .limit(1);
+    const data = await getModel()
+      .orderBy(column, direction)
+      .offset(page * 10)
+      .limit(10)
+      .select();
+    return {
+      lastItem: lastItem[0],
+      data,
+    };
   } catch (error) {
     return error.message;
   }
@@ -298,8 +440,10 @@ module.exports = {
   getAppsByCategoriesSearch,
   getAppsByTopics,
   getAppsByTopic,
+  getAppsBy,
   getAppsByTopicsSearch,
   getAppsByCategory,
   getAppById,
+  getAppsAll,
   createApps,
 };

@@ -14,7 +14,9 @@ export const Button = ({
   color,
   size,
   label,
+  icon,
   type = 'button',
+  children,
   ...props
 }) => {
   let mode;
@@ -42,6 +44,8 @@ export const Button = ({
       {...props}
     >
       {label}
+      {icon}
+      {children}
     </button>
   );
 };
@@ -53,6 +57,8 @@ Button.propTypes = {
   primary: PropTypes.bool,
   lighterBg: PropTypes.bool,
   secondary: PropTypes.bool,
+  icon: PropTypes.element,
+  children: PropTypes.element,
 
   /**
    * What background color to use
@@ -88,4 +94,6 @@ Button.defaultProps = {
   size: 'medium',
   onClick: undefined,
   type: 'button',
+  icon: null,
+  children: null,
 };

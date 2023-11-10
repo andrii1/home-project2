@@ -121,7 +121,7 @@ export const AppView = () => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
-      const response = await fetch(`${apiURL()}/Apps/${appId}`);
+      const response = await fetch(`${apiURL()}/apps/${appId}`);
       const appResponse = await response.json();
       setApp(appResponse[0]);
     }

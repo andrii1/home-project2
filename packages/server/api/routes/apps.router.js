@@ -42,45 +42,67 @@ router.get('/', (req, res, next) => {
       )
       .then((result) => res.json(result))
       .catch(next);
-  } else if (req.query.filteredCategories && req.query.search) {
-    const array = req.query.filteredCategories.split(',');
+  } else if (
+    req.query.filteredTopics ||
+    req.query.filteredCategories ||
+    req.query.filteredPricing ||
+    req.query.filteredDetails
+  ) {
+    let arrayPricing;
+    let arrayDetails;
+    if (req.query.filteredPricing !== undefined) {
+      const decoded = decodeURIComponent(req.query.filteredPricing);
+      arrayPricing = decoded.split(',');
+    }
+    if (req.query.filteredDetails !== undefined) {
+      const decoded = decodeURIComponent(req.query.filteredDetails);
+      arrayDetails = decoded.split(',');
+    }
+    // const array = req.query.filteredTopics.split(',');
     appsController
-      .getAppsByCategoriesSearch(
-        req.query.search,
-        array,
-        req.query.column,
-        req.query.direction,
-        req.query.page,
-        req.query.size,
-      )
+      .getAppsBy({
+        page: req.query.page,
+        column: req.query.column,
+        direction: req.query.direction,
+        filteredTopics: req.query.filteredTopics,
+        filteredCategories: req.query.filteredCategories,
+        filteredPricing: arrayPricing,
+        filteredDetails: arrayDetails,
+      })
       .then((result) => res.json(result))
       .catch(next);
-  } else if (req.query.filteredTopics) {
-    const array = req.query.filteredTopics.split(',');
+  }
+  // else if (req.query.filteredCategories) {
+  //   const array = req.query.filteredCategories.split(',');
+  //   appsController
+  //     .getAppsByCategory(
+  //       req.query.filteredCategories,
+  //       req.query.page,
+  //       req.query.column,
+  //       req.query.direction,
+  //     )
+  //     .then((result) => res.json(result))
+  //     .catch(next);
+  // } else if (req.query.search) {
+  //   appsController
+  //     .getAppsSearch(
+  //       req.query.search,
+  //       req.query.column,
+  //       req.query.direction,
+  //       req.query.page,
+  //       req.query.size,
+  //     )
+  //     .then((result) => res.json(result))
+  //     .catch(next);
+  // }
+  else if (req.query.page) {
     appsController
-      .getAppsByTopics(array)
-      .then((result) => res.json(result))
-      .catch(next);
-  } else if (req.query.filteredCategories) {
-    const array = req.query.filteredCategories.split(',');
-    appsController
-      .getAppsByCategories(array)
-      .then((result) => res.json(result))
-      .catch(next);
-  } else if (req.query.search) {
-    appsController
-      .getAppsSearch(
-        req.query.search,
-        req.query.column,
-        req.query.direction,
-        req.query.page,
-        req.query.size,
-      )
+      .getApps(req.query.page, req.query.column, req.query.direction)
       .then((result) => res.json(result))
       .catch(next);
   } else {
     appsController
-      .getApps()
+      .getAppsAll()
       .then((result) => res.json(result))
       .catch(next);
   }

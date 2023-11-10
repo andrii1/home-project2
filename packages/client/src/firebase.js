@@ -19,13 +19,13 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyA511p7luUZ_hEsjebdro4UB0Cq88kWWK4',
-  authDomain: 'prompts-8648d.firebaseapp.com',
-  projectId: 'prompts-8648d',
-  storageBucket: 'prompts-8648d.appspot.com',
-  messagingSenderId: '519623825687',
-  appId: '1:519623825687:web:df4c4f38caccad0358bf52',
-  measurementId: 'G-4XTLT1ESRB',
+  apiKey: 'AIzaSyCxoiComDc-Z0AopTa4bP6fhWF9Z1jQr7w',
+  authDomain: 'apps-with-ai.firebaseapp.com',
+  projectId: 'apps-with-ai',
+  storageBucket: 'apps-with-ai.appspot.com',
+  messagingSenderId: '116758707192',
+  appId: '1:116758707192:web:29e51c7003df988b63340d',
+  measurementId: 'G-ZLPFT1PR3S',
 };
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);

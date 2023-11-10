@@ -38,14 +38,26 @@ main {
 .container-cards {
   /* margin: 3rem 0rem; */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-columns: repeat(3, 1fr); */
   gap: 2rem;
   /* justify-content: end;
   align-content: end; */
   /* display: flex;
   flex-direction: column;
   gap: 2rem; */
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
+}
+
+.infinite-scroll-component.container-cards {
+  margin-top: 0rem !important;
+}
+
+.container-cards.grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.container-cards.list {
+  grid-template-columns: repeat(1, 1fr);
 }
 
 .input-search-home {
@@ -96,6 +108,88 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
+}
+
+.container-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 2rem;
+  margin: 2rem 0rem;
+}
+
+.container-scroll {
+  display: flex;
+  justify-content: center;
+}
+.infinite-scroll-component__outerdiv {
+  width: 100%;
+}
+.filters {
+  max-width: 35rem;
+
+  padding: 1rem 2rem !important;
+}
+.filters ul {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.filters li {
+  list-style-type: none !important;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(-20%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-20%);
+  }
+}
+
+.container-details-section.show {
+  display: flex !important;
+  transition: 1s;
+  left: 0;
+  animation: slide-in 1000ms;
+  margin-bottom: 2rem;
+}
+
+.container-details-section {
+  display: none;
+  justify-content: center;
+  animation: slide-in 1000ms;
+}
+
+.container-form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.container-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.filter-grid {
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
 }
 
 @media only screen and (max-width: 992px) {
