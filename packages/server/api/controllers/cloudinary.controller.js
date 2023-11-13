@@ -2,9 +2,6 @@ require('dotenv').config();
 const cloudinary = require('cloudinary');
 
 cloudinary.v2.config({
-  cloud_name: 'dgarvanzw',
-  api_key: '811371745145824',
-  api_secret: 'ruLR0brEm7-h9dLFDR4SoGrqqAA',
   secure: true,
 });
 
