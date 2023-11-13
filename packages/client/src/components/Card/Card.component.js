@@ -29,7 +29,7 @@ export const Card = ({
   listCard = false,
   isFavorite,
   addFavorite,
-  deleteBookmark = { deleteBookmark },
+  deleteBookmark,
   bookmarkOnClick,
 }) => {
   const { user } = useUserContext();

@@ -11,6 +11,7 @@ const favorites = require('./favorites.router');
 const ratings = require('./ratings.router');
 const stripe = require('./stripe.router');
 const comments = require('./comments.router');
+const cloudinary = require('./cloudinary.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -48,6 +49,7 @@ router.use('/users', users);
 router.use('/favorites', favorites);
 router.use('/ratings', ratings);
 router.use('/stripe', stripe);
+router.use('/cloudinary', cloudinary);
 router.use('/comments', comments);
 
 module.exports = router;

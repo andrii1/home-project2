@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -11,6 +12,8 @@ import {
   faEnvelope,
   faLink,
   faCaretUp,
+  faArrowUpRightFromSquare,
+  faHeart as faHeartSolid,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebookF,
@@ -110,6 +113,9 @@ const alternativeApps = [
 ];
 export const AppView = () => {
   const { id } = useParams();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
   const [app, setApp] = useState({});
   const [comments, setComments] = useState([]);
@@ -207,6 +213,64 @@ export const AppView = () => {
     );
   });
 
+  const fetchFavorites = useCallback(async () => {
+    const url = `${apiURL()}/favorites`;
+    const response = await fetch(url, {
+      headers: {
+        token: `token ${user?.uid}`,
+      },
+    });
+    const favoritesData = await response.json();
+
+    if (Array.isArray(favoritesData)) {
+      setFavorites(favoritesData);
+    } else {
+      setFavorites([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
+
+  const addFavorite = async (appId) => {
+    const response = await fetch(`${apiURL()}/favorites`, {
+      method: 'POST',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        app_id: appId,
+      }),
+    });
+    if (response.ok) {
+      fetchFavorites();
+    }
+  };
+
+  const handleDeleteBookmarks = (favoritesId) => {
+    const deleteFavorites = async () => {
+      const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
+        method: 'DELETE',
+        headers: {
+          token: `token ${user?.uid}`,
+        },
+      });
+
+      if (response.ok) {
+        fetchFavorites();
+      }
+    };
+
+    deleteFavorites();
+  };
+
+  const toggleModal = () => {
+    setOpenModal(false);
+    document.body.style.overflow = 'visible';
+  };
+
   return (
     <>
       <Helmet>
@@ -222,14 +286,52 @@ export const AppView = () => {
           <img
             className="appview-image"
             alt={`${app.title} screenshot`}
-            src={appImage}
+            src="/assets/images/finalscout-lg.png"
           />
+
           <div className="container-bookmark">
             <Link to={app.url} target="_blank">
-              <Button primary label={`Visit ${app.title}'s website`} />
+              <Button
+                primary
+                icon={
+                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" />
+                }
+                label={`Visit ${app.title}'s website`}
+              />
             </Link>
             <div>
-              Save <FontAwesomeIcon icon={faHeart} size="lg" />
+              {user && favorites.some((x) => x.id === app.id) ? (
+                <button
+                  type="button"
+                  onClick={() => handleDeleteBookmarks(app.id)}
+                  onKeyDown={() => handleDeleteBookmarks(app.id)}
+                  className="button-bookmark"
+                >
+                  Remove from saved{' '}
+                  <FontAwesomeIcon icon={faHeartSolid} size="lg" />
+                </button>
+              ) : user ? (
+                <button
+                  type="button"
+                  onClick={() => addFavorite(app.id)}
+                  onKeyDown={() => addFavorite(app.id)}
+                  className="button-bookmark"
+                >
+                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setModalTitle('Sign up to add bookmarks');
+                  }}
+                  onKeyDown={() => addFavorite(app.id)}
+                  className="button-bookmark"
+                >
+                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
+                </button>
+              )}
             </div>
           </div>
           <div className="container-description">
@@ -406,6 +508,15 @@ export const AppView = () => {
             onClick={navigateBack}
           />
         </section>
+        <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
+          <Link to="/signup">
+            <Button primary label="Create an account" />
+          </Link>
+          or
+          <Link to="/login">
+            <Button secondary label="Log in" />
+          </Link>
+        </Modal>
       </main>
     </>
   );

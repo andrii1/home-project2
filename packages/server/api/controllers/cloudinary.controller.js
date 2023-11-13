@@ -1,0 +1,37 @@
+require('dotenv').config();
+const cloudinary = require('cloudinary');
+
+cloudinary.v2.config({
+  cloud_name: 'dgarvanzw',
+  api_key: '811371745145824',
+  api_secret: 'ruLR0brEm7-h9dLFDR4SoGrqqAA',
+  secure: true,
+});
+
+const getImages = async () => {
+  try {
+    const result = cloudinary.v2.api.resources({
+      type: 'upload',
+      prefix: 'apps_ai', // add your folder
+    });
+    return result;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+// const getStripeCustomerByEmail = async (email) => {
+//   try {
+//     const customer = await stripe.customers.list({
+//       email,
+//     });
+
+//     return customer;
+//   } catch (error) {
+//     return error.message;
+//   }
+// };
+
+module.exports = {
+  getImages,
+};

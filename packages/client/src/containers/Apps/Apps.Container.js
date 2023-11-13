@@ -445,6 +445,8 @@ export const Apps = () => {
       return { ...item, checked: false };
     });
     setPricingOptionsChecked(newItemsPricing);
+    setFilteredDetails([]);
+    setFilteredPricing([]);
   };
 
   const dropdownList = resultsHome.map((app) => (
