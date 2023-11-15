@@ -54,8 +54,8 @@ export const Apps = () => {
   });
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
     { title: 'Free', checked: false },
-    { title: 'Paid with free plan', checked: false },
-    { title: 'Paid with free trial', checked: false },
+    { title: 'Paid with a free plan', checked: false },
+    { title: 'Paid with a free trial', checked: false },
     { title: 'Paid', checked: false },
   ]);
   const [detailsOptionsChecked, setDetailsOptionsChecked] = useState([
@@ -698,6 +698,7 @@ export const Apps = () => {
                   title={app.title}
                   description={app.description}
                   url={app.url}
+                  urlImage={app.url_image}
                   topic={app.topicTitle}
                   topicId={app.topic_id}
                   pricingType={app.pricing_type}

@@ -23,6 +23,7 @@ export const Card = ({
   topicId,
   pricingType,
   url,
+  urlImage,
   id,
   className,
   smallCard = true,
@@ -63,7 +64,9 @@ export const Card = ({
         target="_blank"
         className={`card-image ${listCard ? 'list' : ''}`}
         style={{
-          backgroundImage: `url(/assets/images/finalscout-sm.png)`,
+          backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_${
+            listCard ? '400' : '700'
+          },q_auto,f_auto/apps_ai/${urlImage}.png )`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
@@ -177,6 +180,7 @@ Card.propTypes = {
   pricingType: PropTypes.string,
   id: PropTypes.string,
   url: PropTypes.shape,
+  urlImage: PropTypes.string,
   smallCard: PropTypes.bool,
   listCard: PropTypes.bool,
   className: PropTypes.string,
@@ -193,6 +197,7 @@ Card.defaultProps = {
   topicId: null,
   topic: null,
   url: null,
+  urlImage: null,
   id: null,
   smallCard: false,
   listCard: false,

@@ -286,7 +286,7 @@ export const AppView = () => {
           <img
             className="appview-image"
             alt={`${app.title} screenshot`}
-            src="/assets/images/finalscout-lg.png"
+            src={`http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/apps_ai/${app.url_image}.png`}
           />
 
           <div className="container-bookmark">
