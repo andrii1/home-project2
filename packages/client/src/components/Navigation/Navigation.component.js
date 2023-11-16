@@ -155,7 +155,7 @@ export const Navigation = () => {
           <ul>
             <li>
               {user ? (
-                <NavLink to="/prompts/new" className="login submit">
+                <NavLink to="/apps/new" className="login submit">
                   Submit
                 </NavLink>
               ) : (

@@ -67,16 +67,16 @@ export const Submit = () => {
   return (
     <>
       <Helmet>
-        <title>Submit a prompt</title>
+        <title>Submit an app</title>
       </Helmet>
       <main>
-        <h1 className="hero-header">Submit a prompt</h1>
-        <div className="form-container prompt-container">
+        <h1 className="hero-header">Submit an app</h1>
+        <div className="form-container add-app-container">
           <div className="form-box submit-box">
             <form>
               <TextFormTextarea
                 value={promptTitle}
-                placeholder="Prompt"
+                placeholder="App name"
                 onChange={validatePromptTitle}
                 error={promptTitleError}
               />
@@ -97,7 +97,7 @@ export const Submit = () => {
                 primary
                 className="btn-add-prompt"
                 onClick={handleSubmit}
-                label="Add prompt"
+                label="Suggest an app"
               />
               {validForm && (
                 <Modal
@@ -114,6 +114,7 @@ export const Submit = () => {
               )}
             </form>
           </div>
+          <p>Reach out to agorh @ icloud.com </p>
         </div>
       </main>
     </>

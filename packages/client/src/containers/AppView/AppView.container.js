@@ -497,7 +497,7 @@ export const AppView = () => {
               </div>
             </div>
           </div>
-          <div className="container-related-searches">
+          {/* <div className="container-related-searches">
             <h3>Related searches</h3>
             <div className="topics-div searches">
               {searches.map((search) => (
@@ -506,7 +506,7 @@ export const AppView = () => {
                 </Link>
               ))}
             </div>
-          </div>
+          </div> */}
           <div className="icons-apps-page">
             <span>Share it: </span>
             <button

@@ -70,7 +70,6 @@ export const Apps = () => {
     document.body.style.overflow = 'visible';
   };
 
-  console.log(filteredPricing, filteredDetails);
   // first fetch
   useEffect(() => {
     setIsLoading(true);
@@ -90,8 +89,6 @@ export const Apps = () => {
         : ''
     }`;
 
-    console.log('url', url);
-
     // if (topicIdParam) {
     //   url = `${apiURL()}/apps?page=0&filteredTopics=${topicIdParam}&column=${
     //     orderBy.column
@@ -108,7 +105,7 @@ export const Apps = () => {
     async function fetchData() {
       const response = await fetch(url);
       const json = await response.json();
-      console.log('json', json);
+
       let hasMore = true;
       if (json.data.some((item) => item.id === json.lastItem.id)) {
         hasMore = false;
@@ -133,8 +130,6 @@ export const Apps = () => {
     filteredPricing,
     filtersSubmitted,
   ]);
-
-  console.log('apps', apps);
 
   const fetchApps = async () => {
     setIsLoading(true);
@@ -172,8 +167,6 @@ export const Apps = () => {
     //     orderBy.direction
     //   }`;
     // }
-
-    console.log('url123', url);
 
     const response = await fetch(url);
     const json = await response.json();
@@ -304,12 +297,10 @@ export const Apps = () => {
 
   useEffect(() => {
     setPage(0);
-    console.log('location changed', location.pathname);
   }, [location]);
 
   useEffect(() => {
     setPage(0);
-    console.log('sortOrder changed', sortOrder);
   }, [sortOrder]);
 
   useEffect(() => {
@@ -510,7 +501,7 @@ export const Apps = () => {
     pageTitle = 'Apps With AI - browse 200+ AI apps';
   }
 
-  const sortOptions = ['Recent Apps', 'A-Z', 'Z-A'];
+  const sortOptions = ['Recent', 'A-Z', 'Z-A'];
 
   const pricingList = pricingOptionsChecked.map((item) => (
     <li key={item}>

@@ -1,5 +1,6 @@
-.prompt-container {
+.add-app-container {
   width: 100%;
+  flex-direction: column;
 }
 
 .submit-box {

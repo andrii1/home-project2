@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import './Faq.Style.css';
 
@@ -10,14 +11,17 @@ export const Faq = () => {
       </Helmet>
       <main>
         <h1 className="hero-header">FAQ</h1>
-        <h2>How many prompts are here?</h2>
-        <p>Over 3500 prompts, spread over 110 topics and 22 categories.</p>
+        <h2>How many apps are here?</h2>
+        <p>Nearly 200 AI apps, spread over 34 topics and 7 categories.</p>
         <h2>What are the main features?</h2>
+        <p>You can filter and sort apps, bookmark apps, add ratings.</p>
+        <h2>How to add my app?</h2>
         <p>
-          You can filter prompts by categories, topics, sort by prompts,
-          categories, topics, search prompts and export results.
+          <Link className="link" to="../apps/new">
+            Submit a form
+          </Link>{' '}
+          or reach out via agorh @ icloud.com
         </p>
-        <p>It is possible to copy a specific prompt or go to a prompt page.</p>
       </main>
     </>
   );
