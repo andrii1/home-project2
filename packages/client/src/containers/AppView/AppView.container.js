@@ -125,6 +125,8 @@ export const AppView = () => {
   const [validForm, setValidForm] = useState(false);
   const [invalidForm, setInvalidForm] = useState(false);
   const [comment, setComment] = useState('');
+  const [allRatings, setAllRatings] = useState([]);
+  const [ratings, setRatings] = useState([]);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
@@ -224,6 +226,7 @@ export const AppView = () => {
         title={item.title}
         description={item.description}
         url={item.url}
+        urlImage={item.url_image}
         topic={item.topicTitle}
         pricingType={item.pricing_type}
         smallCard
@@ -287,6 +290,68 @@ export const AppView = () => {
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
+  };
+
+  const fetchAllRatings = useCallback(async () => {
+    const url = `${apiURL()}/ratings`;
+    const response = await fetch(url);
+    const ratingsData = await response.json();
+    setAllRatings(ratingsData);
+  }, []);
+
+  useEffect(() => {
+    fetchAllRatings();
+  }, [fetchAllRatings]);
+
+  const fetchRatings = useCallback(async () => {
+    const url = `${apiURL()}/ratings`;
+    const response = await fetch(url, {
+      headers: {
+        token: `token ${user?.uid}`,
+      },
+    });
+    const ratingsData = await response.json();
+
+    if (Array.isArray(ratingsData)) {
+      setRatings(ratingsData);
+    } else {
+      setRatings([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchRatings();
+  }, [fetchRatings]);
+
+  const addRating = async (appId) => {
+    const response = await fetch(`${apiURL()}/ratings`, {
+      method: 'POST',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        app_id: appId,
+      }),
+    });
+    if (response.ok) {
+      fetchRatings();
+      fetchAllRatings();
+    }
+  };
+
+  const deleteRating = async (appId) => {
+    const response = await fetch(`${apiURL()}/ratings/${appId}`, {
+      method: 'DELETE',
+      headers: {
+        token: `token ${user?.uid}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      fetchRatings();
+      fetchAllRatings();
+    }
   };
 
   return (
@@ -357,10 +422,52 @@ export const AppView = () => {
               <h3>What is {app.title}?</h3>
               <div className="container-rating">
                 Rating
-                <button type="button" className="button-rating">
+                {user &&
+                allRatings.some((rating) => rating.app_id === app.id) &&
+                ratings.some((rating) => rating.id === app.id) ? (
+                  <button
+                    type="button"
+                    className="button-rating"
+                    onClick={(event) => deleteRating(app.id)}
+                  >
+                    <FontAwesomeIcon icon={faCaretUp} />
+                    {
+                      allRatings.filter((rating) => rating.app_id === app.id)
+                        .length
+                    }
+                  </button>
+                ) : user ? (
+                  <button
+                    type="button"
+                    className="button-rating"
+                    onClick={(event) => addRating(app.id)}
+                  >
+                    <FontAwesomeIcon icon={faCaretUp} />
+                    {
+                      allRatings.filter((rating) => rating.app_id === app.id)
+                        .length
+                    }
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="button-rating"
+                    onClick={() => {
+                      setOpenModal(true);
+                      setModalTitle('Sign up to vote');
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCaretUp} />
+                    {
+                      allRatings.filter((rating) => rating.app_id === app.id)
+                        .length
+                    }
+                  </button>
+                )}
+                {/* <button type="button" className="button-rating">
                   <FontAwesomeIcon icon={faCaretUp} />
                   10
-                </button>
+                </button> */}
               </div>
             </div>
             <p>{app.description}</p>
@@ -521,12 +628,6 @@ export const AppView = () => {
               <div className="container-cards small-cards">{cardItems}</div>
             </div>
           )}
-          {/* <Button
-            secondary
-            className="button-back"
-            label="Back"
-            onClick={navigateBack}
-          /> */}
         </section>
         <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
           <Link to="/signup">

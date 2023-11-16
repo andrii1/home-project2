@@ -29,9 +29,9 @@ const ratingsController = require('../controllers/ratings.controller');
 router.get('/', (req, res, next) => {
   const { token } = req.headers;
   // TO DO : once we will add authentication I will update it
-  if (req.query.promptId && token) {
+  if (req.query.appId && token) {
     ratingsController
-      .getRatingsByPromptId(token, req.query.promptId)
+      .getRatingsByAppId(token, req.query.appId)
       .then((result) => res.json(result))
       .catch(next);
   } else if (token) {
