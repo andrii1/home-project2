@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for new-app765 on 2023-05-13T11:46:06+02:00
+# fly.toml app configuration file generated for blue-violet-2431 on 2023-11-16T20:57:12+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "new-app765"
+app = "blue-violet-2431"
 primary_region = "ams"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
