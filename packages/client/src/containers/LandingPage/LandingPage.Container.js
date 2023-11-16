@@ -27,7 +27,7 @@ export const LandingPage = () => {
 
     fetchImages();
   }, []);
-  console.log('images', images);
+
   return (
     <div className="landing-page-container">
       <span>Landing Page</span>

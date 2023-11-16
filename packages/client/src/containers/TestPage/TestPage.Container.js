@@ -12,7 +12,6 @@ function TestPage() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
   const observerTarget = useRef(null);
-  console.log(apps.data);
   // const fetchMoreData = () => {
   //   // a fake async api call like which sends
   //   // 20 more records in 1.5 secs
@@ -39,16 +38,12 @@ function TestPage() {
     const response = await fetch(`${apiURL()}/apps/?page=${page}`);
     const data = await response.json();
 
-    console.log('data', data);
-
     setApps((prevItems) => [...prevItems, ...data]);
     if (data.some((item) => item.id === 202)) {
       setHasMore(false);
     }
     setPage((prev) => prev + 1);
   };
-
-  console.log('apps3', apps.data);
 
   return (
     <div>

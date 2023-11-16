@@ -25,7 +25,7 @@ function useFetch(page, topicIdParam, categoryIdParam) {
       const appsResponse = await response.json();
       setApps((prevItems) => [...prevItems, ...appsResponse]);
       // setApps((prevItems) => [...prevItems, ...appsResponse]);
-      console.log('update');
+
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -33,8 +33,6 @@ function useFetch(page, topicIdParam, categoryIdParam) {
   }, [page, categoryIdParam, topicIdParam]);
 
   useEffect(() => {
-    console.log('page2', page);
-
     fetchApps();
   }, [page, fetchApps]);
 

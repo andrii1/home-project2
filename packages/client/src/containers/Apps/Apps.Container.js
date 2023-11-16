@@ -238,7 +238,7 @@ export const Apps = () => {
     return urlFilters;
   }, [filteredTopics]);
   useEffect(() => {
-    async function fetchApps() {
+    async function fetchAppsSearch() {
       const responseApps = await fetch(`${apiURL()}/apps/`);
 
       const responseAppsJson = await responseApps.json();
@@ -258,7 +258,7 @@ export const Apps = () => {
         setResultsHome(filteredSearch);
       }
     }
-    fetchApps();
+    fetchAppsSearch();
   }, [searchTerms]);
 
   // const fetchApps = useCallback(async () => {
@@ -681,7 +681,6 @@ export const Apps = () => {
             className={`container-cards ${listView ? 'list' : 'grid'}`}
           >
             {apps.data.map((app) => {
-              console.log('app', app);
               return (
                 <Card
                   listCard={listView}

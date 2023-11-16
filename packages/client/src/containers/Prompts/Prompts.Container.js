@@ -368,7 +368,7 @@ export const Prompts = () => {
     } else {
       urlFilters = `?column=${orderBy.column}&direction=${orderBy.direction}&page=${controller.page}&size=${controller.rowsPerPage}`;
     }
-    console.log('urlFilters', urlFilters);
+
     return urlFilters;
   }, [
     categoryIdParam,
@@ -381,7 +381,6 @@ export const Prompts = () => {
     searchedPrompts,
   ]);
 
-  console.log('filteredTopics', filteredTopics);
   const fetchPrompts = useCallback(async () => {
     const urlFilters = await setupUrlFilters();
     const url = `${apiURL()}/prompts/${urlFilters}`;
