@@ -65,7 +65,7 @@ export const Card = ({
         className={`card-image ${listCard ? 'list' : ''}`}
         style={{
           backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_${
-            listCard ? '400' : '700'
+            listCard ? '500' : '700'
           },q_auto,f_auto/apps_ai/${urlImage}.png )`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',

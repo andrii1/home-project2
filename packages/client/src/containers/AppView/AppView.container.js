@@ -118,6 +118,7 @@ export const AppView = () => {
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
   const [app, setApp] = useState({});
+  const [similarApps, setSimilarApps] = useState([]);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState('');
   const { user } = useUserContext();
@@ -134,6 +135,23 @@ export const AppView = () => {
 
     fetchSingleApp(id);
   }, [id]);
+
+  useEffect(() => {
+    async function fetchSimilarApps() {
+      const response = await fetch(
+        `${apiURL()}/apps?page=0&column=id&direction=desc&filteredTopics=${
+          app.topic_id
+        }`,
+      );
+      const appsResponse = await response.json();
+      const similarAppsArray = appsResponse.data.filter(
+        (item) => item.id !== app.id,
+      );
+      setSimilarApps(similarAppsArray);
+    }
+
+    fetchSimilarApps();
+  }, [app.topic_id, app.id]);
 
   const fetchCommentsByAppId = useCallback(async (appId) => {
     const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
@@ -196,7 +214,7 @@ export const AppView = () => {
     return date.toISOString().split('T')[0];
   };
 
-  const cardItems = alternativeApps.map((item) => {
+  const cardItems = similarApps.map((item) => {
     // const relatedTopics = topics
     //   .filter((topic) => topic.categoryId === category.id)
     //   .map((item) => item.id);
@@ -497,16 +515,18 @@ export const AppView = () => {
               </Link>
             </div>
           </div>
-          <div className="container-alternatives">
-            <h3>🔎 Similar to {app.title}</h3>
-            <div className="container-cards small-cards">{cardItems}</div>
-          </div>
-          <Button
+          {similarApps.length > 0 && (
+            <div className="container-alternatives">
+              <h3>🔎 Similar to {app.title}</h3>
+              <div className="container-cards small-cards">{cardItems}</div>
+            </div>
+          )}
+          {/* <Button
             secondary
             className="button-back"
             label="Back"
             onClick={navigateBack}
-          />
+          /> */}
         </section>
         <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
           <Link to="/signup">

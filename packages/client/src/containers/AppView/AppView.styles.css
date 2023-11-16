@@ -61,6 +61,10 @@
   flex-direction: column;
 }
 
+.container-details p {
+  margin: 0.5rem;
+}
+
 .container-tags {
   display: flex;
   gap: 1rem;
