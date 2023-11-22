@@ -9,17 +9,15 @@ const Sitemap = require('react-router-sitemap').default;
 async function generateSitemap() {
   try {
     /* Prompts */
-    const response = await fetch(
-      `http://localhost:5001/api/prompts/?column=id&direction=asc`,
-    );
+    const response = await fetch(`http://localhost:5001/api/apps/`);
     const promptsResult = await response.json();
-    const prompts = promptsResult.data;
+    const prompts = promptsResult.sort((a, b) => a.id - b.id);
     const idMap = [];
 
     /* Topics */
     const responseTopics = await fetch(`http://localhost:5001/api/topics`);
     const topicsResult = await responseTopics.json();
-    const topics = topicsResult;
+    const topics = topicsResult.sort((a, b) => a.id - b.id);
     const idMapTopics = [];
 
     /* Categories */
@@ -27,7 +25,7 @@ async function generateSitemap() {
       `http://localhost:5001/api/categories`,
     );
     const categoriesResult = await responseCategories.json();
-    const categories = categoriesResult;
+    const categories = categoriesResult.sort((a, b) => a.id - b.id);
     const idMapCategories = [];
 
     prompts.forEach((prompt) => {
