@@ -54,6 +54,13 @@ ul li,
   align-items: center;
 }
 
+.container-logged-out {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row-reverse;
+}
+
 .navigation-mobile {
   display: none;
 }
@@ -103,6 +110,7 @@ ul li,
 .navigation-mobile .img-logo {
   padding: 0;
   max-width: 8rem;
+  margin-top: 0.3rem;
 }
 
 .navigation-mobile {

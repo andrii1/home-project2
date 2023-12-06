@@ -221,18 +221,15 @@ export const Navigation = () => {
                   </div>
                 </div>
               ) : (
-                <>
-                  <li>
-                    <NavLink to="/login" className="login">
-                      Log in
-                    </NavLink>
-                  </li>
-                  <li>
-                    <Link to="/signup" className="signup">
-                      <Button primary label="Sign up" />
-                    </Link>
-                  </li>
-                </>
+                <div className="container-logged-out">
+                  <NavLink to="/login" className="login">
+                    Log in
+                  </NavLink>
+
+                  <Link to="/signup" className="signup">
+                    <Button primary label="Sign up" />
+                  </Link>
+                </div>
               )}
             </li>
           </ul>
