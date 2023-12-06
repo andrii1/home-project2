@@ -78,6 +78,13 @@
   justify-content: space-between;
 }
 
+@media only screen and (max-width: 768px) {
+  .card-list .card-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
 .card-list h2 {
   margin: 0 !important;
 }

@@ -278,11 +278,11 @@ ul.topics-list {
   .container-prompts {
     flex-direction: column;
   }
-  .navigation,
+  /* .navigation,
   .navigation .menu ul,
   .navigation .nav-buttons ul {
     flex-direction: column;
-  }
+  } */
 
   .navigation ul li,
   .navigation .menu ul li,

@@ -40,9 +40,3 @@
   appearance: none;
   background-color: rgba(228, 193, 177, 1);
 } */
-
-@media screen and (max-width: 768px) {
-  .view-dropdown-select {
-    padding: 16px 10px;
-  }
-}
