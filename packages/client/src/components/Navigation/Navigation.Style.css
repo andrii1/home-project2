@@ -16,7 +16,6 @@
 ul li,
 .menu ul li {
   list-style-type: none;
-
   color: black;
 }
 
@@ -84,7 +83,7 @@ ul li,
   z-index: 999;
   background: white;
   max-width: 100%;
-  top: 3rem;
+  top: 3.5rem;
   right: 0px;
   /* bottom: 0px; */
   left: 0px;
@@ -96,11 +95,11 @@ ul li,
 .menu-user.menu-open {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .hamburger-menu li {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .navigation-mobile .menu ul {
