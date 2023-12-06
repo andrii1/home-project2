@@ -19,6 +19,7 @@ import {
   faList,
   faGrip,
   faBookmark as faBookmarkSolid,
+  faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const Apps = () => {
@@ -40,6 +41,7 @@ export const Apps = () => {
   const [filteredDetails, setFilteredDetails] = useState([]);
   const [filtersSubmitted, setFiltersSubmitted] = useState(false);
   const [showFiltersContainer, setShowFiltersContainer] = useState(false);
+  const [showTopicsContainer, setShowTopicsContainer] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [listView, setListView] = useState(false);
@@ -614,8 +616,18 @@ export const Apps = () => {
           ''
         )}
       </div>
-      <section className="container-topics">{topicsList}</section>
+      <section className={`container-topics ${showTopicsContainer && 'show'}`}>
+        {topicsList}
+      </section>
       <section className="container-filters">
+        <Button
+          secondary
+          className="button-topics"
+          onClick={(event) => setShowTopicsContainer(!showTopicsContainer)}
+          backgroundColor="#ffe5d9"
+          label="Topics"
+          icon={<FontAwesomeIcon className="filter-icon" icon={faBookOpen} />}
+        />
         <DropDownView
           label="Sort"
           options={sortOptions}
